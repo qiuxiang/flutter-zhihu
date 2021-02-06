@@ -12,7 +12,7 @@ dependencies:
   get:
   dio:
   dio_http2_adapter:
-  flutter_widget_from_html_core:
+  flutter_html:
   cached_network_image:
 
 dev_dependencies:

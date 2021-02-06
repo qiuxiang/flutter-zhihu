@@ -12,6 +12,13 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
+      theme: ThemeData.light().copyWith(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black87,
+          titleSpacing: 0,
+        ),
+      ),
       darkTheme: ThemeData.dark(),
       home: const HomePage(),
     );

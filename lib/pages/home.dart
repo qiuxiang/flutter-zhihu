@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:get/get.dart';
 
 import '../api.dart';
 import '../types.dart' show Datum, TargetType;
 import '../widgets/widgets.dart';
+import 'detail.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage();
@@ -18,7 +21,6 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 0,
         backwardsCompatibility: false,
-        backgroundColor: Get.theme.cardColor,
         shadowColor: Colors.transparent,
       ),
       body: RefreshIndicator(
@@ -50,31 +52,32 @@ class HomePage extends StatelessWidget {
     switch (item.target.type) {
       case TargetType.ANSWER:
         title = item.target.question.title;
-        content = Text(item.target.excerptNew, style: Get.textTheme.bodyText2);
+        content = HTML(item.target.excerptNew);
         break;
       case TargetType.ARTICLE:
         title = item.target.title;
-        content = Text(item.target.excerptNew, style: Get.textTheme.bodyText2);
+        content = HTML(item.target.excerptNew);
         break;
       case TargetType.ZVIDEO:
         title = item.target.title;
         final thumbnail = item.target.thumbnailExtraInfo;
-        print(thumbnail.url);
         content = Container(
-          decoration: BoxDecoration(
-            color: Get.theme.backgroundColor,
-            borderRadius: const BorderRadius.all(Radius.circular(4)),
-          ),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(4))),
+          clipBehavior: Clip.hardEdge,
           height: (Get.width - 32) / thumbnail.width * thumbnail.height,
           child: CachedNetworkImage(
             imageUrl: item.target.thumbnailExtraInfo.url,
+            placeholder: (_, __) =>
+                Container(color: Get.theme.scaffoldBackgroundColor),
           ),
         );
     }
 
     return FlatButton(
+      color: Get.theme.cardColor,
       padding: const EdgeInsets.all(16),
-      onPressed: () {},
+      onPressed: () => Get.to(DetailPage(item)),
       child: SizedBox(
         width: double.infinity,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -84,6 +87,21 @@ class HomePage extends StatelessWidget {
         ]),
       ),
     );
+  }
+}
+
+class HTML extends StatelessWidget {
+  final String html;
+  const HTML(this.html, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Html(data: html, style: {
+      'body': Style(
+        margin: EdgeInsets.zero,
+        color: Get.textTheme.bodyText2.color.withOpacity(0.66),
+      ),
+    });
   }
 }
 
