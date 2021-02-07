@@ -37,12 +37,44 @@ class DetailPage extends StatelessWidget {
           title: Text(title),
           pinned: true,
           backwardsCompatibility: false,
+          actions: [
+            // IconButton(icon: const Icon(Icons.more_vert), onPressed: () {},),
+            PopupMenuButton<Menu>(
+              onSelected: (selected) {
+                switch (selected) {
+                  case Menu.browser:
+                    openBrowser();
+                }
+              },
+              itemBuilder: (_) => [
+                const PopupMenuItem(
+                  value: Menu.browser,
+                  child: Text('在浏览器中打开'),
+                ),
+              ],
+            )
+          ],
         ),
         SliverList(delegate: SliverChildListDelegate([...children])),
       ]),
     );
   }
+
+  void openBrowser() {
+    switch (item.target.type) {
+      case TargetType.ANSWER:
+        launch(
+            'https://zhihu.com/question/${item.target.question.id}/answer/${item.target.id}');
+        break;
+      case TargetType.ARTICLE:
+        break;
+      case TargetType.ZVIDEO:
+        break;
+    }
+  }
 }
+
+enum Menu { browser }
 
 class Content extends StatelessWidget {
   final Datum item;

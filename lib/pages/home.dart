@@ -8,7 +8,6 @@ import 'package:html/parser.dart' show parse;
 
 import '../api.dart';
 import '../types.dart' show Datum, TargetType, Target, DatumType;
-import '../utils.dart';
 import '../widgets/widgets.dart';
 import 'detail.dart';
 
