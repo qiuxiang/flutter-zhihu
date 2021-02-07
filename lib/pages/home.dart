@@ -1,11 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
+import 'package:html/parser.dart' show parse;
 
 import '../api.dart';
-import '../types.dart' show Datum, TargetType;
+import '../types.dart' show Datum, TargetType, Target, DatumType;
 import '../widgets/widgets.dart';
 import 'detail.dart';
 
@@ -46,62 +47,152 @@ class HomePage extends StatelessWidget {
   }
 
   Widget buildItem(Datum item) {
+    if (item.type == DatumType.FEED_ADVERT) return const SizedBox();
+
     String title;
     Widget content = const SizedBox();
+    Widget thumbnail = const SizedBox();
 
     switch (item.target.type) {
       case TargetType.ANSWER:
         title = item.target.question.title;
-        content = HTML(item.target.excerptNew);
+        content = Html(item.target.excerptNew);
         break;
       case TargetType.ARTICLE:
         title = item.target.title;
-        content = HTML(item.target.excerptNew);
+        content = Html(item.target.excerptNew);
         break;
       case TargetType.ZVIDEO:
         title = item.target.title;
-        final thumbnail = item.target.thumbnailExtraInfo;
-        content = Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(4))),
-          clipBehavior: Clip.hardEdge,
-          height: (Get.width - 32) / thumbnail.width * thumbnail.height,
-          child: CachedNetworkImage(
-            imageUrl: item.target.thumbnailExtraInfo.url,
-            placeholder: (_, __) =>
-                Container(color: Get.theme.scaffoldBackgroundColor),
-          ),
-        );
+        content = Thumbnail(item.target);
     }
 
-    return FlatButton(
-      color: Get.theme.cardColor,
-      padding: const EdgeInsets.all(16),
-      onPressed: () => Get.to(DetailPage(item)),
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(title, style: Get.textTheme.bodyText1.copyWith(fontSize: 16)),
-          const SizedBox(height: 12),
-          content,
-        ]),
+    final thumbnailUrl = item.target.thumbnail;
+    if (thumbnailUrl != null && thumbnailUrl.isNotEmpty) {
+      thumbnail = Container(
+        height: 68,
+        width: 68,
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: Get.theme.scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+        ),
+        child: Image.network(thumbnailUrl, fit: BoxFit.cover),
+      );
+    }
+
+    return Card(
+      margin: const EdgeInsets.only(top: 8),
+      shape: const RoundedRectangleBorder(),
+      child: InkWell(
+        onTap: () => Get.to(DetailPage(item)),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: Get.textTheme.bodyText1.copyWith(fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              Row(children: [
+                Expanded(
+                  child: Column(children: [
+                    Row(children: [
+                      ClipOval(
+                        child: Image(
+                          height: 20,
+                          image: NetworkImage(item.target.author.avatarUrl),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(item.target.author.name),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          item.target.author.headline,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Get.textTheme.caption.copyWith(fontSize: 14),
+                        ),
+                      ),
+                    ]),
+                    const SizedBox(height: 8),
+                    content,
+                  ]),
+                ),
+                const SizedBox(width: 8),
+                thumbnail
+              ]),
+              const SizedBox(height: 8),
+              DefaultTextStyle(
+                style: Get.textTheme.caption,
+                child: Row(children: [
+                  Icon(
+                    Icons.thumb_up,
+                    size: 14,
+                    color: Get.textTheme.caption.color,
+                  ),
+                  const SizedBox(width: 4),
+                  Text('${item.target.voteupCount}'),
+                  const SizedBox(width: 12),
+                  Icon(
+                    Icons.comment,
+                    size: 14,
+                    color: Get.textTheme.caption.color,
+                  ),
+                  const SizedBox(width: 4),
+                  Text('${item.target.commentCount}'),
+                ]),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-class HTML extends StatelessWidget {
-  final String html;
-  const HTML(this.html, {Key key}) : super(key: key);
+class Thumbnail extends StatelessWidget {
+  final Target target;
+  const Thumbnail(this.target, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Html(data: html, style: {
-      'body': Style(
-        margin: EdgeInsets.zero,
-        color: Get.textTheme.bodyText2.color.withOpacity(0.66),
+    final thumbnail = target.thumbnailExtraInfo;
+    return Stack(children: [
+      Container(
+        width: double.infinity,
+        height: (Get.width - 32) / 16 * 9,
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: Get.theme.scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+        ),
+        child: Image.network(thumbnail.url, fit: BoxFit.cover),
       ),
-    });
+      const PlayIcon(),
+    ]);
+  }
+}
+
+class Html extends StatelessWidget {
+  final String html;
+
+  const Html(this.html, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var style = Get.textTheme.bodyText2;
+    style = style.copyWith(color: style.color.withOpacity(0.66));
+    return Text(
+      parse(html).firstChild.text,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: style,
+    );
   }
 }
 

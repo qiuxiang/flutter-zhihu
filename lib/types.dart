@@ -50,6 +50,12 @@ class Datum {
     this.actionTextTpl,
     this.actionCard,
     this.count,
+    this.ad,
+    this.adList,
+    this.adjson,
+    this.pcontent,
+    this.ncontent,
+    this.extInfo,
   });
 
   final String id;
@@ -68,46 +74,80 @@ class Datum {
   final ActionTextTpl actionTextTpl;
   final bool actionCard;
   final int count;
+  final Ad ad;
+  final List<dynamic> adList;
+  final String adjson;
+  final String pcontent;
+  final String ncontent;
+  final ExtInfo extInfo;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         type: datumTypeValues.map[json["type"]],
-        offset: json["offset"],
-        verb: verbValues.map[json["verb"]],
-        createdTime: json["created_time"],
-        updatedTime: json["updated_time"],
-        target: Target.fromJson(json["target"]),
+        offset: json["offset"] == null ? null : json["offset"],
+        verb: json["verb"] == null ? null : verbValues.map[json["verb"]],
+        createdTime: json["created_time"] == null ? null : json["created_time"],
+        updatedTime: json["updated_time"] == null ? null : json["updated_time"],
+        target: json["target"] == null ? null : Target.fromJson(json["target"]),
         brief: json["brief"],
-        uninterestReasons: List<UninterestReason>.from(
-            json["uninterest_reasons"]
+        uninterestReasons: json["uninterest_reasons"] == null
+            ? null
+            : List<UninterestReason>.from(json["uninterest_reasons"]
                 .map((x) => UninterestReason.fromJson(x))),
         attachedInfo: json["attached_info"],
-        actors: List<Actor>.from(json["actors"].map((x) => Actor.fromJson(x))),
-        showActorTime: json["show_actor_time"],
+        actors: json["actors"] == null
+            ? null
+            : List<Actor>.from(json["actors"].map((x) => Actor.fromJson(x))),
+        showActorTime:
+            json["show_actor_time"] == null ? null : json["show_actor_time"],
         actionText: json["action_text"],
-        actionTextTpl: actionTextTplValues.map[json["action_text_tpl"]],
-        actionCard: json["action_card"],
+        actionTextTpl: json["action_text_tpl"] == null
+            ? null
+            : actionTextTplValues.map[json["action_text_tpl"]],
+        actionCard: json["action_card"] == null ? null : json["action_card"],
         count: json["count"] == null ? null : json["count"],
+        ad: json["ad"] == null ? null : Ad.fromJson(json["ad"]),
+        adList: json["ad_list"] == null
+            ? null
+            : List<dynamic>.from(json["ad_list"].map((x) => x)),
+        adjson: json["adjson"] == null ? null : json["adjson"],
+        pcontent: json["pcontent"] == null ? null : json["pcontent"],
+        ncontent: json["ncontent"] == null ? null : json["ncontent"],
+        extInfo: json["ext_info"] == null
+            ? null
+            : ExtInfo.fromJson(json["ext_info"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "type": datumTypeValues.reverse[type],
-        "offset": offset,
-        "verb": verbValues.reverse[verb],
-        "created_time": createdTime,
-        "updated_time": updatedTime,
-        "target": target.toJson(),
+        "offset": offset == null ? null : offset,
+        "verb": verb == null ? null : verbValues.reverse[verb],
+        "created_time": createdTime == null ? null : createdTime,
+        "updated_time": updatedTime == null ? null : updatedTime,
+        "target": target == null ? null : target.toJson(),
         "brief": brief,
-        "uninterest_reasons":
-            List<dynamic>.from(uninterestReasons.map((x) => x.toJson())),
+        "uninterest_reasons": uninterestReasons == null
+            ? null
+            : List<dynamic>.from(uninterestReasons.map((x) => x.toJson())),
         "attached_info": attachedInfo,
-        "actors": List<dynamic>.from(actors.map((x) => x.toJson())),
-        "show_actor_time": showActorTime,
+        "actors": actors == null
+            ? null
+            : List<dynamic>.from(actors.map((x) => x.toJson())),
+        "show_actor_time": showActorTime == null ? null : showActorTime,
         "action_text": actionText,
-        "action_text_tpl": actionTextTplValues.reverse[actionTextTpl],
-        "action_card": actionCard,
+        "action_text_tpl": actionTextTpl == null
+            ? null
+            : actionTextTplValues.reverse[actionTextTpl],
+        "action_card": actionCard == null ? null : actionCard,
         "count": count == null ? null : count,
+        "ad": ad == null ? null : ad.toJson(),
+        "ad_list":
+            adList == null ? null : List<dynamic>.from(adList.map((x) => x)),
+        "adjson": adjson == null ? null : adjson,
+        "pcontent": pcontent == null ? null : pcontent,
+        "ncontent": ncontent == null ? null : ncontent,
+        "ext_info": extInfo == null ? null : extInfo.toJson(),
       };
 }
 
@@ -160,6 +200,329 @@ enum UserTypeEnum { TOPIC, PEOPLE }
 final userTypeEnumValues =
     EnumValues({"people": UserTypeEnum.PEOPLE, "topic": UserTypeEnum.TOPIC});
 
+class Ad {
+  Ad({
+    this.count,
+    this.position,
+    this.adVerb,
+    this.closeTrack,
+    this.revertCloseTrack,
+    this.template,
+    this.loadTracks,
+    this.creatives,
+    this.voteUpCount,
+    this.commentCount,
+    this.isFollowing,
+    this.category,
+    this.id,
+    this.canInteract,
+    this.userId,
+    this.ctr,
+    this.displayAdvertisingTag,
+    this.debugTracks,
+    this.landPrefetch,
+    this.nativePrefetch,
+    this.isNewWebview,
+    this.experimentInfo,
+    this.downloadSilent,
+    this.isSpeeding,
+    this.brand,
+  });
+
+  final int count;
+  final int position;
+  final String adVerb;
+  final String closeTrack;
+  final String revertCloseTrack;
+  final String template;
+  final List<String> loadTracks;
+  final List<Creative> creatives;
+  final int voteUpCount;
+  final int commentCount;
+  final bool isFollowing;
+  final int category;
+  final int id;
+  final bool canInteract;
+  final int userId;
+  final int ctr;
+  final bool displayAdvertisingTag;
+  final List<String> debugTracks;
+  final bool landPrefetch;
+  final bool nativePrefetch;
+  final bool isNewWebview;
+  final String experimentInfo;
+  final bool downloadSilent;
+  final bool isSpeeding;
+  final AdBrand brand;
+
+  factory Ad.fromJson(Map<String, dynamic> json) => Ad(
+        count: json["count"],
+        position: json["position"],
+        adVerb: json["ad_verb"],
+        closeTrack: json["close_track"],
+        revertCloseTrack: json["revert_close_track"],
+        template: json["template"],
+        loadTracks: List<String>.from(json["load_tracks"].map((x) => x)),
+        creatives: List<Creative>.from(
+            json["creatives"].map((x) => Creative.fromJson(x))),
+        voteUpCount: json["vote_up_count"],
+        commentCount: json["comment_count"],
+        isFollowing: json["is_following"],
+        category: json["category"],
+        id: json["id"],
+        canInteract: json["can_interact"],
+        userId: json["user_id"],
+        ctr: json["ctr"],
+        displayAdvertisingTag: json["display_advertising_tag"],
+        debugTracks: List<String>.from(json["debug_tracks"].map((x) => x)),
+        landPrefetch: json["land_prefetch"],
+        nativePrefetch: json["native_prefetch"],
+        isNewWebview: json["is_new_webview"],
+        experimentInfo: json["experiment_info"],
+        downloadSilent: json["download_silent"],
+        isSpeeding: json["is_speeding"],
+        brand: AdBrand.fromJson(json["brand"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "count": count,
+        "position": position,
+        "ad_verb": adVerb,
+        "close_track": closeTrack,
+        "revert_close_track": revertCloseTrack,
+        "template": template,
+        "load_tracks": List<dynamic>.from(loadTracks.map((x) => x)),
+        "creatives": List<dynamic>.from(creatives.map((x) => x.toJson())),
+        "vote_up_count": voteUpCount,
+        "comment_count": commentCount,
+        "is_following": isFollowing,
+        "category": category,
+        "id": id,
+        "can_interact": canInteract,
+        "user_id": userId,
+        "ctr": ctr,
+        "display_advertising_tag": displayAdvertisingTag,
+        "debug_tracks": List<dynamic>.from(debugTracks.map((x) => x)),
+        "land_prefetch": landPrefetch,
+        "native_prefetch": nativePrefetch,
+        "is_new_webview": isNewWebview,
+        "experiment_info": experimentInfo,
+        "download_silent": downloadSilent,
+        "is_speeding": isSpeeding,
+        "brand": brand.toJson(),
+      };
+}
+
+class AdBrand {
+  AdBrand({
+    this.name,
+    this.logo,
+    this.type,
+    this.actionText,
+  });
+
+  final String name;
+  final String logo;
+  final String type;
+  final String actionText;
+
+  factory AdBrand.fromJson(Map<String, dynamic> json) => AdBrand(
+        name: json["name"],
+        logo: json["logo"],
+        type: json["type"],
+        actionText: json["action_text"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "logo": logo,
+        "type": type,
+        "action_text": actionText,
+      };
+}
+
+class Creative {
+  Creative({
+    this.landingUrl,
+    this.image,
+    this.image2X,
+    this.title,
+    this.description,
+    this.button,
+    this.actionButton,
+    this.footer,
+    this.cta,
+    this.brand,
+    this.appPromotionUrl,
+    this.nativeUrl,
+    this.deepUrl,
+    this.videoWatchNum,
+    this.zaAdInfo,
+    this.zaAdInfoJson,
+    this.externalClickUrl,
+    this.impressionTracks,
+    this.clickTracks,
+    this.id,
+    this.name,
+    this.conversionTracks,
+    this.contentType,
+    this.targetToken,
+  });
+
+  final String landingUrl;
+  final String image;
+  final String image2X;
+  final String title;
+  final String description;
+  final String button;
+  final bool actionButton;
+  final Cta footer;
+  final Cta cta;
+  final CreativeBrand brand;
+  final String appPromotionUrl;
+  final String nativeUrl;
+  final String deepUrl;
+  final int videoWatchNum;
+  final String zaAdInfo;
+  final String zaAdInfoJson;
+  final String externalClickUrl;
+  final List<String> impressionTracks;
+  final List<String> clickTracks;
+  final int id;
+  final String name;
+  final List<String> conversionTracks;
+  final String contentType;
+  final String targetToken;
+
+  factory Creative.fromJson(Map<String, dynamic> json) => Creative(
+        landingUrl: json["landing_url"],
+        image: json["image"],
+        image2X: json["image_2x"],
+        title: json["title"],
+        description: json["description"],
+        button: json["button"],
+        actionButton: json["action_button"],
+        footer: Cta.fromJson(json["footer"]),
+        cta: Cta.fromJson(json["cta"]),
+        brand: CreativeBrand.fromJson(json["brand"]),
+        appPromotionUrl: json["app_promotion_url"],
+        nativeUrl: json["native_url"],
+        deepUrl: json["deep_url"],
+        videoWatchNum: json["video_watch_num"],
+        zaAdInfo: json["za_ad_info"],
+        zaAdInfoJson: json["za_ad_info_json"],
+        externalClickUrl: json["external_click_url"],
+        impressionTracks:
+            List<String>.from(json["impression_tracks"].map((x) => x)),
+        clickTracks: List<String>.from(json["click_tracks"].map((x) => x)),
+        id: json["id"],
+        name: json["name"],
+        conversionTracks:
+            List<String>.from(json["conversion_tracks"].map((x) => x)),
+        contentType: json["content_type"],
+        targetToken: json["target_token"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "landing_url": landingUrl,
+        "image": image,
+        "image_2x": image2X,
+        "title": title,
+        "description": description,
+        "button": button,
+        "action_button": actionButton,
+        "footer": footer.toJson(),
+        "cta": cta.toJson(),
+        "brand": brand.toJson(),
+        "app_promotion_url": appPromotionUrl,
+        "native_url": nativeUrl,
+        "deep_url": deepUrl,
+        "video_watch_num": videoWatchNum,
+        "za_ad_info": zaAdInfo,
+        "za_ad_info_json": zaAdInfoJson,
+        "external_click_url": externalClickUrl,
+        "impression_tracks": List<dynamic>.from(impressionTracks.map((x) => x)),
+        "click_tracks": List<dynamic>.from(clickTracks.map((x) => x)),
+        "id": id,
+        "name": name,
+        "conversion_tracks": List<dynamic>.from(conversionTracks.map((x) => x)),
+        "content_type": contentType,
+        "target_token": targetToken,
+      };
+}
+
+class CreativeBrand {
+  CreativeBrand({
+    this.id,
+    this.name,
+    this.logo,
+  });
+
+  final int id;
+  final String name;
+  final String logo;
+
+  factory CreativeBrand.fromJson(Map<String, dynamic> json) => CreativeBrand(
+        id: json["id"],
+        name: json["name"],
+        logo: json["logo"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "logo": logo,
+      };
+}
+
+class Cta {
+  Cta({
+    this.value,
+  });
+
+  final String value;
+
+  factory Cta.fromJson(Map<String, dynamic> json) => Cta(
+        value: json["value"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "value": value,
+      };
+}
+
+class ExtInfo {
+  ExtInfo({
+    this.contentType,
+    this.contentId,
+    this.priority,
+    this.ecpm,
+    this.type,
+  });
+
+  final dynamic contentType;
+  final dynamic contentId;
+  final int priority;
+  final double ecpm;
+  final int type;
+
+  factory ExtInfo.fromJson(Map<String, dynamic> json) => ExtInfo(
+        contentType: json["content_type"],
+        contentId: json["content_id"],
+        priority: json["priority"],
+        ecpm: json["ecpm"].toDouble(),
+        type: json["type"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "content_type": contentType,
+        "content_id": contentId,
+        "priority": priority,
+        "ecpm": ecpm,
+        "type": type,
+      };
+}
+
 class Target {
   Target({
     this.id,
@@ -199,6 +562,7 @@ class Target {
     this.voteCount,
     this.thumbnailExtraInfo,
     this.playCount,
+    this.attachment,
   });
 
   final dynamic id;
@@ -217,7 +581,7 @@ class Target {
   final String excerptNew;
   final PreviewType previewType;
   final String previewText;
-  final String reshipmentSettings;
+  final ReshipmentSettings reshipmentSettings;
   final String content;
   final List<dynamic> markInfos;
   final TargetRelationship relationship;
@@ -238,6 +602,7 @@ class Target {
   final int voteCount;
   final ThumbnailExtraInfo thumbnailExtraInfo;
   final int playCount;
+  final Attachment attachment;
 
   factory Target.fromJson(Map<String, dynamic> json) => Target(
         id: json["id"],
@@ -262,7 +627,7 @@ class Target {
         previewText: json["preview_text"] == null ? null : json["preview_text"],
         reshipmentSettings: json["reshipment_settings"] == null
             ? null
-            : json["reshipment_settings"],
+            : reshipmentSettingsValues.map[json["reshipment_settings"]],
         content: json["content"] == null ? null : json["content"],
         markInfos: json["mark_infos"] == null
             ? null
@@ -296,6 +661,9 @@ class Target {
             ? null
             : ThumbnailExtraInfo.fromJson(json["thumbnail_extra_info"]),
         playCount: json["play_count"] == null ? null : json["play_count"],
+        attachment: json["attachment"] == null
+            ? null
+            : Attachment.fromJson(json["attachment"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -316,8 +684,9 @@ class Target {
         "preview_type":
             previewType == null ? null : previewTypeValues.reverse[previewType],
         "preview_text": previewText == null ? null : previewText,
-        "reshipment_settings":
-            reshipmentSettings == null ? null : reshipmentSettings,
+        "reshipment_settings": reshipmentSettings == null
+            ? null
+            : reshipmentSettingsValues.reverse[reshipmentSettings],
         "content": content == null ? null : content,
         "mark_infos": markInfos == null
             ? null
@@ -344,6 +713,27 @@ class Target {
         "thumbnail_extra_info":
             thumbnailExtraInfo == null ? null : thumbnailExtraInfo.toJson(),
         "play_count": playCount == null ? null : playCount,
+        "attachment": attachment == null ? null : attachment.toJson(),
+      };
+}
+
+class Attachment {
+  Attachment({
+    this.type,
+    this.url,
+  });
+
+  final int type;
+  final String url;
+
+  factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
+        type: json["type"],
+        url: json["url"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "url": url,
       };
 }
 
@@ -559,7 +949,7 @@ class Question {
   });
 
   final int id;
-  final String type;
+  final QuestionType type;
   final String url;
   final Author author;
   final String title;
@@ -572,11 +962,11 @@ class Question {
   final String excerpt;
   final QuestionRelationship relationship;
   final String detail;
-  final String questionType;
+  final QuestionTypeEnum questionType;
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: json["id"],
-        type: json["type"],
+        type: questionTypeValues.map[json["type"]],
         url: json["url"],
         author: Author.fromJson(json["author"]),
         title: json["title"],
@@ -589,12 +979,12 @@ class Question {
         excerpt: json["excerpt"],
         relationship: QuestionRelationship.fromJson(json["relationship"]),
         detail: json["detail"],
-        questionType: json["question_type"],
+        questionType: questionTypeEnumValues.map[json["question_type"]],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "type": type,
+        "type": questionTypeValues.reverse[type],
         "url": url,
         "author": author.toJson(),
         "title": title,
@@ -607,9 +997,13 @@ class Question {
         "excerpt": excerpt,
         "relationship": relationship.toJson(),
         "detail": detail,
-        "question_type": questionType,
+        "question_type": questionTypeEnumValues.reverse[questionType],
       };
 }
+
+enum QuestionTypeEnum { NORMAL }
+
+final questionTypeEnumValues = EnumValues({"normal": QuestionTypeEnum.NORMAL});
 
 class QuestionRelationship {
   QuestionRelationship({
@@ -627,6 +1021,10 @@ class QuestionRelationship {
         "is_author": isAuthor,
       };
 }
+
+enum QuestionType { QUESTION }
+
+final questionTypeValues = EnumValues({"question": QuestionType.QUESTION});
 
 class TargetRelationship {
   TargetRelationship({
@@ -658,6 +1056,13 @@ class TargetRelationship {
             List<dynamic>.from(upvotedFolloweeIds.map((x) => x)),
       };
 }
+
+enum ReshipmentSettings { DISALLOWED, ALLOWED }
+
+final reshipmentSettingsValues = EnumValues({
+  "allowed": ReshipmentSettings.ALLOWED,
+  "disallowed": ReshipmentSettings.DISALLOWED
+});
 
 class ThumbnailExtraInfo {
   ThumbnailExtraInfo({
@@ -780,9 +1185,10 @@ final targetTypeValues = EnumValues({
   "zvideo": TargetType.ZVIDEO
 });
 
-enum DatumType { FEED }
+enum DatumType { FEED, FEED_ADVERT }
 
-final datumTypeValues = EnumValues({"feed": DatumType.FEED});
+final datumTypeValues =
+    EnumValues({"feed": DatumType.FEED, "feed_advert": DatumType.FEED_ADVERT});
 
 class UninterestReason {
   UninterestReason({

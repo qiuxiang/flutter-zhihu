@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:get/get.dart';
 
 import '../types.dart' show Datum, TargetType;
 
@@ -20,6 +21,7 @@ class DetailPage extends StatelessWidget {
         title = item.target.title;
     }
     return Scaffold(
+      backgroundColor: Get.theme.cardColor,
       body: CustomScrollView(slivers: [
         SliverAppBar(
           title: Text(title),
@@ -29,8 +31,9 @@ class DetailPage extends StatelessWidget {
         SliverList(
           delegate: SliverChildListDelegate([
             Padding(
-              padding: const EdgeInsets.all(8),
-              child: Html(data: item.target.content),
+              padding: const EdgeInsets.all(16),
+              // child: Html(data: item.target.content),
+              child: HtmlWidget(item.target.content),
             ),
           ]),
         ),
