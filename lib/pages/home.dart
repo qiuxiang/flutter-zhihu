@@ -66,6 +66,9 @@ class HomePage extends StatelessWidget {
       case TargetType.ZVIDEO:
         title = item.target.title;
         content = Thumbnail(item.target);
+        break;
+      default:
+        return const SizedBox();
     }
 
     final thumbnailUrl = item.target.thumbnail;
