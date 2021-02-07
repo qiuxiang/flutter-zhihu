@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:html/parser.dart' show parse;
 
 import '../api.dart';
 import '../types.dart' show Datum, TargetType, Target, DatumType;
+import '../utils.dart';
 import '../widgets/widgets.dart';
 import 'detail.dart';
 
@@ -77,7 +79,7 @@ class HomePage extends StatelessWidget {
           color: Get.theme.scaffoldBackgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
-        child: Image.network(thumbnailUrl, fit: BoxFit.cover),
+        child: CachedNetworkImage(imageUrl: thumbnailUrl, fit: BoxFit.cover),
       );
     }
 
@@ -102,9 +104,9 @@ class HomePage extends StatelessWidget {
                   child: Column(children: [
                     Row(children: [
                       ClipOval(
-                        child: Image(
+                        child: CachedNetworkImage(
                           height: 20,
-                          image: NetworkImage(item.target.author.avatarUrl),
+                          imageUrl: item.target.author.avatarUrl,
                         ),
                       ),
                       const SizedBox(width: 4),
@@ -130,21 +132,8 @@ class HomePage extends StatelessWidget {
               DefaultTextStyle(
                 style: Get.textTheme.caption,
                 child: Row(children: [
-                  Icon(
-                    Icons.thumb_up,
-                    size: 14,
-                    color: Get.textTheme.caption.color,
-                  ),
-                  const SizedBox(width: 4),
-                  Text('${item.target.voteupCount}'),
-                  const SizedBox(width: 12),
-                  Icon(
-                    Icons.comment,
-                    size: 14,
-                    color: Get.textTheme.caption.color,
-                  ),
-                  const SizedBox(width: 4),
-                  Text('${item.target.commentCount}'),
+                  StatsItem(Icons.thumb_up, item.target.voteupCount ?? 0),
+                  StatsItem(Icons.comment, item.target.commentCount),
                 ]),
               ),
             ],
@@ -152,6 +141,23 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class StatsItem extends StatelessWidget {
+  final IconData icon;
+  final int value;
+
+  const StatsItem(this.icon, this.value, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      Icon(icon, size: 14, color: Get.textTheme.caption.color),
+      const SizedBox(width: 4),
+      Text('$value'),
+      const SizedBox(width: 12),
+    ]);
   }
 }
 
@@ -171,7 +177,7 @@ class Thumbnail extends StatelessWidget {
           color: Get.theme.scaffoldBackgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
-        child: Image.network(thumbnail.url, fit: BoxFit.cover),
+        child: CachedNetworkImage(imageUrl: thumbnail.url, fit: BoxFit.cover),
       ),
       const PlayIcon(),
     ]);

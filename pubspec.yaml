@@ -15,6 +15,7 @@ dependencies:
   flutter_widget_from_html_core:
   cached_network_image:
   chewie:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:
