@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../types.dart' show Datum, TargetType;
+import '../types.dart' show RecommendDatum, ResourceTypeEnum;
 
 class DetailPage extends StatelessWidget {
-  final Datum item;
+  final RecommendDatum item;
 
   const DetailPage(this.item);
 
@@ -18,15 +18,15 @@ class DetailPage extends StatelessWidget {
     final children = <Widget>[];
 
     switch (item.target.type) {
-      case TargetType.ANSWER:
+      case ResourceTypeEnum.ANSWER:
         title = item.target.question.title;
         children.addAll([Content(item)]);
         break;
-      case TargetType.ARTICLE:
+      case ResourceTypeEnum.ARTICLE:
         title = item.target.title;
         children.addAll([Content(item)]);
         break;
-      case TargetType.ZVIDEO:
+      case ResourceTypeEnum.ZVIDEO:
         children.addAll([Video(item)]);
         title = item.target.title;
     }
@@ -62,13 +62,13 @@ class DetailPage extends StatelessWidget {
 
   void openBrowser() {
     switch (item.target.type) {
-      case TargetType.ANSWER:
+      case ResourceTypeEnum.ANSWER:
         launch(
             'https://zhihu.com/question/${item.target.question.id}/answer/${item.target.id}');
         break;
-      case TargetType.ARTICLE:
+      case ResourceTypeEnum.ARTICLE:
         break;
-      case TargetType.ZVIDEO:
+      case ResourceTypeEnum.ZVIDEO:
         break;
     }
   }
@@ -77,7 +77,7 @@ class DetailPage extends StatelessWidget {
 enum Menu { browser }
 
 class Content extends StatelessWidget {
-  final Datum item;
+  final RecommendDatum item;
   const Content(this.item, {Key key}) : super(key: key);
 
   @override
@@ -90,7 +90,7 @@ class Content extends StatelessWidget {
 }
 
 class Video extends StatefulWidget {
-  final Datum item;
+  final RecommendDatum item;
   const Video(this.item, {Key key}) : super(key: key);
 
   @override

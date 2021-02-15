@@ -3,7 +3,7 @@ import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 
 import 'types.dart';
 
-const baseUrl = 'https://www.zhihu.com/api/v3/';
+const baseUrl = 'https://www.zhihu.com/api/';
 final dio = Dio()
   ..options.baseUrl = baseUrl
   ..options.headers = {
@@ -20,7 +20,21 @@ Future request(String path) async {
 }
 
 Future<Recommend> getRecommend([String url]) async {
-  url = url ?? 'feed/topstory/recommend?limit=10&desktop=true';
+  url = url ?? 'v3/feed/topstory/recommend?limit=10&desktop=true';
   final json = await request(url);
   return Recommend.fromJson(json);
+}
+
+Future<RootComment> getRootComment(int id, [int page = 0]) async {
+  const limit = 20;
+  final json = await request(
+      'v4/answers/$id/root_comments?order=normal&limit=$limit&offset=${page * limit}&status=open');
+  return RootComment.fromJson(json);
+}
+
+Future<ChildComment> getChildComment(int id, [int page = 0]) async {
+  const limit = 20;
+  final json = await request(
+      'v4/comments/1087926756/child_comments?limit=$limit&offset=${page * limit}');
+  return ChildComment.fromJson(json);
 }

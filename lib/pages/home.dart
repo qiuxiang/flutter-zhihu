@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:html/parser.dart' show parse;
 
 import '../api.dart';
-import '../types.dart' show Datum, TargetType, Target, DatumType;
+import '../types.dart'
+    show RecommendDatum, ResourceTypeEnum, Target, FluffyType;
 import '../widgets/widgets.dart';
 import 'detail.dart';
 
@@ -47,23 +48,23 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildItem(Datum item) {
-    if (item.type == DatumType.FEED_ADVERT) return const SizedBox();
+  Widget buildItem(RecommendDatum item) {
+    if (item.type == FluffyType.FEED_ADVERT) return const SizedBox();
 
     String title;
     Widget content = const SizedBox();
     Widget thumbnail = const SizedBox();
 
     switch (item.target.type) {
-      case TargetType.ANSWER:
+      case ResourceTypeEnum.ANSWER:
         title = item.target.question.title;
         content = Html(item.target.excerptNew);
         break;
-      case TargetType.ARTICLE:
+      case ResourceTypeEnum.ARTICLE:
         title = item.target.title;
         content = Html(item.target.excerptNew);
         break;
-      case TargetType.ZVIDEO:
+      case ResourceTypeEnum.ZVIDEO:
         title = item.target.title;
         content = Thumbnail(item.target);
         break;
@@ -206,7 +207,7 @@ class Html extends StatelessWidget {
 
 class HomeState extends GetxController {
   String next;
-  final items = <Datum>[].obs;
+  final items = <RecommendDatum>[].obs;
   bool loading = false;
 
   Future fetch({bool refresh = false}) async {

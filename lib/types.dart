@@ -1,12 +1,437 @@
 // To parse this JSON data, do
 //
+//     final childComment = childCommentFromJson(jsonString);
 //     final recommend = recommendFromJson(jsonString);
+//     final rootComment = rootCommentFromJson(jsonString);
 
 import 'dart:convert';
+
+ChildComment childCommentFromJson(String str) =>
+    ChildComment.fromJson(json.decode(str));
+
+String childCommentToJson(ChildComment data) => json.encode(data.toJson());
 
 Recommend recommendFromJson(String str) => Recommend.fromJson(json.decode(str));
 
 String recommendToJson(Recommend data) => json.encode(data.toJson());
+
+RootComment rootCommentFromJson(String str) =>
+    RootComment.fromJson(json.decode(str));
+
+String rootCommentToJson(RootComment data) => json.encode(data.toJson());
+
+class ChildComment {
+  ChildComment({
+    this.paging,
+    this.data,
+  });
+
+  final Paging paging;
+  final List<PurpleDatum> data;
+
+  factory ChildComment.fromJson(Map<String, dynamic> json) => ChildComment(
+        paging: Paging.fromJson(json["paging"]),
+        data: List<PurpleDatum>.from(
+            json["data"].map((x) => PurpleDatum.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "paging": paging.toJson(),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
+}
+
+class PurpleDatum {
+  PurpleDatum({
+    this.id,
+    this.type,
+    this.url,
+    this.voteCount,
+    this.voting,
+    this.liked,
+    this.createdTime,
+    this.isDelete,
+    this.resourceType,
+    this.content,
+    this.attachedInfo,
+    this.author,
+    this.isAuthor,
+    this.allowLike,
+    this.allowDelete,
+    this.repliesCount,
+    this.canRecommend,
+    this.top,
+    this.canCollapse,
+    this.replyToAuthor,
+    this.allowReply,
+    this.extraInfo,
+  });
+
+  final int id;
+  final PurpleType type;
+  final String url;
+  final int voteCount;
+  final bool voting;
+  final bool liked;
+  final int createdTime;
+  final bool isDelete;
+  final ResourceTypeEnum resourceType;
+  final String content;
+  final String attachedInfo;
+  final Author author;
+  final bool isAuthor;
+  final bool allowLike;
+  final bool allowDelete;
+  final int repliesCount;
+  final bool canRecommend;
+  final bool top;
+  final bool canCollapse;
+  final Author replyToAuthor;
+  final bool allowReply;
+  final ExtraInfo extraInfo;
+
+  factory PurpleDatum.fromJson(Map<String, dynamic> json) => PurpleDatum(
+        id: json["id"],
+        type: purpleTypeValues.map[json["type"]],
+        url: json["url"],
+        voteCount: json["vote_count"],
+        voting: json["voting"],
+        liked: json["liked"],
+        createdTime: json["created_time"],
+        isDelete: json["is_delete"],
+        resourceType: resourceTypeEnumValues.map[json["resource_type"]],
+        content: json["content"],
+        attachedInfo: json["attached_info"],
+        author: Author.fromJson(json["author"]),
+        isAuthor: json["is_author"],
+        allowLike: json["allow_like"],
+        allowDelete: json["allow_delete"],
+        repliesCount: json["replies_count"],
+        canRecommend: json["can_recommend"],
+        top: json["top"],
+        canCollapse: json["can_collapse"],
+        replyToAuthor: Author.fromJson(json["reply_to_author"]),
+        allowReply: json["allow_reply"],
+        extraInfo: ExtraInfo.fromJson(json["extra_info"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "type": purpleTypeValues.reverse[type],
+        "url": url,
+        "vote_count": voteCount,
+        "voting": voting,
+        "liked": liked,
+        "created_time": createdTime,
+        "is_delete": isDelete,
+        "resource_type": resourceTypeEnumValues.reverse[resourceType],
+        "content": content,
+        "attached_info": attachedInfo,
+        "author": author.toJson(),
+        "is_author": isAuthor,
+        "allow_like": allowLike,
+        "allow_delete": allowDelete,
+        "replies_count": repliesCount,
+        "can_recommend": canRecommend,
+        "top": top,
+        "can_collapse": canCollapse,
+        "reply_to_author": replyToAuthor.toJson(),
+        "allow_reply": allowReply,
+        "extra_info": extraInfo.toJson(),
+      };
+}
+
+class Author {
+  Author({
+    this.role,
+    this.member,
+  });
+
+  final Role role;
+  final Member member;
+
+  factory Author.fromJson(Map<String, dynamic> json) => Author(
+        role: roleValues.map[json["role"]],
+        member: Member.fromJson(json["member"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "role": roleValues.reverse[role],
+        "member": member.toJson(),
+      };
+}
+
+class Member {
+  Member({
+    this.id,
+    this.url,
+    this.name,
+    this.headline,
+    this.gender,
+    this.avatarUrl,
+    this.type,
+    this.userType,
+    this.badge,
+    this.levelInfo,
+    this.isFollowing,
+    this.isFollowed,
+    this.urlToken,
+    this.isOrg,
+    this.followersCount,
+    this.avatarUrlTemplate,
+    this.isAdvertiser,
+  });
+
+  final String id;
+  final String url;
+  final String name;
+  final String headline;
+  final int gender;
+  final String avatarUrl;
+  final UserTypeEnum type;
+  final UserTypeEnum userType;
+  final List<Badge> badge;
+  final LevelInfo levelInfo;
+  final bool isFollowing;
+  final bool isFollowed;
+  final String urlToken;
+  final bool isOrg;
+  final int followersCount;
+  final String avatarUrlTemplate;
+  final bool isAdvertiser;
+
+  factory Member.fromJson(Map<String, dynamic> json) => Member(
+        id: json["id"],
+        url: json["url"],
+        name: json["name"],
+        headline: json["headline"],
+        gender: json["gender"] == null ? null : json["gender"],
+        avatarUrl: json["avatar_url"],
+        type: userTypeEnumValues.map[json["type"]],
+        userType: userTypeEnumValues.map[json["user_type"]],
+        badge: json["badge"] == null
+            ? null
+            : List<Badge>.from(json["badge"].map((x) => Badge.fromJson(x))),
+        levelInfo: json["level_info"] == null
+            ? null
+            : LevelInfo.fromJson(json["level_info"]),
+        isFollowing: json["is_following"] == null ? null : json["is_following"],
+        isFollowed: json["is_followed"] == null ? null : json["is_followed"],
+        urlToken: json["url_token"] == null ? null : json["url_token"],
+        isOrg: json["is_org"] == null ? null : json["is_org"],
+        followersCount:
+            json["followers_count"] == null ? null : json["followers_count"],
+        avatarUrlTemplate: json["avatar_url_template"] == null
+            ? null
+            : json["avatar_url_template"],
+        isAdvertiser:
+            json["is_advertiser"] == null ? null : json["is_advertiser"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "url": url,
+        "name": name,
+        "headline": headline,
+        "gender": gender == null ? null : gender,
+        "avatar_url": avatarUrl,
+        "type": userTypeEnumValues.reverse[type],
+        "user_type": userTypeEnumValues.reverse[userType],
+        "badge": badge == null
+            ? null
+            : List<dynamic>.from(badge.map((x) => x.toJson())),
+        "level_info": levelInfo == null ? null : levelInfo.toJson(),
+        "is_following": isFollowing == null ? null : isFollowing,
+        "is_followed": isFollowed == null ? null : isFollowed,
+        "url_token": urlToken == null ? null : urlToken,
+        "is_org": isOrg == null ? null : isOrg,
+        "followers_count": followersCount == null ? null : followersCount,
+        "avatar_url_template":
+            avatarUrlTemplate == null ? null : avatarUrlTemplate,
+        "is_advertiser": isAdvertiser == null ? null : isAdvertiser,
+      };
+}
+
+class Badge {
+  Badge({
+    this.type,
+    this.description,
+    this.topics,
+    this.topicNames,
+  });
+
+  final BadgeType type;
+  final String description;
+  final List<dynamic> topics;
+  final List<String> topicNames;
+
+  factory Badge.fromJson(Map<String, dynamic> json) => Badge(
+        type: badgeTypeValues.map[json["type"]],
+        description: json["description"],
+        topics: json["topics"] == null
+            ? null
+            : List<dynamic>.from(json["topics"].map((x) => x)),
+        topicNames: json["topic_names"] == null
+            ? null
+            : List<String>.from(json["topic_names"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": badgeTypeValues.reverse[type],
+        "description": description,
+        "topics":
+            topics == null ? null : List<dynamic>.from(topics.map((x) => x)),
+        "topic_names": topicNames == null
+            ? null
+            : List<dynamic>.from(topicNames.map((x) => x)),
+      };
+}
+
+enum BadgeType { IDENTITY, BEST_ANSWERER }
+
+final badgeTypeValues = EnumValues(
+    {"best_answerer": BadgeType.BEST_ANSWERER, "identity": BadgeType.IDENTITY});
+
+class LevelInfo {
+  LevelInfo({
+    this.exp,
+    this.level,
+    this.nicknameColor,
+    this.levelIcon,
+    this.iconInfo,
+  });
+
+  final int exp;
+  final int level;
+  final NicknameColor nicknameColor;
+  final String levelIcon;
+  final IconInfo iconInfo;
+
+  factory LevelInfo.fromJson(Map<String, dynamic> json) => LevelInfo(
+        exp: json["exp"],
+        level: json["level"],
+        nicknameColor: NicknameColor.fromJson(json["nickname_color"]),
+        levelIcon: json["level_icon"],
+        iconInfo: IconInfo.fromJson(json["icon_info"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "exp": exp,
+        "level": level,
+        "nickname_color": nicknameColor.toJson(),
+        "level_icon": levelIcon,
+        "icon_info": iconInfo.toJson(),
+      };
+}
+
+class IconInfo {
+  IconInfo({
+    this.url,
+    this.nightModeUrl,
+    this.width,
+    this.height,
+  });
+
+  final String url;
+  final String nightModeUrl;
+  final int width;
+  final int height;
+
+  factory IconInfo.fromJson(Map<String, dynamic> json) => IconInfo(
+        url: json["url"],
+        nightModeUrl: json["night_mode_url"],
+        width: json["width"],
+        height: json["height"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "url": url,
+        "night_mode_url": nightModeUrl,
+        "width": width,
+        "height": height,
+      };
+}
+
+class NicknameColor {
+  NicknameColor({
+    this.color,
+    this.nightModeColor,
+  });
+
+  final String color;
+  final String nightModeColor;
+
+  factory NicknameColor.fromJson(Map<String, dynamic> json) => NicknameColor(
+        color: json["color"],
+        nightModeColor: json["night_mode_color"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "color": color,
+        "night_mode_color": nightModeColor,
+      };
+}
+
+enum UserTypeEnum { PEOPLE, TOPIC }
+
+final userTypeEnumValues =
+    EnumValues({"people": UserTypeEnum.PEOPLE, "topic": UserTypeEnum.TOPIC});
+
+enum Role { NORMAL, AUTHOR }
+
+final roleValues = EnumValues({"author": Role.AUTHOR, "normal": Role.NORMAL});
+
+class ExtraInfo {
+  ExtraInfo();
+
+  factory ExtraInfo.fromJson(Map<String, dynamic> json) => ExtraInfo();
+
+  Map<String, dynamic> toJson() => {};
+}
+
+enum ResourceTypeEnum { ANSWER, ARTICLE, ZVIDEO }
+
+final resourceTypeEnumValues = EnumValues({
+  "answer": ResourceTypeEnum.ANSWER,
+  "article": ResourceTypeEnum.ARTICLE,
+  "zvideo": ResourceTypeEnum.ZVIDEO
+});
+
+enum PurpleType { COMMENT }
+
+final purpleTypeValues = EnumValues({"comment": PurpleType.COMMENT});
+
+class Paging {
+  Paging({
+    this.isEnd,
+    this.next,
+    this.previous,
+    this.totals,
+    this.isStart,
+  });
+
+  final bool isEnd;
+  final String next;
+  final String previous;
+  final int totals;
+  final bool isStart;
+
+  factory Paging.fromJson(Map<String, dynamic> json) => Paging(
+        isEnd: json["is_end"],
+        next: json["next"],
+        previous: json["previous"],
+        totals: json["totals"] == null ? null : json["totals"],
+        isStart: json["is_start"] == null ? null : json["is_start"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "is_end": isEnd,
+        "next": next,
+        "previous": previous,
+        "totals": totals == null ? null : totals,
+        "is_start": isStart == null ? null : isStart,
+      };
+}
 
 class Recommend {
   Recommend({
@@ -15,12 +440,13 @@ class Recommend {
     this.freshText,
   });
 
-  final List<Datum> data;
+  final List<RecommendDatum> data;
   final Paging paging;
   final String freshText;
 
   factory Recommend.fromJson(Map<String, dynamic> json) => Recommend(
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<RecommendDatum>.from(
+            json["data"].map((x) => RecommendDatum.fromJson(x))),
         paging: Paging.fromJson(json["paging"]),
         freshText: json["fresh_text"],
       );
@@ -32,8 +458,8 @@ class Recommend {
       };
 }
 
-class Datum {
-  Datum({
+class RecommendDatum {
+  RecommendDatum({
     this.id,
     this.type,
     this.offset,
@@ -59,7 +485,7 @@ class Datum {
   });
 
   final String id;
-  final DatumType type;
+  final FluffyType type;
   final int offset;
   final Verb verb;
   final int createdTime;
@@ -81,9 +507,9 @@ class Datum {
   final String ncontent;
   final ExtInfo extInfo;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory RecommendDatum.fromJson(Map<String, dynamic> json) => RecommendDatum(
         id: json["id"],
-        type: datumTypeValues.map[json["type"]],
+        type: fluffyTypeValues.map[json["type"]],
         offset: json["offset"] == null ? null : json["offset"],
         verb: json["verb"] == null ? null : verbValues.map[json["verb"]],
         createdTime: json["created_time"] == null ? null : json["created_time"],
@@ -120,7 +546,7 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "type": datumTypeValues.reverse[type],
+        "type": fluffyTypeValues.reverse[type],
         "offset": offset == null ? null : offset,
         "verb": verb == null ? null : verbValues.reverse[verb],
         "created_time": createdTime == null ? null : createdTime,
@@ -194,11 +620,6 @@ class Actor {
         "introduction": introduction,
       };
 }
-
-enum UserTypeEnum { TOPIC, PEOPLE }
-
-final userTypeEnumValues =
-    EnumValues({"people": UserTypeEnum.PEOPLE, "topic": UserTypeEnum.TOPIC});
 
 class Ad {
   Ad({
@@ -566,9 +987,9 @@ class Target {
   });
 
   final dynamic id;
-  final TargetType type;
+  final ResourceTypeEnum type;
   final String url;
-  final Author author;
+  final Member author;
   final int createdTime;
   final int updatedTime;
   final int voteupCount;
@@ -606,9 +1027,9 @@ class Target {
 
   factory Target.fromJson(Map<String, dynamic> json) => Target(
         id: json["id"],
-        type: targetTypeValues.map[json["type"]],
+        type: resourceTypeEnumValues.map[json["type"]],
         url: json["url"] == null ? null : json["url"],
-        author: Author.fromJson(json["author"]),
+        author: Member.fromJson(json["author"]),
         createdTime: json["created_time"] == null ? null : json["created_time"],
         updatedTime: json["updated_time"] == null ? null : json["updated_time"],
         voteupCount: json["voteup_count"] == null ? null : json["voteup_count"],
@@ -668,7 +1089,7 @@ class Target {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "type": targetTypeValues.reverse[type],
+        "type": resourceTypeEnumValues.reverse[type],
         "url": url == null ? null : url,
         "author": author.toJson(),
         "created_time": createdTime == null ? null : createdTime,
@@ -737,114 +1158,6 @@ class Attachment {
       };
 }
 
-class Author {
-  Author({
-    this.id,
-    this.type,
-    this.url,
-    this.userType,
-    this.urlToken,
-    this.name,
-    this.headline,
-    this.avatarUrl,
-    this.isOrg,
-    this.gender,
-    this.badge,
-    this.followersCount,
-    this.isFollowing,
-    this.isFollowed,
-  });
-
-  final String id;
-  final UserTypeEnum type;
-  final String url;
-  final UserTypeEnum userType;
-  final String urlToken;
-  final String name;
-  final String headline;
-  final String avatarUrl;
-  final bool isOrg;
-  final int gender;
-  final List<Badge> badge;
-  final int followersCount;
-  final bool isFollowing;
-  final bool isFollowed;
-
-  factory Author.fromJson(Map<String, dynamic> json) => Author(
-        id: json["id"],
-        type: userTypeEnumValues.map[json["type"]],
-        url: json["url"],
-        userType: userTypeEnumValues.map[json["user_type"]],
-        urlToken: json["url_token"],
-        name: json["name"],
-        headline: json["headline"],
-        avatarUrl: json["avatar_url"],
-        isOrg: json["is_org"] == null ? null : json["is_org"],
-        gender: json["gender"] == null ? null : json["gender"],
-        badge: json["badge"] == null
-            ? null
-            : List<Badge>.from(json["badge"].map((x) => Badge.fromJson(x))),
-        followersCount:
-            json["followers_count"] == null ? null : json["followers_count"],
-        isFollowing: json["is_following"] == null ? null : json["is_following"],
-        isFollowed: json["is_followed"] == null ? null : json["is_followed"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "type": userTypeEnumValues.reverse[type],
-        "url": url,
-        "user_type": userTypeEnumValues.reverse[userType],
-        "url_token": urlToken,
-        "name": name,
-        "headline": headline,
-        "avatar_url": avatarUrl,
-        "is_org": isOrg == null ? null : isOrg,
-        "gender": gender == null ? null : gender,
-        "badge": badge == null
-            ? null
-            : List<dynamic>.from(badge.map((x) => x.toJson())),
-        "followers_count": followersCount == null ? null : followersCount,
-        "is_following": isFollowing == null ? null : isFollowing,
-        "is_followed": isFollowed == null ? null : isFollowed,
-      };
-}
-
-class Badge {
-  Badge({
-    this.type,
-    this.description,
-    this.topics,
-    this.topicNames,
-  });
-
-  final String type;
-  final String description;
-  final List<dynamic> topics;
-  final List<String> topicNames;
-
-  factory Badge.fromJson(Map<String, dynamic> json) => Badge(
-        type: json["type"],
-        description: json["description"],
-        topics: json["topics"] == null
-            ? null
-            : List<dynamic>.from(json["topics"].map((x) => x)),
-        topicNames: json["topic_names"] == null
-            ? null
-            : List<String>.from(json["topic_names"].map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "description": description,
-        "topics":
-            topics == null ? null : List<dynamic>.from(topics.map((x) => x)),
-        "topic_names": topicNames == null
-            ? null
-            : List<dynamic>.from(topicNames.map((x) => x)),
-      };
-}
-
 class Column {
   Column({
     this.id,
@@ -862,7 +1175,7 @@ class Column {
   final String id;
   final String type;
   final String url;
-  final Author author;
+  final Member author;
   final String title;
   final String imageUrl;
   final String commentPermission;
@@ -874,7 +1187,7 @@ class Column {
         id: json["id"],
         type: json["type"],
         url: json["url"],
-        author: Author.fromJson(json["author"]),
+        author: Member.fromJson(json["author"]),
         title: json["title"],
         imageUrl: json["image_url"],
         commentPermission: json["comment_permission"],
@@ -951,7 +1264,7 @@ class Question {
   final int id;
   final QuestionType type;
   final String url;
-  final Author author;
+  final Member author;
   final String title;
   final int created;
   final int answerCount;
@@ -962,13 +1275,13 @@ class Question {
   final String excerpt;
   final QuestionRelationship relationship;
   final String detail;
-  final QuestionTypeEnum questionType;
+  final Role questionType;
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: json["id"],
         type: questionTypeValues.map[json["type"]],
         url: json["url"],
-        author: Author.fromJson(json["author"]),
+        author: Member.fromJson(json["author"]),
         title: json["title"],
         created: json["created"],
         answerCount: json["answer_count"],
@@ -979,7 +1292,7 @@ class Question {
         excerpt: json["excerpt"],
         relationship: QuestionRelationship.fromJson(json["relationship"]),
         detail: json["detail"],
-        questionType: questionTypeEnumValues.map[json["question_type"]],
+        questionType: roleValues.map[json["question_type"]],
       );
 
   Map<String, dynamic> toJson() => {
@@ -997,13 +1310,9 @@ class Question {
         "excerpt": excerpt,
         "relationship": relationship.toJson(),
         "detail": detail,
-        "question_type": questionTypeEnumValues.reverse[questionType],
+        "question_type": roleValues.reverse[questionType],
       };
 }
-
-enum QuestionTypeEnum { NORMAL }
-
-final questionTypeEnumValues = EnumValues({"normal": QuestionTypeEnum.NORMAL});
 
 class QuestionRelationship {
   QuestionRelationship({
@@ -1177,18 +1486,10 @@ class Hd {
       };
 }
 
-enum TargetType { ANSWER, ARTICLE, ZVIDEO }
+enum FluffyType { FEED, FEED_ADVERT }
 
-final targetTypeValues = EnumValues({
-  "answer": TargetType.ANSWER,
-  "article": TargetType.ARTICLE,
-  "zvideo": TargetType.ZVIDEO
-});
-
-enum DatumType { FEED, FEED_ADVERT }
-
-final datumTypeValues =
-    EnumValues({"feed": DatumType.FEED, "feed_advert": DatumType.FEED_ADVERT});
+final fluffyTypeValues = EnumValues(
+    {"feed": FluffyType.FEED, "feed_advert": FluffyType.FEED_ADVERT});
 
 class UninterestReason {
   UninterestReason({
@@ -1236,27 +1537,176 @@ final verbValues = EnumValues({
   "TOPIC_ACKNOWLEDGED_ARTICLE": Verb.TOPIC_ACKNOWLEDGED_ARTICLE
 });
 
-class Paging {
-  Paging({
-    this.previous,
-    this.next,
-    this.isEnd,
+class RootComment {
+  RootComment({
+    this.featuredCounts,
+    this.commonCounts,
+    this.collapsedCounts,
+    this.reviewingCounts,
+    this.paging,
+    this.data,
   });
 
-  final String previous;
-  final String next;
-  final bool isEnd;
+  final int featuredCounts;
+  final int commonCounts;
+  final int collapsedCounts;
+  final int reviewingCounts;
+  final Paging paging;
+  final List<ChildCommentElement> data;
 
-  factory Paging.fromJson(Map<String, dynamic> json) => Paging(
-        previous: json["previous"],
-        next: json["next"],
-        isEnd: json["is_end"],
+  factory RootComment.fromJson(Map<String, dynamic> json) => RootComment(
+        featuredCounts: json["featured_counts"],
+        commonCounts: json["common_counts"],
+        collapsedCounts: json["collapsed_counts"],
+        reviewingCounts: json["reviewing_counts"],
+        paging: Paging.fromJson(json["paging"]),
+        data: List<ChildCommentElement>.from(
+            json["data"].map((x) => ChildCommentElement.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "previous": previous,
-        "next": next,
-        "is_end": isEnd,
+        "featured_counts": featuredCounts,
+        "common_counts": commonCounts,
+        "collapsed_counts": collapsedCounts,
+        "reviewing_counts": reviewingCounts,
+        "paging": paging.toJson(),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
+}
+
+class ChildCommentElement {
+  ChildCommentElement({
+    this.id,
+    this.type,
+    this.url,
+    this.content,
+    this.featured,
+    this.top,
+    this.collapsed,
+    this.isAuthor,
+    this.isDelete,
+    this.createdTime,
+    this.resourceType,
+    this.reviewing,
+    this.allowLike,
+    this.allowDelete,
+    this.allowReply,
+    this.allowVote,
+    this.canRecommend,
+    this.canCollapse,
+    this.attachedInfo,
+    this.author,
+    this.voteCount,
+    this.replyToAuthor,
+    this.voting,
+    this.liked,
+    this.disliked,
+    this.censorStatus,
+    this.childCommentCount,
+    this.childComments,
+  });
+
+  final int id;
+  final PurpleType type;
+  final String url;
+  final String content;
+  final bool featured;
+  final bool top;
+  final bool collapsed;
+  final bool isAuthor;
+  final bool isDelete;
+  final int createdTime;
+  final ResourceTypeEnum resourceType;
+  final bool reviewing;
+  final bool allowLike;
+  final bool allowDelete;
+  final bool allowReply;
+  final bool allowVote;
+  final bool canRecommend;
+  final bool canCollapse;
+  final String attachedInfo;
+  final Author author;
+  final int voteCount;
+  final Author replyToAuthor;
+  final bool voting;
+  final bool liked;
+  final bool disliked;
+  final int censorStatus;
+  final int childCommentCount;
+  final List<ChildCommentElement> childComments;
+
+  factory ChildCommentElement.fromJson(Map<String, dynamic> json) =>
+      ChildCommentElement(
+        id: json["id"],
+        type: purpleTypeValues.map[json["type"]],
+        url: json["url"],
+        content: json["content"],
+        featured: json["featured"],
+        top: json["top"],
+        collapsed: json["collapsed"],
+        isAuthor: json["is_author"],
+        isDelete: json["is_delete"],
+        createdTime: json["created_time"],
+        resourceType: resourceTypeEnumValues.map[json["resource_type"]],
+        reviewing: json["reviewing"],
+        allowLike: json["allow_like"],
+        allowDelete: json["allow_delete"],
+        allowReply: json["allow_reply"],
+        allowVote: json["allow_vote"],
+        canRecommend: json["can_recommend"],
+        canCollapse: json["can_collapse"],
+        attachedInfo: json["attached_info"],
+        author: Author.fromJson(json["author"]),
+        voteCount: json["vote_count"],
+        replyToAuthor: json["reply_to_author"] == null
+            ? null
+            : Author.fromJson(json["reply_to_author"]),
+        voting: json["voting"],
+        liked: json["liked"],
+        disliked: json["disliked"],
+        censorStatus: json["censor_status"],
+        childCommentCount: json["child_comment_count"] == null
+            ? null
+            : json["child_comment_count"],
+        childComments: json["child_comments"] == null
+            ? null
+            : List<ChildCommentElement>.from(json["child_comments"]
+                .map((x) => ChildCommentElement.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "type": purpleTypeValues.reverse[type],
+        "url": url,
+        "content": content,
+        "featured": featured,
+        "top": top,
+        "collapsed": collapsed,
+        "is_author": isAuthor,
+        "is_delete": isDelete,
+        "created_time": createdTime,
+        "resource_type": resourceTypeEnumValues.reverse[resourceType],
+        "reviewing": reviewing,
+        "allow_like": allowLike,
+        "allow_delete": allowDelete,
+        "allow_reply": allowReply,
+        "allow_vote": allowVote,
+        "can_recommend": canRecommend,
+        "can_collapse": canCollapse,
+        "attached_info": attachedInfo,
+        "author": author.toJson(),
+        "vote_count": voteCount,
+        "reply_to_author":
+            replyToAuthor == null ? null : replyToAuthor.toJson(),
+        "voting": voting,
+        "liked": liked,
+        "disliked": disliked,
+        "censor_status": censorStatus,
+        "child_comment_count":
+            childCommentCount == null ? null : childCommentCount,
+        "child_comments": childComments == null
+            ? null
+            : List<dynamic>.from(childComments.map((x) => x.toJson())),
       };
 }
 
