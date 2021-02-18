@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 export 'loading.dart';
 export 'play_icon.dart';
@@ -23,4 +24,15 @@ class Left extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(child: child, alignment: Alignment.centerLeft);
   }
+}
+
+abstract class StateWidget<T> extends StatelessWidget {
+  const StateWidget({Key key}) : super(key: key);
+
+  final String tag = null;
+
+  T get state => GetInstance().find<T>(tag: tag);
+
+  @override
+  Widget build(BuildContext context);
 }

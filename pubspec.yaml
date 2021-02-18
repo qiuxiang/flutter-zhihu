@@ -16,6 +16,10 @@ dependencies:
   cached_network_image:
   chewie:
   url_launcher:
+  flutter_webview_plugin:
+  webview_cookie_manager:
+  webview_flutter:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

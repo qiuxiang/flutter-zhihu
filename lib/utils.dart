@@ -21,3 +21,10 @@ extension Int2Date on int {
         .format(DateTime.fromMillisecondsSinceEpoch(this * 1000));
   }
 }
+
+Widget buildWidget(dynamic value, Widget Function() builder) {
+  if (value == null) return const SizedBox();
+  if (value is bool && !value) return const SizedBox();
+
+  return builder();
+}

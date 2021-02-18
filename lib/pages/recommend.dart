@@ -8,12 +8,12 @@ import 'package:html/parser.dart' show parse;
 
 import '../api.dart';
 import '../types.dart'
-    show RecommendDatum, ResourceTypeEnum, Target, FluffyType;
+    show RecommendDatum, FluffyType, ResourceTypeEnum, Target;
 import '../widgets/widgets.dart';
-import 'detail.dart';
+import 'detail/detail.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage();
+class RecommendPage extends StatelessWidget {
+  const RecommendPage();
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +106,17 @@ class HomePage extends StatelessWidget {
                 Expanded(
                   child: Column(children: [
                     Row(children: [
-                      ClipOval(
+                      Container(
+                        width: 20,
+                        height: 20,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: Get.theme.scaffoldBackgroundColor,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
                         child: CachedNetworkImage(
-                          height: 20,
                           imageUrl: item.target.author.avatarUrl,
                         ),
                       ),

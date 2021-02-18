@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'pages/home.dart';
+import 'pages/main.dart';
+import 'store.dart';
 
 void main() {
   runApp(App());
@@ -20,7 +21,15 @@ class App extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData.dark(),
-      home: const HomePage(),
+      home: const MainPage(),
+      initialBinding: AppBindings(),
     );
+  }
+}
+
+class AppBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => Store());
   }
 }
