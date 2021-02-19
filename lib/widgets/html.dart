@@ -14,6 +14,12 @@ class Html extends StatelessWidget {
       html,
       hyperlinkColor: Get.textTheme.bodyText2.color,
       onTapUrl: launch,
+      customWidgetBuilder: (item) {
+        if (item.localName == 'hr') {
+          return const Divider();
+        }
+        return null;
+      },
     );
   }
 }

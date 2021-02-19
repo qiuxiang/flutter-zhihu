@@ -35,9 +35,9 @@ Future<RootComment> getRootComment(Target target, [int page = 0]) async {
   return RootComment.fromJson(json);
 }
 
-Future<ChildComment> getChildComment(int id, [int page = 0]) async {
+Future<RootComment> getChildComment(int id, [int page = 0]) async {
   const limit = 20;
   final json = await request(
-      'v4/comments/1087926756/child_comments?limit=$limit&offset=${page * limit}');
-  return ChildComment.fromJson(json);
+      'v4/comments/$id/child_comments?limit=$limit&offset=${page * limit}');
+  return RootComment.fromJson(json);
 }
