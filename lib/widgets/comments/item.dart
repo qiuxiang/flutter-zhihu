@@ -9,21 +9,21 @@ import '../widgets.dart';
 
 class Item extends StatelessWidget {
   final ChildCommentElement item;
-  const Item(this.item, {Key key}) : super(key: key);
+  final double avatarSize;
+  const Item(this.item, {Key key, this.avatarSize = 36}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(width: 16),
         Container(
-          width: 40,
-          height: 40,
+          width: avatarSize,
+          height: avatarSize,
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             color: Get.theme.scaffoldBackgroundColor,
-            borderRadius: const BorderRadius.all(Radius.circular(40)),
+            borderRadius: BorderRadius.all(Radius.circular(avatarSize)),
           ),
           child: CachedNetworkImage(
             imageUrl: item.author.member.avatarUrl,

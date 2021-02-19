@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zhihu/utils.dart';
 
-import '../../types.dart' show Target;
+import '../../types.dart' show ChildCommentElement, Target;
 import '../widgets.dart';
 import 'item.dart';
 import 'state.dart';
@@ -57,8 +59,13 @@ class Comments extends StatelessWidget {
                         state.fetch();
                         return const SizedBox(height: 64, child: Loading());
                       }
+                      final item = state.comments[i];
                       return Column(children: [
-                        Item(state.comments[i]),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: Item(item),
+                        ),
+                        buildChildComments(item),
                         const Divider(height: 0),
                         const SizedBox(height: 12),
                       ]);
@@ -71,6 +78,46 @@ class Comments extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Widget buildChildComments(ChildCommentElement item) {
+    if (item.childComments.isEmpty) return const SizedBox();
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 60),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Divider(height: 0),
+        const SizedBox(height: 12),
+        ...item.childComments.map((i) {
+          return Column(children: [
+            Item(i, avatarSize: 20),
+            buildWidget(
+              item.childComments.last != i,
+              () => Column(children: [
+                const Divider(height: 0, indent: 28),
+                const SizedBox(height: 12),
+              ]),
+            ),
+          ]);
+        }),
+        buildWidget(item.childCommentCount > item.childComments.length, () {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Divider(height: 0, indent: 28),
+              CupertinoButton(
+                padding: const EdgeInsets.only(left: 28),
+                onPressed: () {},
+                child: Text(
+                  '查看全部 ${item.childCommentCount} 条回复',
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
+          );
+        }),
+      ]),
     );
   }
 }
