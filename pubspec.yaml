@@ -18,7 +18,6 @@ dependencies:
   url_launcher:
   flutter_webview_plugin:
   webview_cookie_manager:
-  webview_flutter:
   shared_preferences:
 
 dev_dependencies:

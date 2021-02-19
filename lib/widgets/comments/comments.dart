@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zhihu/utils.dart';
 
 import '../../types.dart' show ChildCommentElement, Target;
+import '../../utils.dart';
 import '../widgets.dart';
 import 'item.dart';
 import 'state.dart';
