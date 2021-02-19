@@ -4,13 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
-import 'package:html/parser.dart' show parse;
 
-import '../api.dart';
-import '../types.dart'
-    show RecommendDatum, FluffyType, ResourceTypeEnum, Target;
-import '../widgets/widgets.dart';
-import 'detail/detail.dart';
+import '../../types.dart' show RecommendDatum, FluffyType, ResourceTypeEnum;
+import '../../widgets/widgets.dart';
+import '../detail/detail.dart';
+import 'state.dart';
+import 'stats_item.dart';
+import 'thumbnail.dart';
 
 class RecommendPage extends StatelessWidget {
   const RecommendPage();
@@ -23,8 +23,8 @@ class RecommendPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backwardsCompatibility: false,
         shadowColor: Colors.transparent,
+        backwardsCompatibility: false,
       ),
       body: RefreshIndicator(
         onRefresh: () => state.fetch(refresh: true),
@@ -58,11 +58,11 @@ class RecommendPage extends StatelessWidget {
     switch (item.target.type) {
       case ResourceTypeEnum.ANSWER:
         title = item.target.question.title;
-        content = Html(item.target.excerptNew);
+        content = HtmlText(item.target.excerptNew, maxLines: 2);
         break;
       case ResourceTypeEnum.ARTICLE:
         title = item.target.title;
-        content = Html(item.target.excerptNew);
+        content = HtmlText(item.target.excerptNew, maxLines: 2);
         break;
       case ResourceTypeEnum.ZVIDEO:
         title = item.target.title;
@@ -152,83 +152,5 @@ class RecommendPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class StatsItem extends StatelessWidget {
-  final IconData icon;
-  final int value;
-
-  const StatsItem(this.icon, this.value, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(children: [
-      Icon(icon, size: 14, color: Get.textTheme.caption.color),
-      const SizedBox(width: 4),
-      Text('$value'),
-      const SizedBox(width: 12),
-    ]);
-  }
-}
-
-class Thumbnail extends StatelessWidget {
-  final Target target;
-  const Thumbnail(this.target, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final thumbnail = target.thumbnailExtraInfo;
-    return Stack(children: [
-      Container(
-        width: double.infinity,
-        height: (Get.width - 32) / 16 * 9,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: Get.theme.scaffoldBackgroundColor,
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
-        ),
-        child: CachedNetworkImage(imageUrl: thumbnail.url, fit: BoxFit.cover),
-      ),
-      const PlayIcon(),
-    ]);
-  }
-}
-
-class Html extends StatelessWidget {
-  final String html;
-
-  const Html(this.html, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var style = Get.textTheme.bodyText2;
-    style = style.copyWith(color: style.color.withOpacity(0.66));
-    return Text(
-      parse(html).firstChild.text,
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-      style: style,
-    );
-  }
-}
-
-class HomeState extends GetxController {
-  String next;
-  final items = <RecommendDatum>[].obs;
-  bool loading = false;
-
-  Future fetch({bool refresh = false}) async {
-    if (loading) return;
-
-    loading = true;
-    final recommend = await getRecommend(refresh ? null : next);
-    loading = false;
-    if (refresh) {
-      items.assignAll(recommend.data);
-    } else {
-      items.addAll(recommend.data);
-    }
-    next = recommend.paging.next;
   }
 }

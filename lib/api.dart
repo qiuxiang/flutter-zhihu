@@ -27,10 +27,11 @@ Future<Recommend> getRecommend([String url]) async {
   return Recommend.fromJson(json);
 }
 
-Future<RootComment> getRootComment(int id, [int page = 0]) async {
+Future<RootComment> getRootComment(Target target, [int page = 0]) async {
+  final t = '${resourceTypeEnumValues.reverse[target.type]}s';
   const limit = 20;
   final json = await request(
-      'v4/answers/$id/root_comments?order=normal&limit=$limit&offset=${page * limit}&status=open');
+      'v4/$t/${target.id}/root_comments?order=normal&limit=$limit&offset=${page * limit}&status=open');
   return RootComment.fromJson(json);
 }
 

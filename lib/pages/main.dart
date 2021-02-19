@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../store.dart';
 import '../widgets/widgets.dart';
 import 'login.dart';
-import 'recommend.dart';
+import 'recommend/recommend.dart';
 
 class MainPage extends StateWidget<Store> {
   const MainPage();

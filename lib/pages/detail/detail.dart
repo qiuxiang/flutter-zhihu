@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../types.dart' show RecommendDatum, ResourceTypeEnum;
 import '../../utils.dart';
+import '../../widgets/comments/comments.dart';
 import 'content.dart';
 import 'icon_item.dart';
 import 'video.dart';
@@ -37,6 +38,11 @@ class DetailPage extends StatelessWidget {
         title = item.target.title;
     }
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+        shadowColor: Colors.transparent,
+        backwardsCompatibility: false,
+      ),
       backgroundColor: Get.theme.cardColor,
       bottomNavigationBar: Material(
         color: Get.theme.cardColor,
@@ -97,7 +103,14 @@ class DetailPage extends StatelessWidget {
               () => IconItem(
                   Icons.favorite_outline, item.target.thanksCount, () {}),
             ),
-            IconItem(Icons.comment_outlined, item.target.commentCount, () {}),
+            IconItem(Icons.comment_outlined, item.target.commentCount, () {
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                context: context,
+                isScrollControlled: true,
+                builder: (_) => Comments(item.target),
+              );
+            }),
           ]),
         ),
       ),
@@ -124,7 +137,18 @@ class DetailPage extends StatelessWidget {
             )
           ],
         ),
-        SliverList(delegate: SliverChildListDelegate([...children])),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            ...children,
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                '编辑于：${item.updatedTime.toDateTimeString()}',
+                style: Get.textTheme.caption,
+              ),
+            ),
+          ]),
+        ),
       ]),
     );
   }

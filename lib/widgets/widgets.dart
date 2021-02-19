@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+export 'html.dart';
+export 'html_text.dart';
 export 'loading.dart';
 export 'play_icon.dart';
 
