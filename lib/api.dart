@@ -27,17 +27,17 @@ Future<Recommend> getRecommend([String url]) async {
   return Recommend.fromJson(json);
 }
 
-Future<RootComment> getRootComment(Target target, [int page = 0]) async {
+Future<Comment> getRootComment(Target target, [int page = 0]) async {
   final t = '${resourceTypeEnumValues.reverse[target.type]}s';
   const limit = 20;
   final json = await request(
       'v4/$t/${target.id}/root_comments?order=normal&limit=$limit&offset=${page * limit}&status=open');
-  return RootComment.fromJson(json);
+  return Comment.fromJson(json);
 }
 
-Future<RootComment> getChildComment(int id, [int page = 0]) async {
+Future<Comment> getChildComment(int id, [int page = 0]) async {
   const limit = 20;
   final json = await request(
       'v4/comments/$id/child_comments?limit=$limit&offset=${page * limit}');
-  return RootComment.fromJson(json);
+  return Comment.fromJson(json);
 }
