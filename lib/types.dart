@@ -1294,70 +1294,78 @@ class Question {
     this.id,
     this.type,
     this.url,
-    this.author,
     this.title,
     this.created,
     this.answerCount,
     this.followerCount,
     this.commentCount,
-    this.boundTopicIds,
     this.isFollowing,
     this.excerpt,
-    this.relationship,
     this.detail,
     this.questionType,
+    this.author,
+    this.boundTopicIds,
+    this.relationship,
   });
 
   final int id;
   final QuestionType type;
   final String url;
-  final TargetAuthor author;
   final String title;
   final int created;
   final int answerCount;
   final int followerCount;
   final int commentCount;
-  final List<int> boundTopicIds;
   final bool isFollowing;
   final String excerpt;
-  final QuestionRelationship relationship;
   final String detail;
   final Role questionType;
+  final TargetAuthor author;
+  final List<int> boundTopicIds;
+  final QuestionRelationship relationship;
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: json["id"],
         type: questionTypeValues.map[json["type"]],
         url: json["url"],
-        author: TargetAuthor.fromJson(json["author"]),
         title: json["title"],
         created: json["created"],
         answerCount: json["answer_count"],
         followerCount: json["follower_count"],
         commentCount: json["comment_count"],
-        boundTopicIds: List<int>.from(json["bound_topic_ids"].map((x) => x)),
         isFollowing: json["is_following"],
         excerpt: json["excerpt"],
-        relationship: QuestionRelationship.fromJson(json["relationship"]),
         detail: json["detail"],
         questionType: roleValues.map[json["question_type"]],
+        author: json["author"] == null
+            ? null
+            : TargetAuthor.fromJson(json["author"]),
+        boundTopicIds: json["bound_topic_ids"] == null
+            ? null
+            : List<int>.from(json["bound_topic_ids"].map((x) => x)),
+        relationship: json["relationship"] == null
+            ? null
+            : QuestionRelationship.fromJson(json["relationship"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "type": questionTypeValues.reverse[type],
         "url": url,
-        "author": author.toJson(),
         "title": title,
         "created": created,
         "answer_count": answerCount,
         "follower_count": followerCount,
         "comment_count": commentCount,
-        "bound_topic_ids": List<dynamic>.from(boundTopicIds.map((x) => x)),
         "is_following": isFollowing,
         "excerpt": excerpt,
-        "relationship": relationship.toJson(),
         "detail": detail,
         "question_type": roleValues.reverse[questionType],
+        "author": author == null ? null : author.toJson(),
+        "bound_topic_ids": boundTopicIds == null
+            ? null
+            : List<dynamic>.from(boundTopicIds.map((x) => x)),
+        "relationship": relationship == null ? null : relationship.toJson(),
       };
 }
 
@@ -1400,16 +1408,18 @@ class TargetRelationship {
         isThanked: json["is_thanked"],
         isNothelp: json["is_nothelp"],
         voting: json["voting"],
-        upvotedFolloweeIds:
-            List<dynamic>.from(json["upvoted_followee_ids"].map((x) => x)),
+        upvotedFolloweeIds: json["upvoted_followee_ids"] == null
+            ? null
+            : List<dynamic>.from(json["upvoted_followee_ids"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "is_thanked": isThanked,
         "is_nothelp": isNothelp,
         "voting": voting,
-        "upvoted_followee_ids":
-            List<dynamic>.from(upvotedFolloweeIds.map((x) => x)),
+        "upvoted_followee_ids": upvotedFolloweeIds == null
+            ? null
+            : List<dynamic>.from(upvotedFolloweeIds.map((x) => x)),
       };
 }
 

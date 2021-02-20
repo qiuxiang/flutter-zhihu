@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,19 +14,7 @@ class Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-        width: avatarSize,
-        height: avatarSize,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: Get.theme.scaffoldBackgroundColor,
-          borderRadius: BorderRadius.all(Radius.circular(avatarSize)),
-        ),
-        child: CachedNetworkImage(
-          imageUrl: item.author.member.avatarUrl,
-          fit: BoxFit.cover,
-        ),
-      ),
+      Avatar(item.author.member.avatarUrl, avatarSize),
       const SizedBox(width: 8),
       Expanded(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

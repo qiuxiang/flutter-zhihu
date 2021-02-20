@@ -41,3 +41,11 @@ Future<Comment> getChildComment(int id, [int page = 0]) async {
       'v4/comments/$id/child_comments?limit=$limit&offset=${page * limit}');
   return Comment.fromJson(json);
 }
+
+Future<List<Target>> getAnswers(int id, [int page = 0]) async {
+  const limit = 20;
+  const include = 'data[*].excerpt,content,comment_count,voteup_count';
+  final json = await request(
+      'v4/questions/$id/answers?include=$include&limit=$limit&offset=${page * limit}&platform=desktop&sort_by=default');
+  return List<Target>.from(json['data'].map((i) => Target.fromJson(i)));
+}

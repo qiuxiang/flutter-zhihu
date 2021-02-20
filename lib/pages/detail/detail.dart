@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../types.dart' show Target, ResourceTypeEnum;
 import '../../utils.dart';
 import '../comments/comments.dart';
+import '../question/question.dart';
 import 'content.dart';
 import 'icon_item.dart';
 import 'video.dart';
@@ -53,12 +54,12 @@ class DetailPage extends StatelessWidget {
             Vote(target),
             const Expanded(child: SizedBox()),
             buildWidget(
-              target.thanksCount,
-              () => IconItem(Icons.favorite_outline, target.thanksCount, () {}),
-            ),
-            buildWidget(
               target.visitedCount,
               () => IconItem(Icons.visibility, target.visitedCount, () {}),
+            ),
+            buildWidget(
+              target.thanksCount,
+              () => IconItem(Icons.favorite_outline, target.thanksCount, () {}),
             ),
             IconItem(Icons.comment_outlined, target.commentCount, () {
               showModalBottomSheet(
@@ -84,15 +85,16 @@ class DetailPage extends StatelessWidget {
                   case Menu.browser:
                     return openBrowser();
                   case Menu.question:
-                    return;
+                    Get.to(QuestionPage(target.question));
                 }
               },
               itemBuilder: (_) {
                 final items = <PopupMenuItem<Menu>>[];
-                if (target.type == ResourceTypeEnum.ANSWER) {
+                if (target.type == ResourceTypeEnum.ANSWER &&
+                    target.question.answerCount != null) {
                   items.add(PopupMenuItem(
-                    value: Menu.browser,
-                    child: Text('查看问题（${target.question.answerCount}）'),
+                    value: Menu.question,
+                    child: Text('查看其他回答 (${target.question.answerCount})'),
                   ));
                 }
                 items.add(const PopupMenuItem(

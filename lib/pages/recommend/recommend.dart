@@ -106,20 +106,7 @@ class RecommendPage extends StatelessWidget {
                 Expanded(
                   child: Column(children: [
                     Row(children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          color: Get.theme.scaffoldBackgroundColor,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: item.target.author.avatarUrl,
-                        ),
-                      ),
+                      Avatar(item.target.author.avatarUrl, 20),
                       const SizedBox(width: 4),
                       Text(item.target.author.name),
                       const SizedBox(width: 4),
