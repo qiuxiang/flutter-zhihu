@@ -60,7 +60,7 @@ class DetailPage extends StatelessWidget {
               ),
               child: DefaultTextStyle(
                 style: Get.textTheme.bodyText1.copyWith(
-                  color: Get.theme.primaryColor,
+                  color: Get.theme.accentColor,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                 ),
@@ -72,7 +72,7 @@ class DetailPage extends StatelessWidget {
                       angle: 270 * math.pi / 180,
                       child: Icon(
                         Icons.play_arrow_rounded,
-                        color: Get.theme.primaryColor,
+                        color: Get.theme.accentColor,
                       ),
                     ),
                   ),
@@ -89,7 +89,7 @@ class DetailPage extends StatelessWidget {
                       angle: 90 * math.pi / 180,
                       child: Icon(
                         Icons.play_arrow_rounded,
-                        color: Get.theme.primaryColor,
+                        color: Get.theme.accentColor,
                       ),
                     ),
                   ),

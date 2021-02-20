@@ -15,11 +15,30 @@ class Html extends StatelessWidget {
       hyperlinkColor: Get.textTheme.bodyText2.color,
       onTapUrl: launch,
       customWidgetBuilder: (item) {
-        if (item.localName == 'hr') {
-          return const Divider();
+        switch (item.localName) {
+          case 'hr':
+            return const Divider();
+        }
+        return null;
+      },
+      customStylesBuilder: (item) {
+        switch (item.localName) {
+          case 'pre':
+            print(item.innerHtml);
+            return {
+              'font-family': 'DroidSansMono',
+              'padding': '12px',
+              'background': Get.theme.scaffoldBackgroundColor.toRgbaString(),
+            };
         }
         return null;
       },
     );
+  }
+}
+
+extension ToString on Color {
+  String toRgbaString() {
+    return 'rgba($red,$green,$blue,${alpha / 255})';
   }
 }
