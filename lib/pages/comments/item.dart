@@ -41,12 +41,21 @@ class Item extends StatelessWidget {
           const SizedBox(height: 6),
           HtmlText(item.content),
           Row(children: [
-            Expanded(
-              child: Text(
-                item.createdTime.toDateTimeString(),
-                style: Get.textTheme.caption,
-              ),
+            Text(
+              item.createdTime.toDateTimeString(),
+              style: Get.textTheme.caption,
             ),
+            buildWidget(
+              item.featured,
+              () {
+                return CupertinoButton(
+                  padding: const EdgeInsets.only(bottom: 4, left: 12),
+                  onPressed: () {},
+                  child: Text('查看回复', style: Get.textTheme.caption),
+                );
+              },
+            ),
+            const Expanded(child: SizedBox()),
             CupertinoButton(
               padding: EdgeInsets.zero,
               onPressed: () {},

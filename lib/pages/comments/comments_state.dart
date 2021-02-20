@@ -9,6 +9,7 @@ class CommentsState extends GetxController {
   final end = false.obs;
   int page = 0;
   Target target;
+  Comment comment;
 
   void init() {
     page = 0;
@@ -22,7 +23,7 @@ class CommentsState extends GetxController {
     if (loading.value || end.value) return;
 
     loading.value = true;
-    final comment = await getComments();
+    comment = await getComments();
     comments.addAll(comment.data);
     end.value = comment.paging.isEnd;
     loading.value = false;

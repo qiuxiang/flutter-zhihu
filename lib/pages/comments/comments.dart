@@ -7,6 +7,7 @@ import '../../utils.dart';
 import '../../widgets/widgets.dart';
 import 'child_comments.dart';
 import 'comments_state.dart';
+import 'group_title.dart';
 import 'item.dart';
 
 class Comments extends StatelessWidget {
@@ -62,14 +63,27 @@ class Comments extends StatelessWidget {
                       }
                       final item = state.comments[i];
                       return Column(children: [
-                        buildWidget(i == 0, () => const SizedBox(height: 12)),
+                        buildWidget(
+                          i == 0 && state.comment.featuredCounts > 0,
+                          () => GroupTitle(
+                            '精选评论（${state.comment.featuredCounts}）',
+                          ),
+                        ),
+                        buildWidget(i == state.comment.featuredCounts, () {
+                          return GroupTitle(
+                            '评论（${state.comment.commonCounts}）',
+                          );
+                        }),
                         Padding(
                           padding: const EdgeInsets.only(left: 16),
                           child: Item(item),
                         ),
                         buildChildComments(item),
+                        // 不显示分割线情况：1、最后一个；2、有精选评论且精选评论的最后一个
                         buildWidget(
-                          i != state.comments.length - 1,
+                          !(i == state.comments.length - 1 ||
+                              (state.comment.featuredCounts > 0 &&
+                                  i == state.comment.featuredCounts - 1)),
                           () => Column(children: [
                             const Divider(height: 0),
                             const SizedBox(height: 12),
@@ -91,18 +105,20 @@ class Comments extends StatelessWidget {
   Widget buildChildComments(ChildCommentElement item) {
     if (item.childComments.isEmpty) return const SizedBox();
 
+    const avatarSize = 20.0;
+    const indent = avatarSize + 8;
     return Padding(
-      padding: const EdgeInsets.only(left: 60),
+      padding: const EdgeInsets.only(left: 16 + 36 + 8.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Divider(height: 0),
         const SizedBox(height: 12),
         ...item.childComments.map((i) {
           return Column(children: [
-            Item(i, avatarSize: 20),
+            Item(i, avatarSize: avatarSize),
             buildWidget(
               item.childComments.last != i,
               () => Column(children: [
-                const Divider(height: 0, indent: 28),
+                const Divider(height: 0, indent: indent),
                 const SizedBox(height: 12),
               ]),
             ),
@@ -112,9 +128,9 @@ class Comments extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Divider(height: 0, indent: 28),
+              const Divider(height: 0, indent: indent),
               CupertinoButton(
-                padding: const EdgeInsets.only(left: 28),
+                padding: const EdgeInsets.only(left: indent),
                 onPressed: () => showModalBottomSheet(
                   backgroundColor: Colors.transparent,
                   context: Get.context,
