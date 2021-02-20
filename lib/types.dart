@@ -510,9 +510,12 @@ class RecommendDatum {
       };
 }
 
-enum ActionTextTpl { EMPTY }
+enum ActionTextTpl { EMPTY, ACTION_TEXT_TPL }
 
-final actionTextTplValues = EnumValues({"热门内容, 来自: {}": ActionTextTpl.EMPTY});
+final actionTextTplValues = EnumValues({
+  "热门内容, 来自: {}": ActionTextTpl.ACTION_TEXT_TPL,
+  "热门内容, 来自:{}": ActionTextTpl.EMPTY
+});
 
 class Actor {
   Actor({
@@ -882,7 +885,6 @@ class Target {
     this.id,
     this.type,
     this.url,
-    this.author,
     this.createdTime,
     this.updatedTime,
     this.voteupCount,
@@ -901,6 +903,7 @@ class Target {
     this.relationship,
     this.isLabeled,
     this.visitedCount,
+    this.author,
     this.title,
     this.excerptTitle,
     this.imageUrl,
@@ -922,7 +925,6 @@ class Target {
   final dynamic id;
   final ResourceTypeEnum type;
   final String url;
-  final TargetAuthor author;
   final int createdTime;
   final int updatedTime;
   final int voteupCount;
@@ -941,6 +943,7 @@ class Target {
   final TargetRelationship relationship;
   final bool isLabeled;
   final int visitedCount;
+  final TargetAuthor author;
   final String title;
   final String excerptTitle;
   final String imageUrl;
@@ -962,7 +965,6 @@ class Target {
         id: json["id"],
         type: resourceTypeEnumValues.map[json["type"]],
         url: json["url"] == null ? null : json["url"],
-        author: TargetAuthor.fromJson(json["author"]),
         createdTime: json["created_time"] == null ? null : json["created_time"],
         updatedTime: json["updated_time"] == null ? null : json["updated_time"],
         voteupCount: json["voteup_count"] == null ? null : json["voteup_count"],
@@ -992,6 +994,9 @@ class Target {
         isLabeled: json["is_labeled"] == null ? null : json["is_labeled"],
         visitedCount:
             json["visited_count"] == null ? null : json["visited_count"],
+        author: json["author"] == null
+            ? null
+            : TargetAuthor.fromJson(json["author"]),
         title: json["title"] == null ? null : json["title"],
         excerptTitle:
             json["excerpt_title"] == null ? null : json["excerpt_title"],
@@ -1024,7 +1029,6 @@ class Target {
         "id": id,
         "type": resourceTypeEnumValues.reverse[type],
         "url": url == null ? null : url,
-        "author": author.toJson(),
         "created_time": createdTime == null ? null : createdTime,
         "updated_time": updatedTime == null ? null : updatedTime,
         "voteup_count": voteupCount == null ? null : voteupCount,
@@ -1048,6 +1052,7 @@ class Target {
         "relationship": relationship == null ? null : relationship.toJson(),
         "is_labeled": isLabeled == null ? null : isLabeled,
         "visited_count": visitedCount == null ? null : visitedCount,
+        "author": author == null ? null : author.toJson(),
         "title": title == null ? null : title,
         "excerpt_title": excerptTitle == null ? null : excerptTitle,
         "image_url": imageUrl == null ? null : imageUrl,
