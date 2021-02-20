@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import '../../api.dart';
 import '../../types.dart';
 
-class ChildCommentsState extends GetxController {
+class CommentsState extends GetxController {
   final loading = false.obs;
   final comments = <ChildCommentElement>[].obs;
   final end = false.obs;
   int page = 0;
-  ChildCommentElement item;
+  Target target;
 
   void init() {
     page = 0;
@@ -22,10 +22,14 @@ class ChildCommentsState extends GetxController {
     if (loading.value || end.value) return;
 
     loading.value = true;
-    final comment = await getChildComment(item.id, page);
+    final comment = await getComments();
     comments.addAll(comment.data);
     end.value = comment.paging.isEnd;
     loading.value = false;
     page += 1;
+  }
+
+  Future<Comment> getComments() {
+    return getRootComment(target, page);
   }
 }

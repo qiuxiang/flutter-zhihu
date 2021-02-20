@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 
 import '../../types.dart' show ChildCommentElement;
 import '../../utils.dart';
-import '../widgets.dart';
-import 'item.dart';
-import 'state.dart';
+import '../../widgets/widgets.dart';
+import '../comments/item.dart';
+import 'child_comments_state.dart';
 
 class ChildComments extends StatelessWidget {
   final ChildCommentElement item;

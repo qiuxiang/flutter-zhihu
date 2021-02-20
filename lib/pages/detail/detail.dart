@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../types.dart' show RecommendDatum, ResourceTypeEnum;
 import '../../utils.dart';
-import '../../widgets/comments/comments.dart';
+import '../comments/comments.dart';
 import 'content.dart';
 import 'icon_item.dart';
 import 'video.dart';
