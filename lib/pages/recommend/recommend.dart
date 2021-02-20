@@ -90,7 +90,7 @@ class RecommendPage extends StatelessWidget {
       margin: const EdgeInsets.only(top: 8),
       shape: const RoundedRectangleBorder(),
       child: InkWell(
-        onTap: () => Get.to(DetailPage(item)),
+        onTap: () => Get.to(DetailPage(item.target)),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -143,7 +143,10 @@ class RecommendPage extends StatelessWidget {
               DefaultTextStyle(
                 style: Get.textTheme.caption,
                 child: Row(children: [
-                  StatsItem(Icons.thumb_up, item.target.voteupCount ?? 0),
+                  StatsItem(
+                    Icons.thumb_up,
+                    item.target.voteupCount ?? item.target.voteCount,
+                  ),
                   StatsItem(Icons.comment, item.target.commentCount),
                 ]),
               ),

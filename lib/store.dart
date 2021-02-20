@@ -9,10 +9,7 @@ class Store extends GetxController {
   void onInit() async {
     super.onInit();
     store = await SharedPreferences.getInstance();
-    final cookie = store.getString('cookie');
-    if (cookie != null) {
-      this.cookie.value = cookie;
-    }
+    cookie.value = store.getString('cookie');
   }
 
   void setCookie(String value) {

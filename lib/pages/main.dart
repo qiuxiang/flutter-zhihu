@@ -12,9 +12,9 @@ class MainPage extends StateWidget<Store> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (state.cookie.value.isEmpty) {
-        return const LoginPage();
-      }
+      if (state.cookie.value == null) return const LoginPage();
+      if (state.cookie.value.isEmpty) return const Loading();
+
       return const RecommendPage();
     });
   }
