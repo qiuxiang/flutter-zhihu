@@ -11,7 +11,7 @@ class Html extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HtmlWidget(
-      html,
+      html.replaceAll(RegExp(r'</?noscript>'), ''),
       hyperlinkColor: Get.textTheme.bodyText2.color,
       onTapUrl: launch,
       customWidgetBuilder: (item) {
@@ -19,12 +19,14 @@ class Html extends StatelessWidget {
           case 'hr':
             return const Divider();
         }
+        if (item.className == 'origin_image zh-lightbox-thumb lazy') {
+          return const SizedBox();
+        }
         return null;
       },
       customStylesBuilder: (item) {
         switch (item.localName) {
           case 'pre':
-            print(item.innerHtml);
             return {
               'font-family': 'DroidSansMono',
               'padding': '12px',
