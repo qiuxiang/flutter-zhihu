@@ -37,6 +37,7 @@ class DetailPage extends StatelessWidget {
         children.addAll([Video(target)]);
         title = target.title;
     }
+    final updated = target.updatedTime ?? target.updated;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -112,7 +113,7 @@ class DetailPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                '编辑于：${target.updatedTime.toDateTimeString()}',
+                '编辑于：${(updated).toDateTimeString()}',
                 style: Get.textTheme.caption,
               ),
             ),
