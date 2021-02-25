@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   get:
+  intl:
   dio:
   dio_http2_adapter:
   flutter_widget_from_html_core:
