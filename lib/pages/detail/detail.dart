@@ -110,13 +110,15 @@ class DetailPage extends StatelessWidget {
         SliverList(
           delegate: SliverChildListDelegate([
             ...children,
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                '编辑于：${(updated).toDateTimeString()}',
-                style: Get.textTheme.caption,
-              ),
-            ),
+            buildIf(updated, () {
+              return Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  '编辑于：${(updated).toDateTimeString()}',
+                  style: Get.textTheme.caption,
+                ),
+              );
+            }),
           ]),
         ),
       ]),

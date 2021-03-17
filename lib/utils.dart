@@ -13,10 +13,14 @@ final dateTimeFormat = DateFormat('yyyy MM-dd HH:mm');
 
 extension Int2Date on int {
   String toDateString() {
+    if (this == null) return '';
+
     return dateFormat.format(DateTime.fromMillisecondsSinceEpoch(this * 1000));
   }
 
   String toDateTimeString() {
+    if (this == null) return '';
+
     return dateTimeFormat
         .format(DateTime.fromMillisecondsSinceEpoch(this * 1000));
   }

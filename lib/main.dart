@@ -18,7 +18,7 @@ class App extends StatelessWidget {
     final lightTheme = ThemeData.light();
     final lightTextTheme = lightTheme.textTheme;
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Zhihu',
       theme: lightTheme.copyWith(
         primaryColor: const Color(0xff0066ff),
         appBarTheme: const AppBarTheme(
@@ -35,7 +35,13 @@ class App extends StatelessWidget {
           ),
         ),
       ),
-      darkTheme: ThemeData.dark(),
+      // darkTheme: model.theme,
+      darkTheme: ThemeData.dark().copyWith(
+        cardColor: Colors.black87,
+        scaffoldBackgroundColor: const Color(0xff121212),
+        appBarTheme: const AppBarTheme(backgroundColor: Color(0xff121212)),
+        dividerColor: const Color(0xff121212),
+      ),
       home: const MainPage(),
       initialBinding: AppBindings(),
     );
