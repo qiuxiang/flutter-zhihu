@@ -37,6 +37,7 @@ class Comments extends StatelessWidget {
                 title: const Text('全部评论'),
                 pinned: true,
                 backwardsCompatibility: false,
+                elevation: 0.5,
                 leading: IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: Get.back,
