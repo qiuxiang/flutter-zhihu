@@ -35,15 +35,18 @@ class App extends StatelessWidget {
           ),
         ),
       ),
-      // darkTheme: model.theme,
-      darkTheme: ThemeData.dark().copyWith(
-        cardColor: Colors.black87,
-        scaffoldBackgroundColor: const Color(0xff121212),
-        appBarTheme: const AppBarTheme(backgroundColor: Color(0xff121212)),
-        dividerColor: const Color(0xff121212),
-      ),
+      darkTheme: darkTheme,
       home: const MainPage(),
       initialBinding: AppBindings(),
+    );
+  }
+
+  ThemeData get darkTheme {
+    return ThemeData.dark().copyWith(
+      cardColor: const Color(0xff1d1d1d),
+      scaffoldBackgroundColor: const Color(0xff121212),
+      appBarTheme: const AppBarTheme(backgroundColor: Color(0xff1d1d1d)),
+      dividerColor: const Color(0xff212121),
     );
   }
 }

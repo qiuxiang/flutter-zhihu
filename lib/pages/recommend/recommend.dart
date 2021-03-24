@@ -26,25 +26,22 @@ class RecommendPage extends StatelessWidget {
         shadowColor: Colors.transparent,
         backwardsCompatibility: false,
       ),
-      body: RefreshIndicator(
-        onRefresh: () => state.fetch(refresh: true),
-        child: CustomScrollView(slivers: [
-          Obx(() {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (_, i) {
-                  if (i == state.items.length) {
-                    state.fetch();
-                    return const SizedBox(height: 64, child: Loading());
-                  }
-                  return buildItem(state.items[i]);
-                },
-                childCount: state.items.length + 1,
-              ),
-            );
-          }),
-        ]),
-      ),
+      body: CustomScrollView(slivers: [
+        Obx(() {
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (_, i) {
+                if (i == state.items.length) {
+                  state.fetch();
+                  return const SizedBox(height: 64, child: Loading());
+                }
+                return buildItem(state.items[i]);
+              },
+              childCount: state.items.length + 1,
+            ),
+          );
+        }),
+      ]),
     );
   }
 

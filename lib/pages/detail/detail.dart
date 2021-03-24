@@ -39,15 +39,10 @@ class DetailPage extends StatelessWidget {
     }
     final updated = target.updatedTime ?? target.updated;
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0,
-        shadowColor: Colors.transparent,
-        backwardsCompatibility: false,
-      ),
-      backgroundColor: Get.theme.cardColor,
+      backgroundColor: Get.isDarkMode ? null : Get.theme?.cardColor,
       bottomNavigationBar: Material(
-        color: Get.theme.cardColor,
-        elevation: 4,
+        color: Get.theme?.cardColor,
+        elevation: 2,
         child: Container(
           height: 50,
           padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
@@ -78,8 +73,8 @@ class DetailPage extends StatelessWidget {
           title: Text(title),
           pinned: true,
           backwardsCompatibility: false,
+          elevation: 0.5,
           actions: [
-            // IconButton(icon: const Icon(Icons.more_vert), onPressed: () {},),
             PopupMenuButton<Menu>(
               onSelected: (selected) {
                 switch (selected) {
@@ -90,12 +85,13 @@ class DetailPage extends StatelessWidget {
                 }
               },
               itemBuilder: (_) {
+                print(target.toJson());
                 final items = <PopupMenuItem<Menu>>[];
                 if (target.type == ResourceTypeEnum.ANSWER &&
                     target.question.answerCount != null) {
                   items.add(PopupMenuItem(
                     value: Menu.question,
-                    child: Text('查看其他回答 (${target.question.answerCount})'),
+                    child: Text('查看问题 (${target.question.answerCount})'),
                   ));
                 }
                 items.add(const PopupMenuItem(

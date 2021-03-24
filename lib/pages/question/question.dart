@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../types.dart' show Question;
 import '../../utils.dart';
@@ -10,6 +11,7 @@ import 'state.dart';
 
 class QuestionPage extends StatelessWidget {
   final Question question;
+
   const QuestionPage(this.question, {Key key}) : super(key: key);
 
   @override
@@ -22,17 +24,30 @@ class QuestionPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0,
-        shadowColor: Colors.transparent,
-        backwardsCompatibility: false,
-      ),
-      backgroundColor: Get.theme.cardColor,
       body: CustomScrollView(slivers: [
         SliverAppBar(
           title: Text(question.title),
           pinned: true,
           backwardsCompatibility: false,
+          elevation: 0.5,
+          actions: [
+            PopupMenuButton<Menu>(
+              onSelected: (selected) {
+                switch (selected) {
+                  case Menu.browser:
+                    return launch('https://zhihu.com/question/${question.id}');
+                  default:
+                    break;
+                }
+              },
+              itemBuilder: (_) => [
+                const PopupMenuItem(
+                  value: Menu.browser,
+                  child: Text('在浏览器中打开'),
+                ),
+              ],
+            )
+          ],
         ),
         Obx(() {
           print(state.answers.length);
@@ -46,9 +61,10 @@ class QuestionPage extends StatelessWidget {
                   return const SizedBox(height: 64, child: Loading());
                 }
                 final item = state.answers[i];
-                return Column(children: [
-                  const Divider(height: 0),
-                  InkWell(
+                return Card(
+                  margin: const EdgeInsets.only(top: 8),
+                  shape: const RoundedRectangleBorder(),
+                  child: InkWell(
                     onTap: () => Get.to(DetailPage(item)),
                     child: Padding(
                       padding: const EdgeInsets.all(16),
@@ -76,7 +92,7 @@ class QuestionPage extends StatelessWidget {
                       ]),
                     ),
                   ),
-                ]);
+                );
               },
               childCount: state.answers.length + 1,
             ),

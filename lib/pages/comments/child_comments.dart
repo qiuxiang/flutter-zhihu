@@ -27,7 +27,6 @@ class ChildComments extends StatelessWidget {
       ],
       body: DraggableScrollableSheet(
         initialChildSize: 1,
-        minChildSize: 0,
         builder: (_, controller) {
           return Container(
             color: Get.theme.cardColor,
