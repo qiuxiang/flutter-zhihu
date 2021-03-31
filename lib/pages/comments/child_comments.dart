@@ -22,8 +22,10 @@ class ChildComments extends StatelessWidget {
     }
 
     return NestedScrollView(
-      headerSliverBuilder: (_, __) => const [
-        SliverPadding(padding: EdgeInsets.all(12)),
+      headerSliverBuilder: (_, __) => [
+        SliverPadding(
+          padding: EdgeInsets.all(Get.mediaQuery.padding.top / 2),
+        ),
       ],
       body: DraggableScrollableSheet(
         initialChildSize: 1,
@@ -32,7 +34,7 @@ class ChildComments extends StatelessWidget {
             color: Get.theme.cardColor,
             child: CustomScrollView(controller: controller, slivers: [
               SliverAppBar(
-                title: const Text('评论详情'),
+                title: const Text('全部回复'),
                 pinned: true,
                 backwardsCompatibility: false,
                 elevation: 0.5,

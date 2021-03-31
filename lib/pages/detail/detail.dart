@@ -44,8 +44,13 @@ class DetailPage extends StatelessWidget {
         color: Get.theme?.cardColor,
         elevation: 2,
         child: Container(
-          height: 50,
-          padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+          height: 50 + Get.mediaQuery.padding.bottom,
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 8,
+            bottom: Get.mediaQuery.padding.bottom,
+          ),
           child: Row(children: [
             Vote(target),
             const Expanded(child: SizedBox()),

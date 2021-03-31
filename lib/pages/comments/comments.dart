@@ -24,8 +24,10 @@ class Comments extends StatelessWidget {
     }
 
     return NestedScrollView(
-      headerSliverBuilder: (_, __) => const [
-        SliverPadding(padding: EdgeInsets.all(12)),
+      headerSliverBuilder: (_, __) => [
+        SliverPadding(
+          padding: EdgeInsets.all(Get.mediaQuery.padding.top / 2),
+        ),
       ],
       body: DraggableScrollableSheet(
         initialChildSize: 1,
