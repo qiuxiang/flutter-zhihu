@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:get/get.dart';
 
-import 'store.dart';
+import 'state.dart';
 import 'types.dart';
 
 const baseUrl = 'https://www.zhihu.com/api/';
@@ -11,7 +11,7 @@ final dio = Dio()
   ..httpClientAdapter = Http2Adapter(ConnectionManager());
 
 Future request(String path) async {
-  final store = Get.find<Store>();
+  final store = Get.find<AppState>();
   if (store.cookie.value.isNotEmpty) {
     dio.options.headers['cookie'] = store.cookie.value;
   }

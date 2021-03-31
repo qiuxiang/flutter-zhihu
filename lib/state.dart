@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Store extends GetxController {
+class AppState extends GetxController {
   final cookie = ''.obs;
   SharedPreferences store;
 

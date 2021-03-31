@@ -1,7 +1,10 @@
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:zhihu/api.dart';
+import 'package:zhihu/state.dart';
 
 void main() {
+  Get.lazyPut(() => AppState());
   test('get recommends', () async {
     var recommend = await getRecommend();
     print(recommend.paging.next);

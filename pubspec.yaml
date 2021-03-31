@@ -9,22 +9,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  get:
-  intl:
-  dio:
-  dio_http2_adapter:
-  flutter_widget_from_html_core:
-  cached_network_image:
-  chewie:
-  url_launcher:
-  flutter_webview_plugin:
-  webview_cookie_manager:
-  shared_preferences:
+  get: ^4.1.1
+  intl: ^0.17.0
+  dio: ^4.0.0
+  dio_http2_adapter: ^2.0.0
+  flutter_widget_from_html_core: ^0.6.0-rc.2021031201
+  cached_network_image: ^3.0.0
+  chewie: ^1.0.0
+  url_launcher: ^6.0.3
+  webview_flutter: ^2.0.2
+  webview_cookie_manager: ^2.0.0-nullsafety.0
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  test:
 
 flutter:
   uses-material-design: true

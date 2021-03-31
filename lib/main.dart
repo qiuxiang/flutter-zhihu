@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'pages/main.dart';
-import 'store.dart';
+import 'state.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -15,29 +15,33 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final lightTheme = ThemeData.light();
-    final lightTextTheme = lightTheme.textTheme;
     return GetMaterialApp(
       title: 'Zhihu',
-      theme: lightTheme.copyWith(
-        primaryColor: const Color(0xff0066ff),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black87,
-          titleSpacing: 0,
-        ),
-        textTheme: lightTheme.textTheme.copyWith(
-          bodyText2: lightTextTheme.bodyText2.copyWith(
-            color: Colors.black87.withOpacity(0.72),
-          ),
-          caption: lightTextTheme.caption.copyWith(
-            color: const Color(0xff8590a6),
-          ),
-        ),
-      ),
+      theme: lightTheme,
       darkTheme: darkTheme,
       home: const MainPage(),
       initialBinding: AppBindings(),
+    );
+  }
+
+  ThemeData get lightTheme {
+    final theme = ThemeData.light();
+    final textTheme = theme.textTheme;
+    return theme.copyWith(
+      primaryColor: const Color(0xff0066ff),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+        titleSpacing: 0,
+      ),
+      textTheme: textTheme.copyWith(
+        bodyText2: textTheme.bodyText2.copyWith(
+          color: Colors.black87.withOpacity(0.72),
+        ),
+        caption: textTheme.caption.copyWith(
+          color: const Color(0xff8590a6),
+        ),
+      ),
     );
   }
 
@@ -54,6 +58,6 @@ class App extends StatelessWidget {
 class AppBindings implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => Store());
+    Get.lazyPut(() => AppState());
   }
 }

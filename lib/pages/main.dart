@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../store.dart';
+import '../state.dart';
 import '../widgets/widgets.dart';
 import 'login.dart';
 import 'recommend/recommend.dart';
 
-class MainPage extends StateWidget<Store> {
+class MainPage extends StateWidget<AppState> {
   const MainPage();
 
   @override

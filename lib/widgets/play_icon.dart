@@ -13,7 +13,7 @@ class PlayIcon extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(40)),
           child: const Padding(
             padding: EdgeInsets.all(6),
-            child: Icon(Icons.play_arrow, size: 40),
+            child: Icon(Icons.play_arrow, size: 40, color: Colors.black87),
           ),
         ),
       ),
