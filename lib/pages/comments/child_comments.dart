@@ -10,6 +10,7 @@ import 'child_comments_state.dart';
 
 class ChildComments extends StatelessWidget {
   final ChildCommentElement item;
+
   const ChildComments(this.item, {Key key}) : super(key: key);
 
   @override
@@ -21,70 +22,45 @@ class ChildComments extends StatelessWidget {
       state.init();
     }
 
-    return NestedScrollView(
-      headerSliverBuilder: (_, __) => [
-        SliverPadding(
-          padding: EdgeInsets.all(Get.mediaQuery.padding.top / 2),
-        ),
-      ],
-      body: DraggableScrollableSheet(
-        initialChildSize: 1,
-        builder: (_, controller) {
-          return Container(
-            color: Get.theme.cardColor,
-            child: CustomScrollView(controller: controller, slivers: [
-              SliverAppBar(
-                title: const Text('全部回复'),
-                pinned: true,
-                backwardsCompatibility: false,
-                elevation: 0.5,
-                leading: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: Get.back,
-                ),
-              ),
-              Obx(() {
-                if (state.comments.isEmpty) {
-                  return SliverFillRemaining(
-                    child: Container(
-                      color: Get.theme.cardColor,
-                      child: const Loading(),
-                    ),
-                  );
-                }
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (_, i) {
-                      if (i == state.comments.length) {
-                        if (state.end.value) return const SizedBox();
-
-                        state.fetch();
-                        return const SizedBox(height: 64, child: Loading());
-                      }
-                      final item = state.comments[i];
-                      return Column(children: [
-                        buildWidget(i == 0, () => const SizedBox(height: 12)),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Item(item),
-                        ),
-                        buildWidget(
-                          i != state.comments.length - 1,
-                          () => Column(children: [
-                            const Divider(height: 0),
-                            const SizedBox(height: 12),
-                          ]),
-                        ),
-                      ]);
-                    },
-                    childCount: state.comments.length + 1,
-                  ),
-                );
-              }),
-            ]),
+    return ModalBottomSheet('全部回复', [
+      Obx(() {
+        if (state.comments.isEmpty) {
+          return SliverFillRemaining(
+            child: Container(
+              color: Get.theme.cardColor,
+              child: const Loading(),
+            ),
           );
-        },
-      ),
-    );
+        }
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (_, i) {
+              if (i == state.comments.length) {
+                if (state.end.value) return const SizedBox();
+
+                state.fetch();
+                return const SizedBox(height: 64, child: Loading());
+              }
+              final item = state.comments[i];
+              return Column(children: [
+                buildWidget(i == 0, () => const SizedBox(height: 12)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Item(item),
+                ),
+                buildWidget(
+                  i != state.comments.length - 1,
+                  () => Column(children: [
+                    const Divider(height: 0),
+                    const SizedBox(height: 12),
+                  ]),
+                ),
+              ]);
+            },
+            childCount: state.comments.length + 1,
+          ),
+        );
+      }),
+    ]);
   }
 }

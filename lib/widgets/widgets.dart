@@ -5,6 +5,7 @@ export 'avatar.dart';
 export 'html.dart';
 export 'html_text.dart';
 export 'loading.dart';
+export 'modal_bottom_sheet.dart';
 export 'play_icon.dart';
 
 class Right extends StatelessWidget {

@@ -12,6 +12,7 @@ import 'item.dart';
 
 class Comments extends StatelessWidget {
   final Target target;
+
   const Comments(this.target, {Key key}) : super(key: key);
 
   @override
@@ -23,85 +24,60 @@ class Comments extends StatelessWidget {
       state.init();
     }
 
-    return NestedScrollView(
-      headerSliverBuilder: (_, __) => [
-        SliverPadding(
-          padding: EdgeInsets.all(Get.mediaQuery.padding.top / 2),
-        ),
-      ],
-      body: DraggableScrollableSheet(
-        initialChildSize: 1,
-        builder: (_, controller) {
-          return Container(
-            color: Get.theme.cardColor,
-            child: CustomScrollView(controller: controller, slivers: [
-              SliverAppBar(
-                title: const Text('全部评论'),
-                pinned: true,
-                backwardsCompatibility: false,
-                elevation: 0.5,
-                leading: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: Get.back,
-                ),
-              ),
-              Obx(() {
-                if (state.comments.isEmpty) {
-                  return SliverFillRemaining(
-                    child: Container(
-                      color: Get.theme.cardColor,
-                      child: const Loading(),
-                    ),
-                  );
-                }
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (_, i) {
-                      if (i == state.comments.length) {
-                        if (state.end.value) return const SizedBox();
-
-                        state.fetch();
-                        return const SizedBox(height: 64, child: Loading());
-                      }
-                      final item = state.comments[i];
-                      return Column(children: [
-                        buildWidget(
-                          i == 0 && state.comment.featuredCounts > 0,
-                          () => GroupTitle(
-                            '精选评论（${state.comment.featuredCounts}）',
-                          ),
-                        ),
-                        buildWidget(i == state.comment.featuredCounts, () {
-                          return GroupTitle(
-                            '评论（${state.comment.commonCounts}）',
-                          );
-                        }),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Item(item),
-                        ),
-                        buildChildComments(item),
-                        // 不显示分割线情况：1、最后一个；2、有精选评论且精选评论的最后一个
-                        buildWidget(
-                          !(i == state.comments.length - 1 ||
-                              (state.comment.featuredCounts > 0 &&
-                                  i == state.comment.featuredCounts - 1)),
-                          () => Column(children: [
-                            const Divider(height: 0),
-                            const SizedBox(height: 12),
-                          ]),
-                        ),
-                      ]);
-                    },
-                    childCount: state.comments.length + 1,
-                  ),
-                );
-              }),
-            ]),
+    return ModalBottomSheet('全部评论', [
+      Obx(() {
+        if (state.comments.isEmpty) {
+          return SliverFillRemaining(
+            child: Container(
+              color: Get.theme.cardColor,
+              child: const Loading(),
+            ),
           );
-        },
-      ),
-    );
+        }
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (_, i) {
+              if (i == state.comments.length) {
+                if (state.end.value) return const SizedBox();
+
+                state.fetch();
+                return const SizedBox(height: 64, child: Loading());
+              }
+              final item = state.comments[i];
+              return Column(children: [
+                buildWidget(
+                  i == 0 && state.comment.featuredCounts > 0,
+                  () => GroupTitle(
+                    '精选评论（${state.comment.featuredCounts}）',
+                  ),
+                ),
+                buildWidget(i == state.comment.featuredCounts, () {
+                  return GroupTitle(
+                    '评论（${state.comment.commonCounts}）',
+                  );
+                }),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Item(item),
+                ),
+                buildChildComments(item),
+                // 不显示分割线情况：1、最后一个；2、有精选评论且精选评论的最后一个
+                buildWidget(
+                  !(i == state.comments.length - 1 ||
+                      (state.comment.featuredCounts > 0 &&
+                          i == state.comment.featuredCounts - 1)),
+                  () => Column(children: [
+                    const Divider(height: 0),
+                    const SizedBox(height: 12),
+                  ]),
+                ),
+              ]);
+            },
+            childCount: state.comments.length + 1,
+          ),
+        );
+      })
+    ]);
   }
 
   Widget buildChildComments(ChildCommentElement item) {
@@ -133,11 +109,9 @@ class Comments extends StatelessWidget {
               const Divider(height: 0, indent: indent),
               CupertinoButton(
                 padding: const EdgeInsets.only(left: indent),
-                onPressed: () => showModalBottomSheet(
-                  backgroundColor: Colors.transparent,
-                  context: Get.context,
+                onPressed: () => Get.bottomSheet(
+                  ChildComments(item),
                   isScrollControlled: true,
-                  builder: (_) => ChildComments(item),
                 ),
                 child: Text(
                   '查看全部 ${item.childCommentCount} 条回复',

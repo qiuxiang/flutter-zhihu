@@ -63,12 +63,7 @@ class DetailPage extends StatelessWidget {
               () => IconItem(Icons.favorite_outline, target.thanksCount, () {}),
             ),
             IconItem(Icons.comment_outlined, target.commentCount, () {
-              showModalBottomSheet(
-                backgroundColor: Colors.transparent,
-                context: context,
-                isScrollControlled: true,
-                builder: (_) => Comments(target),
-              );
+              Get.bottomSheet(Comments(target), isScrollControlled: true);
             }),
           ]),
         ),

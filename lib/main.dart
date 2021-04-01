@@ -33,6 +33,7 @@ class App extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
         titleSpacing: 0,
+        elevation: 0.5,
       ),
       textTheme: textTheme.copyWith(
         bodyText2: textTheme.bodyText2.copyWith(
