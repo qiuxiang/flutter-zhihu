@@ -20,7 +20,7 @@ class ModalBottomSheet extends StatelessWidget {
             ),
           ],
           body: Material(
-            color: Colors.white,
+            color: Get.theme.cardColor,
             child: CustomScrollView(controller: controller, slivers: [
               SliverAppBar(
                 pinned: true,
