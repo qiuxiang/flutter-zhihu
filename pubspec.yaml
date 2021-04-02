@@ -1,7 +1,7 @@
 name: zhihu
 description: Flutter zhihu app.
 publish_to: 'none'
-version: 1.0.3
+version: 1.0.6
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
