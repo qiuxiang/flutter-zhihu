@@ -12,7 +12,7 @@ final dio = Dio()
 
 Future request(String path) async {
   final store = Get.find<AppState>();
-  if (store.cookie.value.isNotEmpty) {
+  if (store.cookie.value?.isNotEmpty ?? false) {
     dio.options.headers['cookie'] = store.cookie.value;
   }
   path = path.replaceAll(baseUrl, '');
@@ -21,7 +21,7 @@ Future request(String path) async {
   return response.data;
 }
 
-Future<Recommend> getRecommend([String url]) async {
+Future<Recommend> getRecommend([String? url]) async {
   url = url ?? 'v3/feed/topstory/recommend?limit=10&desktop=true';
   final json = await request(url);
   return Recommend.fromJson(json);

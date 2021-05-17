@@ -7,22 +7,23 @@ import '../../types.dart';
 
 class Video extends StatefulWidget {
   final Target target;
-  const Video(this.target, {Key key}) : super(key: key);
+
+  const Video(this.target, {Key? key}) : super(key: key);
 
   @override
   _VideoState createState() => _VideoState();
 }
 
 class _VideoState extends State<Video> {
-  VideoPlayerController player;
-  ChewieController chewie;
+  late VideoPlayerController player;
+  late ChewieController chewie;
 
   @override
   void initState() {
     super.initState();
-    final video = widget.target.thumbnailExtraInfo.playlist.hd;
-    final ratio = video.width / video.height;
-    player = VideoPlayerController.network(video.url);
+    final video = widget.target.thumbnailExtraInfo?.playlist?.hd;
+    final ratio = video!.width! / video.height!;
+    player = VideoPlayerController.network(video.url!);
     chewie = ChewieController(
       videoPlayerController: player,
       autoInitialize: true,
@@ -42,9 +43,9 @@ class _VideoState extends State<Video> {
 
   @override
   Widget build(BuildContext context) {
-    final video = widget.target.thumbnailExtraInfo.playlist.hd;
+    final video = widget.target.thumbnailExtraInfo?.playlist?.hd;
     return SizedBox(
-      height: Get.width / video.width * video.height,
+      height: Get.width / video!.width! * video.height!,
       child: Chewie(controller: chewie),
     );
   }

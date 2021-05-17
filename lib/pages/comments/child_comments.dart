@@ -11,7 +11,7 @@ import 'child_comments_state.dart';
 class ChildComments extends StatelessWidget {
   final ChildCommentElement item;
 
-  const ChildComments(this.item, {Key key}) : super(key: key);
+  const ChildComments(this.item, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

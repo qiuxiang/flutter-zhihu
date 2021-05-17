@@ -7,7 +7,7 @@ import '../../types.dart';
 
 class Vote extends StatelessWidget {
   final Target target;
-  const Vote(this.target, {Key key}) : super(key: key);
+  const Vote(this.target, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class Vote extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(36)),
       ),
       child: DefaultTextStyle(
-        style: Get.textTheme.bodyText1.copyWith(
+        style: Get.textTheme.bodyText1!.copyWith(
           color: Get.theme.accentColor,
           fontSize: 12,
           fontWeight: FontWeight.w600,

@@ -9,18 +9,19 @@ import '../../widgets/widgets.dart';
 class Item extends StatelessWidget {
   final ChildCommentElement item;
   final double avatarSize;
-  const Item(this.item, {Key key, this.avatarSize = 36}) : super(key: key);
+
+  const Item(this.item, {Key? key, this.avatarSize = 36}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Avatar(item.author.member.avatarUrl, avatarSize),
+      Avatar(item.author?.member?.avatarUrl, avatarSize),
       const SizedBox(width: 8),
       Expanded(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           RichText(
             text: TextSpan(
-              text: item.author.member.name,
+              text: item.author?.member?.name,
               style: Get.textTheme.bodyText1,
               children: item.replyToAuthor == null ? null : buildReply(),
             ),
@@ -29,7 +30,7 @@ class Item extends StatelessWidget {
           HtmlText(item.content),
           Row(children: [
             Text(
-              item.createdTime.toDateTimeString(),
+              item.createdTime?.toDateTime() ?? '',
               style: Get.textTheme.caption,
             ),
             buildWidget(
@@ -48,7 +49,7 @@ class Item extends StatelessWidget {
               onPressed: () {},
               child: Row(children: [
                 buildWidget(
-                  item.voteCount > 0,
+                  item.voteCount! > 0,
                   () => Text(
                     '${item.voteCount}',
                     style: Get.textTheme.caption,
@@ -57,7 +58,7 @@ class Item extends StatelessWidget {
                 const SizedBox(width: 6),
                 Icon(
                   Icons.thumb_up,
-                  color: Get.textTheme.caption.color,
+                  color: Get.textTheme.caption?.color,
                   size: 14,
                 ),
               ]),
@@ -73,9 +74,9 @@ class Item extends StatelessWidget {
     return [
       TextSpan(
         text: '  回复  ',
-        style: TextStyle(color: Get.textTheme.caption.color),
+        style: TextStyle(color: Get.textTheme.caption?.color),
       ),
-      TextSpan(text: item.replyToAuthor.member.name),
+      TextSpan(text: item.replyToAuthor?.member?.name),
     ];
   }
 }

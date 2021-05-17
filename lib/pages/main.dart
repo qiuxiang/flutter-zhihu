@@ -13,7 +13,7 @@ class MainPage extends StateWidget<AppState> {
   Widget build(BuildContext context) {
     return Obx(() {
       if (state.cookie.value == null) return const LoginPage();
-      if (state.cookie.value.isEmpty) return const Loading();
+      if (state.cookie.value?.isEmpty ?? true) return const Loading();
 
       return const RecommendPage();
     });

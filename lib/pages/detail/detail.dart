@@ -21,12 +21,12 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String title;
+    String? title;
     final children = <Widget>[];
 
-    switch (target.type) {
+    switch (target.type!) {
       case ResourceTypeEnum.ANSWER:
-        title = target.question.title;
+        title = target.question?.title;
         children.addAll([Content(target)]);
         break;
       case ResourceTypeEnum.ARTICLE:
@@ -39,9 +39,9 @@ class DetailPage extends StatelessWidget {
     }
     final updated = target.updatedTime ?? target.updated;
     return Scaffold(
-      backgroundColor: Get.isDarkMode ? null : Get.theme?.cardColor,
+      backgroundColor: Get.isDarkMode ? null : Get.theme.cardColor,
       bottomNavigationBar: Material(
-        color: Get.theme?.cardColor,
+        color: Get.theme.cardColor,
         elevation: 2,
         child: Container(
           height: 50 + Get.mediaQuery.padding.bottom,
@@ -70,7 +70,7 @@ class DetailPage extends StatelessWidget {
       ),
       body: CustomScrollView(slivers: [
         SliverAppBar(
-          title: Text(title),
+          title: Text(title ?? ''),
           pinned: true,
           backwardsCompatibility: false,
           elevation: 0.5,
@@ -81,17 +81,17 @@ class DetailPage extends StatelessWidget {
                   case Menu.browser:
                     return openBrowser();
                   case Menu.question:
-                    Get.to(QuestionPage(target.question));
+                    Get.to(QuestionPage(target.question!));
                 }
               },
               itemBuilder: (_) {
                 print(target.toJson());
                 final items = <PopupMenuItem<Menu>>[];
                 if (target.type == ResourceTypeEnum.ANSWER &&
-                    target.question.answerCount != null) {
+                    target.question?.answerCount != null) {
                   items.add(PopupMenuItem(
                     value: Menu.question,
-                    child: Text('查看问题 (${target.question.answerCount})'),
+                    child: Text('查看问题 (${target.question?.answerCount})'),
                   ));
                 }
                 items.add(const PopupMenuItem(
@@ -110,7 +110,7 @@ class DetailPage extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  '编辑于：${(updated).toDateTimeString()}',
+                  '编辑于：${(updated!).toDateTime()}',
                   style: Get.textTheme.caption,
                 ),
               );
@@ -122,10 +122,10 @@ class DetailPage extends StatelessWidget {
   }
 
   void openBrowser() {
-    switch (target.type) {
+    switch (target.type!) {
       case ResourceTypeEnum.ANSWER:
         launch(
-            'https://zhihu.com/question/${target.question.id}/answer/${target.id}');
+            'https://zhihu.com/question/${target.question?.id}/answer/${target.id}');
         break;
       case ResourceTypeEnum.ARTICLE:
         launch('https://zhuanlan.zhihu.com/p/${target.id}');

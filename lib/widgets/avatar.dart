@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 
 class Avatar extends StatelessWidget {
   final double size;
-  final String url;
-  const Avatar(this.url, this.size, {Key key}) : super(key: key);
+  final String? url;
+
+  const Avatar(this.url, this.size, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +18,7 @@ class Avatar extends StatelessWidget {
         color: Get.theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.all(Radius.circular(size)),
       ),
-      child: CachedNetworkImage(
-        imageUrl: url,
-      ),
+      child: CachedNetworkImage(imageUrl: url ?? ''),
     );
   }
 }

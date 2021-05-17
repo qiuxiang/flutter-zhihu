@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Loading extends StatelessWidget {
   final double size;
-  final Color color;
+  final Color? color;
   final double width;
 
   const Loading({this.size = 20, this.color, this.width = 2});

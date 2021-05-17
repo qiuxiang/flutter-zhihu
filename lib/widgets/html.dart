@@ -6,13 +6,13 @@ import 'package:url_launcher/url_launcher.dart';
 class Html extends StatelessWidget {
   final String html;
 
-  const Html(this.html, {Key key}) : super(key: key);
+  const Html(this.html, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return HtmlWidget(
       html.replaceAll(RegExp(r'</?noscript>'), ''),
-      hyperlinkColor: Get.textTheme.bodyText2.color,
+      hyperlinkColor: Get.textTheme.bodyText2?.color,
       onTapUrl: launch,
       customWidgetBuilder: (item) {
         switch (item.localName) {

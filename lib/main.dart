@@ -36,10 +36,10 @@ class App extends StatelessWidget {
         elevation: 0.5,
       ),
       textTheme: textTheme.copyWith(
-        bodyText2: textTheme.bodyText2.copyWith(
+        bodyText2: textTheme.bodyText2?.copyWith(
           color: Colors.black87.withOpacity(0.72),
         ),
-        caption: textTheme.caption.copyWith(
+        caption: textTheme.caption?.copyWith(
           color: const Color(0xff8590a6),
         ),
       ),

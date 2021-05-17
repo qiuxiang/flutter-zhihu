@@ -31,9 +31,9 @@ class Left extends StatelessWidget {
 }
 
 abstract class StateWidget<T> extends StatelessWidget {
-  const StateWidget({Key key}) : super(key: key);
+  const StateWidget({Key? key}) : super(key: key);
 
-  final String tag = null;
+  final String? tag = null;
 
   T get state => GetInstance().find<T>(tag: tag);
 

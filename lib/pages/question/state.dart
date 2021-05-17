@@ -4,7 +4,7 @@ import '../../api.dart';
 import '../../types.dart';
 
 class QuestionState extends GetxController {
-  Question question;
+  Question? question;
   final answers = <Target>[].obs;
   final end = false.obs;
   final loading = false.obs;
@@ -21,7 +21,7 @@ class QuestionState extends GetxController {
   void fetch() async {
     if (loading.value || end.value) return;
     loading.value = true;
-    final items = await getAnswers(question.id, page);
+    final items = await getAnswers(question!.id!, page);
     print(items);
     answers.addAll(items);
     if (items.isEmpty) {

@@ -4,7 +4,7 @@ import '../../api.dart';
 import '../../types.dart';
 
 class HomeState extends GetxController {
-  String next;
+  String? next;
   final items = <RecommendDatum>[].obs;
   bool loading = false;
 
@@ -15,10 +15,10 @@ class HomeState extends GetxController {
     final recommend = await getRecommend(refresh ? null : next);
     loading = false;
     if (refresh) {
-      items.assignAll(recommend.data);
+      items.assignAll(recommend.data!);
     } else {
-      items.addAll(recommend.data);
+      items.addAll(recommend.data!);
     }
-    next = recommend.paging.next;
+    next = recommend.paging?.next;
   }
 }

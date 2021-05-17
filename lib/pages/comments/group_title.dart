@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 
 class GroupTitle extends StatelessWidget {
   final String title;
-  const GroupTitle(this.title, {Key key}) : super(key: key);
+
+  const GroupTitle(this.title, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class GroupTitle extends StatelessWidget {
       ),
       child: Text(
         title,
-        style: Get.textTheme.caption.copyWith(fontSize: 14),
+        style: Get.textTheme.caption?.copyWith(fontSize: 14),
       ),
     );
   }

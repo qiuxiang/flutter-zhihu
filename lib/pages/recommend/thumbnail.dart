@@ -6,12 +6,13 @@ import '../../types.dart';
 import '../../widgets/widgets.dart';
 
 class Thumbnail extends StatelessWidget {
-  final Target target;
-  const Thumbnail(this.target, {Key key}) : super(key: key);
+  final Target? target;
+
+  const Thumbnail(this.target, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final thumbnail = target.thumbnailExtraInfo;
+    final thumbnail = target?.thumbnailExtraInfo;
     return Stack(children: [
       Container(
         width: double.infinity,
@@ -21,7 +22,13 @@ class Thumbnail extends StatelessWidget {
           color: Get.theme.scaffoldBackgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
-        child: CachedNetworkImage(imageUrl: thumbnail.url, fit: BoxFit.cover),
+        child: Visibility(
+          visible: thumbnail?.url != null,
+          child: CachedNetworkImage(
+            imageUrl: thumbnail!.url!,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
       const PlayIcon(),
     ]);

@@ -3,10 +3,10 @@ import '../../types.dart';
 import '../comments/comments_state.dart';
 
 class ChildCommentsState extends CommentsState {
-  ChildCommentElement item;
+  ChildCommentElement? item;
 
   @override
   Future<Comment> getComments() {
-    return getChildComment(item.id, page);
+    return getChildComment(item!.id!, page);
   }
 }

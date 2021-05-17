@@ -51,25 +51,26 @@ class RecommendPage extends StatelessWidget {
     String title;
     Widget content = const SizedBox();
     Widget thumbnail = const SizedBox();
+    final target = item.target!;
 
-    switch (item.target.type) {
+    switch (target.type) {
       case ResourceTypeEnum.ANSWER:
-        title = item.target.question.title;
-        content = HtmlText(item.target.excerptNew, maxLines: 2);
+        title = target.question?.title ?? '';
+        content = HtmlText(target.excerptNew, maxLines: 2);
         break;
       case ResourceTypeEnum.ARTICLE:
-        title = item.target.title;
-        content = HtmlText(item.target.excerptNew, maxLines: 2);
+        title = target.title ?? '';
+        content = HtmlText(target.excerptNew, maxLines: 2);
         break;
       case ResourceTypeEnum.ZVIDEO:
-        title = item.target.title;
-        content = Thumbnail(item.target);
+        title = target.title ?? '';
+        content = Thumbnail(target);
         break;
       default:
         return const SizedBox();
     }
 
-    final thumbnailUrl = item.target.thumbnail;
+    final thumbnailUrl = target.thumbnail;
     if (thumbnailUrl != null && thumbnailUrl.isNotEmpty) {
       thumbnail = Container(
         height: 68,
@@ -87,7 +88,7 @@ class RecommendPage extends StatelessWidget {
       margin: const EdgeInsets.only(top: 8),
       shape: const RoundedRectangleBorder(),
       child: InkWell(
-        onTap: () => Get.to(DetailPage(item.target)),
+        onTap: () => Get.to(DetailPage(target)),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -96,23 +97,23 @@ class RecommendPage extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: Get.textTheme.bodyText1.copyWith(fontSize: 16),
+                style: Get.textTheme.bodyText1?.copyWith(fontSize: 16),
               ),
               const SizedBox(height: 8),
               Row(children: [
                 Expanded(
                   child: Column(children: [
                     Row(children: [
-                      Avatar(item.target.author.avatarUrl, 20),
+                      Avatar(target.author?.avatarUrl, 20),
                       const SizedBox(width: 4),
-                      Text(item.target.author.name),
+                      Text(target.author?.name ?? ''),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
-                          item.target.author.headline,
+                          target.author?.headline ?? '',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Get.textTheme.caption.copyWith(fontSize: 14),
+                          style: Get.textTheme.caption?.copyWith(fontSize: 14),
                         ),
                       ),
                     ]),
@@ -125,13 +126,13 @@ class RecommendPage extends StatelessWidget {
               ]),
               const SizedBox(height: 8),
               DefaultTextStyle(
-                style: Get.textTheme.caption,
+                style: Get.textTheme.caption!,
                 child: Row(children: [
                   StatsItem(
                     Icons.thumb_up,
-                    item.target.voteupCount ?? item.target.voteCount,
+                    target.voteupCount ?? target.voteCount,
                   ),
-                  StatsItem(Icons.comment, item.target.commentCount),
+                  StatsItem(Icons.comment, target.commentCount),
                 ]),
               ),
             ],

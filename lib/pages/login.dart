@@ -7,7 +7,7 @@ import '../state.dart';
 import '../widgets/widgets.dart';
 
 class LoginPage extends StateWidget<AppState> {
-  const LoginPage({Key key}) : super(key: key);
+  const LoginPage();
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,7 @@ class LoginPage extends StateWidget<AppState> {
   void onPageStarted(_) async {
     final manager = WebviewCookieManager();
     final cookies = await manager.getCookies('https://www.zhihu.com');
-    final auth =
-        cookies.firstWhere((i) => i.name == 'z_c0', orElse: () => null);
-    if (auth != null) {
+    if (cookies.where((i) => i.name == 'z_c0').isNotEmpty) {
       final cookie = cookies.map((i) => '${i.name}=${i.value}').join(';');
       state.setCookie(cookie);
       Get.back();

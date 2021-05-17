@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 
 class IconItem extends StatelessWidget {
   final IconData icon;
-  final int value;
-  final Function onPressed;
+  final int? value;
+  final void Function()? onPressed;
 
-  const IconItem(this.icon, this.value, this.onPressed, {Key key})
-      : super(key: key);
+  const IconItem(this.icon, this.value, this.onPressed);
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +15,10 @@ class IconItem extends StatelessWidget {
       padding: EdgeInsets.zero,
       onPressed: onPressed,
       child: Column(children: [
-        Icon(icon, color: Get.textTheme.caption.color),
+        Icon(icon, color: Get.textTheme.caption?.color),
         Text(
           '$value',
-          style: Get.textTheme.caption.copyWith(
+          style: Get.textTheme.caption?.copyWith(
             fontSize: 10,
             fontWeight: FontWeight.w500,
           ),

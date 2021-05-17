@@ -12,7 +12,7 @@ import 'state.dart';
 class QuestionPage extends StatelessWidget {
   final Question question;
 
-  const QuestionPage(this.question, {Key key}) : super(key: key);
+  const QuestionPage(this.question);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class QuestionPage extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(slivers: [
         SliverAppBar(
-          title: Text(question.title),
+          title: Text(question.title ?? ''),
           pinned: true,
           backwardsCompatibility: false,
           elevation: 0.5,
@@ -35,7 +35,8 @@ class QuestionPage extends StatelessWidget {
               onSelected: (selected) {
                 switch (selected) {
                   case Menu.browser:
-                    return launch('https://zhihu.com/question/${question.id}');
+                    launch('https://zhihu.com/question/${question.id}');
+                    break;
                   default:
                     break;
                 }
@@ -70,21 +71,23 @@ class QuestionPage extends StatelessWidget {
                       padding: const EdgeInsets.all(16),
                       child: Column(children: [
                         Row(children: [
-                          Avatar(item.author.avatarUrl, 20),
+                          Avatar(item.author?.avatarUrl, 20),
                           const SizedBox(width: 4),
-                          Text(item.author.name, style: Get.textTheme.caption),
+                          Text(item.author?.name ?? '',
+                              style: Get.textTheme.caption),
                         ]),
                         const SizedBox(height: 8),
-                        Left(Text(item.excerpt)),
+                        Left(Text(item.excerpt ?? '')),
                         const SizedBox(height: 12),
                         DefaultTextStyle(
-                          style: Get.textTheme.caption,
+                          style: Get.textTheme.caption!,
                           child: Row(children: [
                             StatsItem(Icons.thumb_up, item.voteupCount),
                             StatsItem(Icons.comment, item.commentCount),
                             Expanded(
                               child: Right(
-                                Text(item.updatedTime.toDateTimeString()),
+                                Text(
+                                    item.updatedTime?.toDateTime() ?? ''),
                               ),
                             ),
                           ]),
