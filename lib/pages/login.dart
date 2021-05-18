@@ -6,7 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../state.dart';
 import '../widgets/widgets.dart';
 
-class LoginPage extends StateWidget<AppState> {
+class LoginPage extends GetxWidget<AppState> {
   const LoginPage();
 
   @override

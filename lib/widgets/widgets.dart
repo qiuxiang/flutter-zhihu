@@ -7,6 +7,7 @@ export 'html_text.dart';
 export 'loading.dart';
 export 'modal_bottom_sheet.dart';
 export 'play_icon.dart';
+export 'scaffold_page.dart';
 
 class Right extends StatelessWidget {
   final Widget child;
@@ -30,13 +31,10 @@ class Left extends StatelessWidget {
   }
 }
 
-abstract class StateWidget<T> extends StatelessWidget {
-  const StateWidget({Key? key}) : super(key: key);
+abstract class GetxWidget<T> extends StatelessWidget {
+  const GetxWidget({Key? key}) : super(key: key);
 
   final String? tag = null;
 
-  T get state => GetInstance().find<T>(tag: tag);
-
-  @override
-  Widget build(BuildContext context);
+  T get state => Get.find<T>(tag: tag);
 }

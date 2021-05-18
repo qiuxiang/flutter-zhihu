@@ -5,7 +5,7 @@ class Loading extends StatelessWidget {
   final Color? color;
   final double width;
 
-  const Loading({this.size = 20, this.color, this.width = 2});
+  const Loading({this.size = 24, this.color, this.width = 2});
 
   @override
   Widget build(_) {

@@ -1,15 +1,14 @@
 import 'package:get/get.dart';
 
 import '../../api.dart';
-import '../../types.dart';
 
 class CommentsState extends GetxController {
   final loading = false.obs;
-  final comments = <ChildCommentElement>[].obs;
+  final comments = <Map>[].obs;
   final end = false.obs;
   int page = 0;
-  Target? target;
-  late Comment comment;
+  Map? target;
+  late Map comment;
 
   void init() {
     page = 0;
@@ -23,14 +22,10 @@ class CommentsState extends GetxController {
     if (loading.value || end.value) return;
 
     loading.value = true;
-    comment = await getComments();
-    comments.addAll(comment.data ?? []);
-    end.value = comment.paging?.isEnd ?? true;
+    comment = await getRootComments(target!, page);
+    comments.addAll(comment['data'].cast<Map>());
+    end.value = comment['paging']['is_end'];
     loading.value = false;
     page += 1;
-  }
-
-  Future<Comment> getComments() {
-    return getRootComment(target!, page);
   }
 }

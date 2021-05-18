@@ -3,10 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../types.dart';
-
 class Vote extends StatelessWidget {
-  final Target target;
+  final Map target;
+
   const Vote(this.target, {Key? key}) : super(key: key);
 
   @override
@@ -41,7 +40,7 @@ class Vote extends StatelessWidget {
           Container(
             width: 42,
             margin: const EdgeInsets.only(top: 3),
-            child: Text('${target.voteupCount ?? target.voteCount}'),
+            child: Text('${target['voteup_count'] ?? target['vote_count']}'),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 3),

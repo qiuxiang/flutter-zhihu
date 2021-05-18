@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../types.dart' show ChildCommentElement, Target;
 import '../../utils.dart';
 import '../../widgets/widgets.dart';
 import 'child_comments.dart';
@@ -11,7 +10,7 @@ import 'group_title.dart';
 import 'item.dart';
 
 class Comments extends StatelessWidget {
-  final Target target;
+  final Map target;
 
   const Comments(this.target, {Key? key}) : super(key: key);
 
@@ -28,7 +27,7 @@ class Comments extends StatelessWidget {
       Obx(() {
         if (state.comments.isEmpty) {
           return SliverFillRemaining(
-            child: Container(
+            child: Material(
               color: Get.theme.cardColor,
               child: const Loading(),
             ),
@@ -44,29 +43,26 @@ class Comments extends StatelessWidget {
                 return const SizedBox(height: 64, child: Loading());
               }
               final item = state.comments[i];
+              final featuredCount = state.comment['featured_counts'];
               return Column(children: [
-                buildWidget(
-                  i == 0 && state.comment.featuredCounts! > 0,
-                  () => GroupTitle(
-                    '精选评论（${state.comment.featuredCounts}）',
-                  ),
+                Visibility(
+                  visible: i == 0 && featuredCount! > 0,
+                  child: GroupTitle('精选评论（$featuredCount）'),
                 ),
-                buildWidget(i == state.comment.featuredCounts, () {
-                  return GroupTitle(
-                    '评论（${state.comment.commonCounts}）',
-                  );
-                }),
+                Visibility(
+                  visible: i == featuredCount,
+                  child: GroupTitle('评论（${state.comment['common_counts']}）'),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: Item(item),
                 ),
                 buildChildComments(item),
                 // 不显示分割线情况：1、最后一个；2、有精选评论且精选评论的最后一个
-                buildWidget(
-                  !(i == state.comments.length - 1 ||
-                      (state.comment.featuredCounts! > 0 &&
-                          i == state.comment.featuredCounts! - 1)),
-                  () => Column(children: [
+                Visibility(
+                  visible: !(i == state.comments.length - 1 ||
+                      (featuredCount > 0 && i == featuredCount - 1)),
+                  child: Column(children: [
                     const Divider(height: 0),
                     const SizedBox(height: 12),
                   ]),
@@ -80,8 +76,9 @@ class Comments extends StatelessWidget {
     ]);
   }
 
-  Widget buildChildComments(ChildCommentElement item) {
-    if (item.childComments?.isEmpty ?? true) return const SizedBox();
+  Widget buildChildComments(Map item) {
+    final comments = item['childComments'];
+    if (comments?.isEmpty ?? true) return const SizedBox();
 
     const avatarSize = 20.0;
     const indent = avatarSize + 8;
@@ -90,11 +87,11 @@ class Comments extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Divider(height: 0),
         const SizedBox(height: 12),
-        ...item.childComments!.map((i) {
+        ...comments.map((i) {
           return Column(children: [
             Item(i, avatarSize: avatarSize),
             buildWidget(
-              item.childComments!.last != i,
+              comments.last != i,
               () => Column(children: [
                 const Divider(height: 0, indent: indent),
                 const SizedBox(height: 12),
@@ -102,7 +99,7 @@ class Comments extends StatelessWidget {
             ),
           ]);
         }),
-        buildWidget(item.childCommentCount! > item.childComments!.length, () {
+        buildWidget(item['child_comment_count'] > comments.length, () {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -114,7 +111,7 @@ class Comments extends StatelessWidget {
                   isScrollControlled: true,
                 ),
                 child: Text(
-                  '查看全部 ${item.childCommentCount} 条回复',
+                  '查看全部 ${item['child_comment_count']} 条回复',
                   style: const TextStyle(fontSize: 14),
                 ),
               ),

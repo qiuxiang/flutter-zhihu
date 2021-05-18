@@ -2,17 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../types.dart';
 import '../../widgets/widgets.dart';
 
 class Thumbnail extends StatelessWidget {
-  final Target? target;
+  final Map target;
 
   const Thumbnail(this.target, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final thumbnail = target?.thumbnailExtraInfo;
+    final url = target['thumbnail_extra_info']['url'];
     return Stack(children: [
       Container(
         width: double.infinity,
@@ -23,11 +22,8 @@ class Thumbnail extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
         child: Visibility(
-          visible: thumbnail?.url != null,
-          child: CachedNetworkImage(
-            imageUrl: thumbnail!.url!,
-            fit: BoxFit.cover,
-          ),
+          visible: url != null,
+          child: CachedNetworkImage(imageUrl: url, fit: BoxFit.cover),
         ),
       ),
       const PlayIcon(),

@@ -5,28 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 
-import '../../types.dart' show RecommendDatum, FluffyType, ResourceTypeEnum;
 import '../../widgets/widgets.dart';
 import '../detail/detail.dart';
 import 'state.dart';
 import 'stats_item.dart';
 import 'thumbnail.dart';
 
-class RecommendPage extends StatelessWidget {
-  const RecommendPage();
+class RecommendsPage extends StatelessWidget {
+  const RecommendsPage();
 
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => HomeState());
     final state = Get.find<HomeState>();
     state.fetch();
-    return Scaffold(
+    return ScaffoldPage(
       appBar: AppBar(
         toolbarHeight: 0,
         shadowColor: Colors.transparent,
         backwardsCompatibility: false,
       ),
-      body: CustomScrollView(slivers: [
+      slivers: [
         Obx(() {
           return SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -35,42 +34,49 @@ class RecommendPage extends StatelessWidget {
                   state.fetch();
                   return const SizedBox(height: 64, child: Loading());
                 }
-                return buildItem(state.items[i]);
+                return Item(state.items[i]);
               },
               childCount: state.items.length + 1,
             ),
           );
         }),
-      ]),
+      ],
     );
   }
+}
 
-  Widget buildItem(RecommendDatum item) {
-    if (item.type == FluffyType.FEED_ADVERT) return const SizedBox();
+class Item extends StatelessWidget {
+  final Map item;
+
+  const Item(this.item, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (item['type'] == 'feed_advert') return const SizedBox();
 
     String title;
     Widget content = const SizedBox();
     Widget thumbnail = const SizedBox();
-    final target = item.target!;
+    Map target = item['target']!;
 
-    switch (target.type) {
-      case ResourceTypeEnum.ANSWER:
-        title = target.question?.title ?? '';
-        content = HtmlText(target.excerptNew, maxLines: 2);
+    switch (target['type']) {
+      case 'answer':
+        title = target['question']['title'];
+        content = HtmlText(target['excerpt_new'], maxLines: 2);
         break;
-      case ResourceTypeEnum.ARTICLE:
-        title = target.title ?? '';
-        content = HtmlText(target.excerptNew, maxLines: 2);
+      case 'article':
+        title = target['title'];
+        content = HtmlText(target['excerpt_new'], maxLines: 2);
         break;
-      case ResourceTypeEnum.ZVIDEO:
-        title = target.title ?? '';
+      case 'zvideo':
+        title = target['title'];
         content = Thumbnail(target);
         break;
       default:
         return const SizedBox();
     }
 
-    final thumbnailUrl = target.thumbnail;
+    final thumbnailUrl = target['thumbnail'];
     if (thumbnailUrl != null && thumbnailUrl.isNotEmpty) {
       thumbnail = Container(
         height: 68,
@@ -97,20 +103,20 @@ class RecommendPage extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: Get.textTheme.bodyText1?.copyWith(fontSize: 16),
+                style: context.textTheme.bodyText1?.copyWith(fontSize: 16),
               ),
               const SizedBox(height: 8),
               Row(children: [
                 Expanded(
                   child: Column(children: [
                     Row(children: [
-                      Avatar(target.author?.avatarUrl, 20),
+                      Avatar(target['author']['avatar_url'], 20),
                       const SizedBox(width: 4),
-                      Text(target.author?.name ?? ''),
+                      Text(target['author']['name']),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
-                          target.author?.headline ?? '',
+                          target['author']['headline'],
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: Get.textTheme.caption?.copyWith(fontSize: 14),
@@ -130,9 +136,9 @@ class RecommendPage extends StatelessWidget {
                 child: Row(children: [
                   StatsItem(
                     Icons.thumb_up,
-                    target.voteupCount ?? target.voteCount,
+                    target['voteup_count'] ?? target['vote_count'],
                   ),
-                  StatsItem(Icons.comment, target.commentCount),
+                  StatsItem(Icons.comment, target['comment_count']),
                 ]),
               ),
             ],

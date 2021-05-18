@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../types.dart' show Target, ResourceTypeEnum;
 import '../../utils.dart';
+import '../../widgets/widgets.dart';
 import '../comments/comments.dart';
-import '../question/question.dart';
+import '../questions/questions.dart';
 import 'content.dart';
 import 'icon_item.dart';
 import 'video.dart';
@@ -15,7 +15,7 @@ import 'vote.dart';
 enum Menu { browser, question }
 
 class DetailPage extends StatelessWidget {
-  final Target target;
+  final Map target;
 
   const DetailPage(this.target);
 
@@ -24,23 +24,23 @@ class DetailPage extends StatelessWidget {
     String? title;
     final children = <Widget>[];
 
-    switch (target.type!) {
-      case ResourceTypeEnum.ANSWER:
-        title = target.question?.title;
+    switch (target['type']) {
+      case 'answer':
+        title = target['question']['title'];
         children.addAll([Content(target)]);
         break;
-      case ResourceTypeEnum.ARTICLE:
-        title = target.title;
+      case 'article':
+        title = target['title'];
         children.addAll([Content(target)]);
         break;
-      case ResourceTypeEnum.ZVIDEO:
+      case 'zvideo':
         children.addAll([Video(target)]);
-        title = target.title;
+        title = target['title'];
     }
-    final updated = target.updatedTime ?? target.updated;
-    return Scaffold(
-      backgroundColor: Get.isDarkMode ? null : Get.theme.cardColor,
-      bottomNavigationBar: Material(
+    int? updated = target['updated_time'] ?? target['updated'];
+    return ScaffoldPage(
+      backgroundColor: context.isDarkMode ? null : Get.theme.cardColor,
+      bottom: Material(
         color: Get.theme.cardColor,
         elevation: 2,
         child: Container(
@@ -55,20 +55,21 @@ class DetailPage extends StatelessWidget {
             Vote(target),
             const Expanded(child: SizedBox()),
             buildWidget(
-              target.visitedCount,
-              () => IconItem(Icons.visibility, target.visitedCount, () {}),
+              target['visited_count'],
+              () => IconItem(Icons.visibility, target['visited_count'], () {}),
             ),
             buildWidget(
-              target.thanksCount,
-              () => IconItem(Icons.favorite_outline, target.thanksCount, () {}),
+              target['thanks_count'],
+              () => IconItem(
+                  Icons.favorite_outline, target['thanks_count'], () {}),
             ),
-            IconItem(Icons.comment_outlined, target.commentCount, () {
+            IconItem(Icons.comment_outlined, target['comment_count'], () {
               Get.bottomSheet(Comments(target), isScrollControlled: true);
             }),
           ]),
         ),
       ),
-      body: CustomScrollView(slivers: [
+      slivers: [
         SliverAppBar(
           title: Text(title ?? ''),
           pinned: true,
@@ -81,23 +82,18 @@ class DetailPage extends StatelessWidget {
                   case Menu.browser:
                     return openBrowser();
                   case Menu.question:
-                    Get.to(QuestionPage(target.question!));
+                    Get.to(() => QuestionsPage(target['question']));
                 }
               },
               itemBuilder: (_) {
-                print(target.toJson());
                 final items = <PopupMenuItem<Menu>>[];
-                if (target.type == ResourceTypeEnum.ANSWER &&
-                    target.question?.answerCount != null) {
+                final count = target['question']['answer_count'];
+                if (target['type'] == 'answer' && count != null) {
                   items.add(PopupMenuItem(
-                    value: Menu.question,
-                    child: Text('查看问题 (${target.question?.answerCount})'),
-                  ));
+                      value: Menu.question, child: Text('查看问题 ($count)')));
                 }
                 items.add(const PopupMenuItem(
-                  value: Menu.browser,
-                  child: Text('在浏览器中打开'),
-                ));
+                    value: Menu.browser, child: Text('在浏览器中打开')));
                 return items;
               },
             )
@@ -110,27 +106,27 @@ class DetailPage extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  '编辑于：${(updated!).toDateTime()}',
+                  '编辑于：${updated?.toDateTime()}',
                   style: Get.textTheme.caption,
                 ),
               );
             }),
           ]),
         ),
-      ]),
+      ],
     );
   }
 
   void openBrowser() {
-    switch (target.type!) {
-      case ResourceTypeEnum.ANSWER:
+    switch (target['type']) {
+      case 'answer':
         launch(
-            'https://zhihu.com/question/${target.question?.id}/answer/${target.id}');
+            'https://zhihu.com/question/${target['question']['id']}/answer/${target['id']}');
         break;
-      case ResourceTypeEnum.ARTICLE:
-        launch('https://zhuanlan.zhihu.com/p/${target.id}');
+      case 'article':
+        launch('https://zhuanlan.zhihu.com/p/${target['id']}');
         break;
-      case ResourceTypeEnum.ZVIDEO:
+      case 'zvideo':
         break;
     }
   }

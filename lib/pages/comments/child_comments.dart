@@ -2,14 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../types.dart' show ChildCommentElement;
 import '../../utils.dart';
 import '../../widgets/widgets.dart';
 import '../comments/item.dart';
 import 'child_comments_state.dart';
 
 class ChildComments extends StatelessWidget {
-  final ChildCommentElement item;
+  final Map item;
 
   const ChildComments(this.item, {Key? key}) : super(key: key);
 

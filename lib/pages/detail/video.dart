@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../types.dart';
-
 class Video extends StatefulWidget {
-  final Target target;
+  final Map target;
 
   const Video(this.target, {Key? key}) : super(key: key);
 
@@ -21,16 +19,15 @@ class _VideoState extends State<Video> {
   @override
   void initState() {
     super.initState();
-    final video = widget.target.thumbnailExtraInfo?.playlist?.hd;
-    final ratio = video!.width! / video.height!;
-    player = VideoPlayerController.network(video.url!);
+    Map video = widget.target['thumbnail_extra_info']['playlist']['hd'];
+    player = VideoPlayerController.network(video['url']);
     chewie = ChewieController(
       videoPlayerController: player,
       autoInitialize: true,
       autoPlay: true,
       showControls: true,
       showControlsOnInitialize: false,
-      aspectRatio: ratio,
+      aspectRatio: video['width'] / video['height'],
     );
   }
 
@@ -43,9 +40,9 @@ class _VideoState extends State<Video> {
 
   @override
   Widget build(BuildContext context) {
-    final video = widget.target.thumbnailExtraInfo?.playlist?.hd;
+    Map video = widget.target['thumbnail_extra_info']['playlist']['hd'];
     return SizedBox(
-      height: Get.width / video!.width! * video.height!,
+      height: Get.width / video['width'] * video['height'],
       child: Chewie(controller: chewie),
     );
   }

@@ -11,7 +11,7 @@ class HtmlText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      parse(html).firstChild?.text ?? '',
+      parse(html ?? '').firstChild?.text ?? '',
       maxLines: maxLines,
       overflow: maxLines == null ? null : TextOverflow.ellipsis,
       style: Get.textTheme.bodyText2,

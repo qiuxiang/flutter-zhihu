@@ -1,24 +1,23 @@
 import 'package:get/get.dart';
 
 import '../../api.dart';
-import '../../types.dart';
 
 class HomeState extends GetxController {
   String? next;
-  final items = <RecommendDatum>[].obs;
+  final items = <Map>[].obs;
   bool loading = false;
 
   Future fetch({bool refresh = false}) async {
     if (loading) return;
 
     loading = true;
-    final recommend = await getRecommend(refresh ? null : next);
+    final recommends = await getRecommends(refresh ? null : next);
     loading = false;
     if (refresh) {
-      items.assignAll(recommend.data!);
+      items.assignAll(recommends['data'].cast<Map>());
     } else {
-      items.addAll(recommend.data!);
+      items.addAll(recommends['data'].cast<Map>());
     }
-    next = recommend.paging?.next;
+    next = recommends['paging']['next'];
   }
 }

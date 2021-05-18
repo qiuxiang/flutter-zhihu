@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../types.dart' show ChildCommentElement;
 import '../../utils.dart';
 import '../../widgets/widgets.dart';
 
 class Item extends StatelessWidget {
-  final ChildCommentElement item;
+  final Map item;
   final double avatarSize;
 
   const Item(this.item, {Key? key, this.avatarSize = 36}) : super(key: key);
@@ -15,26 +14,26 @@ class Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Avatar(item.author?.member?.avatarUrl, avatarSize),
+      Avatar(item['author']['member']['avatar_url'], avatarSize),
       const SizedBox(width: 8),
       Expanded(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           RichText(
             text: TextSpan(
-              text: item.author?.member?.name,
+              text: item['author']['member']['name'],
               style: Get.textTheme.bodyText1,
-              children: item.replyToAuthor == null ? null : buildReply(),
+              children: item['reply_to_author'] == null ? null : buildReply(),
             ),
           ),
           const SizedBox(height: 6),
-          HtmlText(item.content),
+          HtmlText(item['content']),
           Row(children: [
             Text(
-              item.createdTime?.toDateTime() ?? '',
+              (item['created_time'] as int).toDateTime(),
               style: Get.textTheme.caption,
             ),
             buildWidget(
-              item.featured,
+              item['featured'],
               () {
                 return CupertinoButton(
                   padding: const EdgeInsets.only(bottom: 4, left: 12),
@@ -49,9 +48,9 @@ class Item extends StatelessWidget {
               onPressed: () {},
               child: Row(children: [
                 buildWidget(
-                  item.voteCount! > 0,
+                  item['vote_count']! > 0,
                   () => Text(
-                    '${item.voteCount}',
+                    '${item['vote_count']}',
                     style: Get.textTheme.caption,
                   ),
                 ),
@@ -76,7 +75,7 @@ class Item extends StatelessWidget {
         text: '  回复  ',
         style: TextStyle(color: Get.textTheme.caption?.color),
       ),
-      TextSpan(text: item.replyToAuthor?.member?.name),
+      TextSpan(text: item['reply_to_author']['member']['name']),
     ];
   }
 }
