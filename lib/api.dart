@@ -13,7 +13,7 @@ Future<Map> request(String path) async {
     dio.options.headers['cookie'] = store.cookie.value;
   }
   path = path.replaceAll(baseUrl, '');
-  print('request $path');
+  print(path);
   final response = await dio.get(baseUrl + path);
   return response.data;
 }

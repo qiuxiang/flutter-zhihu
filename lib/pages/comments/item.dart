@@ -21,7 +21,7 @@ class Item extends StatelessWidget {
           RichText(
             text: TextSpan(
               text: item['author']['member']['name'],
-              style: Get.textTheme.bodyText1,
+              style: context.textTheme.bodyText1,
               children: item['reply_to_author'] == null ? null : buildReply(),
             ),
           ),
@@ -30,13 +30,13 @@ class Item extends StatelessWidget {
           Row(children: [
             Text(
               (item['created_time'] as int).toDateTime(),
-              style: Get.textTheme.caption,
+              style: context.textTheme.caption,
             ),
             if (item['featured'] != null)
               CupertinoButton(
                 padding: const EdgeInsets.only(bottom: 4, left: 12),
                 onPressed: () {},
-                child: Text('查看回复', style: Get.textTheme.caption),
+                child: Text('查看回复', style: context.textTheme.caption),
               ),
             const Expanded(child: SizedBox()),
             CupertinoButton(
@@ -44,11 +44,14 @@ class Item extends StatelessWidget {
               onPressed: () {},
               child: Row(children: [
                 if (item['vote_count']! > 0)
-                  Text('${item['vote_count']}', style: Get.textTheme.caption),
+                  Text(
+                    '${item['vote_count']}',
+                    style: context.textTheme.caption,
+                  ),
                 const SizedBox(width: 6),
                 Icon(
                   Icons.thumb_up,
-                  color: Get.textTheme.caption?.color,
+                  color: context.textTheme.caption?.color,
                   size: 14,
                 ),
               ]),

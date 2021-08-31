@@ -15,10 +15,10 @@ class IconItem extends StatelessWidget {
       padding: EdgeInsets.zero,
       onPressed: onPressed,
       child: Column(children: [
-        Icon(icon, color: Get.textTheme.caption?.color),
+        Icon(icon, color: context.textTheme.caption?.color),
         Text(
           '$value',
-          style: Get.textTheme.caption?.copyWith(
+          style: context.textTheme.caption?.copyWith(
             fontSize: 10,
             fontWeight: FontWeight.w500,
           ),

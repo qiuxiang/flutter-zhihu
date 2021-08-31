@@ -25,7 +25,7 @@ class ChildComments extends StatelessWidget {
         if (state.comments.isEmpty) {
           return SliverFillRemaining(
             child: Container(
-              color: Get.theme.cardColor,
+              color: context.theme.cardColor,
               child: const Loading(),
             ),
           );

@@ -10,7 +10,7 @@ class StatsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Icon(icon, size: 14, color: Get.textTheme.caption?.color),
+      Icon(icon, size: 14, color: context.textTheme.caption?.color),
       const SizedBox(width: 4),
       Text('$value'),
       const SizedBox(width: 12),

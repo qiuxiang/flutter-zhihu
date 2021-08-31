@@ -15,7 +15,7 @@ class Avatar extends StatelessWidget {
       height: size,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: Get.theme.scaffoldBackgroundColor,
+        color: context.theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.all(Radius.circular(size)),
       ),
       child: CachedNetworkImage(imageUrl: url ?? ''),

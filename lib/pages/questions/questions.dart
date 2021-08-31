@@ -49,7 +49,6 @@ class QuestionsPage extends StatelessWidget {
         ],
       ),
       Obx(() {
-        print(state.answers.length);
         return SliverList(
           delegate: SliverChildBuilderDelegate(
             (_, i) {
@@ -72,13 +71,13 @@ class QuestionsPage extends StatelessWidget {
                         Avatar(item['author']['avatar_url'], 20),
                         const SizedBox(width: 4),
                         Text(item['author']['name'],
-                            style: Get.textTheme.caption),
+                            style: context.textTheme.caption),
                       ]),
                       const SizedBox(height: 8),
                       Left(Text(item['excerpt'])),
                       const SizedBox(height: 12),
                       DefaultTextStyle(
-                        style: Get.textTheme.caption!,
+                        style: context.textTheme.caption!,
                         child: Row(children: [
                           StatsItem(Icons.thumb_up, item['voteup_count']),
                           StatsItem(Icons.comment, item['comment_count']),

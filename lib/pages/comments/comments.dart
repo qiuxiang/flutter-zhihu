@@ -8,26 +8,36 @@ import 'comments_state.dart';
 import 'group_title.dart';
 import 'item.dart';
 
-class Comments extends StatelessWidget {
+class Comments extends StatefulWidget {
   final Map target;
 
   const Comments(this.target, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    Get.lazyPut(() => CommentsState());
-    final state = Get.find<CommentsState>();
-    if (state.target != target) {
-      state.target = target;
+  _CommentsState createState() => _CommentsState();
+}
+
+class _CommentsState extends State<Comments> {
+  final state = CommentsState();
+
+  @override
+  void initState() {
+    super.initState();
+    Get.put(state);
+    if (state.target != widget.target) {
+      state.target = widget.target;
       state.init();
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return ModalBottomSheet('全部评论', [
       Obx(() {
         if (state.comments.isEmpty) {
           return SliverFillRemaining(
             child: Material(
-              color: Get.theme.cardColor,
+              color: context.theme.cardColor,
               child: const Loading(),
             ),
           );

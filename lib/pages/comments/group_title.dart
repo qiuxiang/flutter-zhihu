@@ -16,17 +16,17 @@ class GroupTitle extends StatelessWidget {
       ),
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Get.theme.scaffoldBackgroundColor,
+        color: context.theme.scaffoldBackgroundColor,
         border: Border.symmetric(
           horizontal: BorderSide(
             width: 0.5,
-            color: Get.theme.dividerColor,
+            color: context.theme.dividerColor,
           ),
         ),
       ),
       child: Text(
         title,
-        style: Get.textTheme.caption?.copyWith(fontSize: 14),
+        style: context.textTheme.caption?.copyWith(fontSize: 14),
       ),
     );
   }

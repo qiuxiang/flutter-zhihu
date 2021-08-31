@@ -39,9 +39,9 @@ class DetailPage extends StatelessWidget {
     }
     int? updated = target['updated_time'] ?? target['updated'];
     return ScaffoldPage(
-      backgroundColor: context.isDarkMode ? null : Get.theme.cardColor,
+      backgroundColor: context.isDarkMode ? null : context.theme.cardColor,
       bottom: Material(
-        color: Get.theme.cardColor,
+        color: context.theme.cardColor,
         elevation: 2,
         child: Container(
           height: 50 + Get.mediaQuery.padding.bottom,
@@ -60,6 +60,11 @@ class DetailPage extends StatelessWidget {
               IconItem(Icons.favorite_outline, target['thanks_count'], () {}),
             IconItem(Icons.comment_outlined, target['comment_count'], () {
               Get.bottomSheet(Comments(target), isScrollControlled: true);
+              // showModalBottomSheet(
+              //   context: context,
+              //   builder: (context) => Comments(target),
+              //   isScrollControlled: true,
+              // );
             }),
           ]),
         ),
@@ -102,7 +107,7 @@ class DetailPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Text(
                   '编辑于：${updated.toDateTime()}',
-                  style: Get.textTheme.caption,
+                  style: context.textTheme.caption,
                 ),
               ),
           ]),

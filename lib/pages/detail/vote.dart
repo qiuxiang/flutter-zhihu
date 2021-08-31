@@ -14,12 +14,12 @@ class Vote extends StatelessWidget {
       height: 34,
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: Get.theme.backgroundColor.withOpacity(0.3),
+        color: context.theme.backgroundColor.withOpacity(0.3),
         borderRadius: const BorderRadius.all(Radius.circular(36)),
       ),
       child: DefaultTextStyle(
-        style: Get.textTheme.bodyText1!.copyWith(
-          color: Get.theme.accentColor,
+        style: context.textTheme.bodyText1!.copyWith(
+          color: context.theme.accentColor,
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
@@ -31,7 +31,7 @@ class Vote extends StatelessWidget {
               angle: 270 * math.pi / 180,
               child: Icon(
                 Icons.play_arrow_rounded,
-                color: Get.theme.accentColor,
+                color: context.theme.accentColor,
               ),
             ),
           ),
@@ -48,7 +48,7 @@ class Vote extends StatelessWidget {
               angle: 90 * math.pi / 180,
               child: Icon(
                 Icons.play_arrow_rounded,
-                color: Get.theme.accentColor,
+                color: context.theme.accentColor,
               ),
             ),
           ),

@@ -29,7 +29,7 @@ class ScaffoldPage extends StatelessWidget {
       value: SystemUiOverlayStyle(
         systemNavigationBarIconBrightness:
             context.isDarkMode ? Brightness.light : Brightness.dark,
-        systemNavigationBarColor: Get.theme.appBarTheme.backgroundColor,
+        systemNavigationBarColor: context.theme.appBarTheme.backgroundColor,
       ),
       child: Scaffold(
         appBar: appBar,

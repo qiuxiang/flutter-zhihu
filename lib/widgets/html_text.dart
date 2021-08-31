@@ -14,7 +14,7 @@ class HtmlText extends StatelessWidget {
       parse(html ?? '').firstChild?.text ?? '',
       maxLines: maxLines,
       overflow: maxLines == null ? null : TextOverflow.ellipsis,
-      style: Get.textTheme.bodyText2,
+      style: context.textTheme.bodyText2,
     );
   }
 }

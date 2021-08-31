@@ -18,7 +18,7 @@ class Thumbnail extends StatelessWidget {
         height: (Get.width - 32) / 16 * 9,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          color: Get.theme.scaffoldBackgroundColor,
+          color: context.theme.scaffoldBackgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
         child: Visibility(

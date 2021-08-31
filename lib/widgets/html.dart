@@ -12,7 +12,7 @@ class Html extends StatelessWidget {
   Widget build(BuildContext context) {
     return HtmlWidget(
       html.replaceAll(RegExp(r'</?noscript>'), ''),
-      hyperlinkColor: Get.textTheme.bodyText2?.color,
+      hyperlinkColor: context.textTheme.bodyText2?.color,
       onTapUrl: launch,
       customWidgetBuilder: (item) {
         switch (item.localName) {
@@ -30,7 +30,8 @@ class Html extends StatelessWidget {
             return {
               'font-family': 'DroidSansMono',
               'padding': '12px',
-              'background': Get.theme.scaffoldBackgroundColor.toRgbaString(),
+              'background':
+                  context.theme.scaffoldBackgroundColor.toRgbaString(),
             };
         }
         return null;

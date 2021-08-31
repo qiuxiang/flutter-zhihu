@@ -11,14 +11,25 @@ import 'state.dart';
 import 'stats_item.dart';
 import 'thumbnail.dart';
 
-class RecommendsPage extends StatelessWidget {
+class RecommendsPage extends StatefulWidget {
   const RecommendsPage();
 
   @override
-  Widget build(BuildContext context) {
-    Get.lazyPut(() => HomeState());
-    final state = Get.find<HomeState>();
+  _RecommendsPageState createState() => _RecommendsPageState();
+}
+
+class _RecommendsPageState extends State<RecommendsPage> {
+  final state = HomeState();
+
+  @override
+  void initState() {
+    super.initState();
+    Get.put(state);
     state.fetch();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ScaffoldPage(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -83,7 +94,7 @@ class Item extends StatelessWidget {
         width: 68,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          color: Get.theme.scaffoldBackgroundColor,
+          color: context.theme.scaffoldBackgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
         child: CachedNetworkImage(imageUrl: thumbnailUrl, fit: BoxFit.cover),
@@ -119,7 +130,8 @@ class Item extends StatelessWidget {
                           target['author']['headline'],
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Get.textTheme.caption?.copyWith(fontSize: 14),
+                          style:
+                              context.textTheme.caption?.copyWith(fontSize: 14),
                         ),
                       ),
                     ]),
@@ -132,7 +144,7 @@ class Item extends StatelessWidget {
               ]),
               const SizedBox(height: 8),
               DefaultTextStyle(
-                style: Get.textTheme.caption!,
+                style: context.textTheme.caption!,
                 child: Row(children: [
                   StatsItem(
                     Icons.thumb_up,
