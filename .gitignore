@@ -49,3 +49,4 @@ pubspec.lock
 .metadata
 macos/
 web/
+linux/

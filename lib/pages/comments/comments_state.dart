@@ -22,10 +22,14 @@ class CommentsState extends GetxController {
     if (loading.value || end.value) return;
 
     loading.value = true;
-    comment = await getRootComments(target!, page);
+    comment = await getComments();
     comments.addAll(comment['data'].cast<Map>());
     end.value = comment['paging']['is_end'];
     loading.value = false;
     page += 1;
+  }
+
+  Future<Map> getComments() {
+    return getRootComments(target!, page);
   }
 }

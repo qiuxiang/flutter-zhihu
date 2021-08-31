@@ -5,9 +5,7 @@ import 'package:get/get.dart';
 import 'state.dart';
 
 const baseUrl = 'https://www.zhihu.com/api/';
-final dio = Dio()
-  ..options.baseUrl = baseUrl
-  ..httpClientAdapter = Http2Adapter(ConnectionManager());
+final dio = Dio()..httpClientAdapter = Http2Adapter(ConnectionManager());
 
 Future<Map> request(String path) async {
   final store = Get.find<AppState>();
@@ -15,7 +13,7 @@ Future<Map> request(String path) async {
     dio.options.headers['cookie'] = store.cookie.value;
   }
   path = path.replaceAll(baseUrl, '');
-  print('request: ${baseUrl + path}');
+  print('request $path');
   final response = await dio.get(baseUrl + path);
   return response.data;
 }

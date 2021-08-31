@@ -16,8 +16,8 @@ class ChildComments extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.lazyPut(() => ChildCommentsState());
     final state = Get.find<ChildCommentsState>();
-    if (state.item != item) {
-      state.item = item;
+    if (state.target != item) {
+      state.target = item;
       state.init();
     }
 

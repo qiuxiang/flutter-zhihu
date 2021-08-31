@@ -45,28 +45,22 @@ class Comments extends StatelessWidget {
               final item = state.comments[i];
               final featuredCount = state.comment['featured_counts'];
               return Column(children: [
-                Visibility(
-                  visible: i == 0 && featuredCount! > 0,
-                  child: GroupTitle('精选评论（$featuredCount）'),
-                ),
-                Visibility(
-                  visible: i == featuredCount,
-                  child: GroupTitle('评论（${state.comment['common_counts']}）'),
-                ),
+                if (i == 0 && featuredCount! > 0)
+                  GroupTitle('精选评论（$featuredCount）'),
+                if (i == featuredCount)
+                  GroupTitle('评论（${state.comment['common_counts']}）'),
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: Item(item),
                 ),
                 buildChildComments(item),
                 // 不显示分割线情况：1、最后一个；2、有精选评论且精选评论的最后一个
-                Visibility(
-                  visible: !(i == state.comments.length - 1 ||
-                      (featuredCount > 0 && i == featuredCount - 1)),
-                  child: Column(children: [
-                    const Divider(height: 0),
-                    const SizedBox(height: 12),
+                if (!(i == state.comments.length - 1 ||
+                    (featuredCount > 0 && i == featuredCount - 1)))
+                  Column(children: const [
+                    Divider(height: 0),
+                    SizedBox(height: 12),
                   ]),
-                ),
               ]);
             },
             childCount: state.comments.length + 1,
@@ -77,7 +71,7 @@ class Comments extends StatelessWidget {
   }
 
   Widget buildChildComments(Map item) {
-    final comments = item['childComments'];
+    final comments = item['child_comments'];
     if (comments?.isEmpty ?? true) return const SizedBox();
 
     const avatarSize = 20.0;
@@ -90,13 +84,11 @@ class Comments extends StatelessWidget {
         ...comments.map((i) {
           return Column(children: [
             Item(i, avatarSize: avatarSize),
-            buildWidget(
-              comments.last != i,
-              () => Column(children: [
+            if (comments.last != i)
+              Column(children: [
                 const Divider(height: 0, indent: indent),
                 const SizedBox(height: 12),
               ]),
-            ),
           ]);
         }),
         buildWidget(item['child_comment_count'] > comments.length, () {
