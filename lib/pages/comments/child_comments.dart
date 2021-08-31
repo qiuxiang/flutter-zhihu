@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../utils.dart';
 import '../../widgets/widgets.dart';
 import '../comments/item.dart';
 import 'child_comments_state.dart';
@@ -42,18 +41,16 @@ class ChildComments extends StatelessWidget {
               }
               final item = state.comments[i];
               return Column(children: [
-                buildWidget(i == 0, () => const SizedBox(height: 12)),
+                if (i == 0) const SizedBox(height: 12),
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: Item(item),
                 ),
-                buildWidget(
-                  i != state.comments.length - 1,
-                  () => Column(children: [
-                    const Divider(height: 0),
-                    const SizedBox(height: 12),
+                if (i != state.comments.length - 1)
+                  Column(children: const [
+                    Divider(height: 0),
+                    SizedBox(height: 12),
                   ]),
-                ),
               ]);
             },
             childCount: state.comments.length + 1,

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../utils.dart';
 import '../../widgets/widgets.dart';
 import 'child_comments.dart';
 import 'comments_state.dart';
@@ -91,8 +90,8 @@ class Comments extends StatelessWidget {
               ]),
           ]);
         }),
-        buildWidget(item['child_comment_count'] > comments.length, () {
-          return Column(
+        if (item['child_comment_count'] > comments.length)
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Divider(height: 0, indent: indent),
@@ -108,8 +107,7 @@ class Comments extends StatelessWidget {
                 ),
               ),
             ],
-          );
-        }),
+          ),
       ]),
     );
   }

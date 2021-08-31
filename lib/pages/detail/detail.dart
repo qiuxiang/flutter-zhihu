@@ -54,15 +54,10 @@ class DetailPage extends StatelessWidget {
           child: Row(children: [
             Vote(target),
             const Expanded(child: SizedBox()),
-            buildWidget(
-              target['visited_count'],
-              () => IconItem(Icons.visibility, target['visited_count'], () {}),
-            ),
-            buildWidget(
-              target['thanks_count'],
-              () => IconItem(
-                  Icons.favorite_outline, target['thanks_count'], () {}),
-            ),
+            if (target['visited_count'] != null)
+              IconItem(Icons.visibility, target['visited_count'], () {}),
+            if (target['thanks_count'] != null)
+              IconItem(Icons.favorite_outline, target['thanks_count'], () {}),
             IconItem(Icons.comment_outlined, target['comment_count'], () {
               Get.bottomSheet(Comments(target), isScrollControlled: true);
             }),
@@ -102,15 +97,14 @@ class DetailPage extends StatelessWidget {
         SliverList(
           delegate: SliverChildListDelegate([
             ...children,
-            buildIf(updated, () {
-              return Padding(
+            if (updated != null)
+              Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  '编辑于：${updated?.toDateTime()}',
+                  '编辑于：${updated.toDateTime()}',
                   style: Get.textTheme.caption,
                 ),
-              );
-            }),
+              ),
           ]),
         ),
       ],

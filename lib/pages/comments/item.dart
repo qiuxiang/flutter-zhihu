@@ -32,28 +32,19 @@ class Item extends StatelessWidget {
               (item['created_time'] as int).toDateTime(),
               style: Get.textTheme.caption,
             ),
-            buildWidget(
-              item['featured'],
-              () {
-                return CupertinoButton(
-                  padding: const EdgeInsets.only(bottom: 4, left: 12),
-                  onPressed: () {},
-                  child: Text('查看回复', style: Get.textTheme.caption),
-                );
-              },
-            ),
+            if (item['featured'] != null)
+              CupertinoButton(
+                padding: const EdgeInsets.only(bottom: 4, left: 12),
+                onPressed: () {},
+                child: Text('查看回复', style: Get.textTheme.caption),
+              ),
             const Expanded(child: SizedBox()),
             CupertinoButton(
               padding: EdgeInsets.zero,
               onPressed: () {},
               child: Row(children: [
-                buildWidget(
-                  item['vote_count']! > 0,
-                  () => Text(
-                    '${item['vote_count']}',
-                    style: Get.textTheme.caption,
-                  ),
-                ),
+                if (item['vote_count']! > 0)
+                  Text('${item['vote_count']}', style: Get.textTheme.caption),
                 const SizedBox(width: 6),
                 Icon(
                   Icons.thumb_up,
