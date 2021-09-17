@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../utils.dart';
 import '../../widgets/widgets.dart';
+import 'child_comments.dart';
 
 class Item extends StatelessWidget {
   final Map item;
@@ -32,10 +33,13 @@ class Item extends StatelessWidget {
               (item['created_time'] as int).toDateTime(),
               style: context.textTheme.caption,
             ),
-            if (item['featured'] != null)
+            if (item['featured'] == true)
               CupertinoButton(
                 padding: const EdgeInsets.only(bottom: 4, left: 12),
-                onPressed: () {},
+                onPressed: () => Get.bottomSheet(
+                  ChildComments('查看回复', item),
+                  isScrollControlled: true,
+                ),
                 child: Text('查看回复', style: context.textTheme.caption),
               ),
             const Expanded(child: SizedBox()),

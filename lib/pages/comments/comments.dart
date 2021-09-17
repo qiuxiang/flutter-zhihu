@@ -108,7 +108,7 @@ class _CommentsState extends State<Comments> {
               CupertinoButton(
                 padding: const EdgeInsets.only(left: indent),
                 onPressed: () => Get.bottomSheet(
-                  ChildComments(item),
+                  ChildComments('全部回复', item),
                   isScrollControlled: true,
                 ),
                 child: Text(

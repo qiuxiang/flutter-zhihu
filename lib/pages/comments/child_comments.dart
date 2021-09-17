@@ -7,9 +7,10 @@ import '../comments/item.dart';
 import 'child_comments_state.dart';
 
 class ChildComments extends StatelessWidget {
+  final String title;
   final Map item;
 
-  const ChildComments(this.item, {Key? key}) : super(key: key);
+  const ChildComments(this.title, this.item, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ChildComments extends StatelessWidget {
       state.init();
     }
 
-    return ModalBottomSheet('全部回复', [
+    return ModalBottomSheet(title, [
       Obx(() {
         if (state.comments.isEmpty) {
           return SliverFillRemaining(

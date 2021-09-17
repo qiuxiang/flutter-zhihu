@@ -75,7 +75,7 @@ class DetailPage extends StatelessWidget {
       slivers: [
         SliverAppBar(
           title: Text(title ?? ''),
-          pinned: true,
+          floating: true,
           backwardsCompatibility: false,
           elevation: 0.5,
           actions: [
