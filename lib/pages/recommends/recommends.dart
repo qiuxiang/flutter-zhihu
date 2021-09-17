@@ -4,10 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
-import 'package:zhihu/pages/detail/video.dart';
 
 import '../../widgets/widgets.dart';
 import '../detail/detail.dart';
+import '../detail/video.dart';
 import 'state.dart';
 import 'stats_item.dart';
 import 'thumbnail.dart';
