@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
+import 'package:zhihu/pages/detail/video.dart';
 
 import '../../widgets/widgets.dart';
 import '../detail/detail.dart';
@@ -69,26 +70,28 @@ class Item extends StatelessWidget {
     Widget content = const SizedBox();
     Widget thumbnail = const SizedBox();
     Map target = item['target']!;
+    final video = isVideo(target);
 
-    switch (target['type']) {
-      case 'answer':
-        title = target['question']['title'];
-        content = HtmlText(target['excerpt_new'], maxLines: 2);
-        break;
-      case 'article':
-        title = target['title'];
-        content = HtmlText(target['excerpt_new'], maxLines: 2);
-        break;
-      case 'zvideo':
-        title = target['title'];
-        content = Thumbnail(target);
-        break;
-      default:
-        return const SizedBox();
+    if (video) {
+      title = target['title'] ?? target['question']['title'];
+      content = Thumbnail(target);
+    } else {
+      switch (target['type']) {
+        case 'answer':
+          title = target['question']['title'];
+          content = HtmlText(target['excerpt_new'], maxLines: 2);
+          break;
+        case 'article':
+          title = target['title'];
+          content = HtmlText(target['excerpt_new'], maxLines: 2);
+          break;
+        default:
+          return const SizedBox();
+      }
     }
 
     final thumbnailUrl = target['thumbnail'];
-    if (thumbnailUrl != null && thumbnailUrl.isNotEmpty) {
+    if (!video && thumbnailUrl != null && thumbnailUrl.isNotEmpty) {
       thumbnail = Container(
         height: 68,
         width: 68,

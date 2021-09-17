@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,18 +26,19 @@ class DetailPage extends StatelessWidget {
     String? title;
     final children = <Widget>[];
 
-    switch (target['type']) {
-      case 'answer':
-        title = target['question']['title'];
-        children.addAll([Content(target)]);
-        break;
-      case 'article':
-        title = target['title'];
-        children.addAll([Content(target)]);
-        break;
-      case 'zvideo':
-        children.addAll([Video(target)]);
-        title = target['title'];
+    if (isVideo(target)) {
+      children.addAll([Video(target)]);
+      title = target['title'] ?? target['question']['title'];
+    } else {
+      switch (target['type']) {
+        case 'answer':
+          title = target['question']['title'];
+          children.addAll([Content(target)]);
+          break;
+        case 'article':
+          title = target['title'];
+          children.addAll([Content(target)]);
+      }
     }
     int? updated = target['updated_time'] ?? target['updated'];
     return ScaffoldPage(
@@ -87,7 +90,7 @@ class DetailPage extends StatelessWidget {
               },
               itemBuilder: (_) {
                 final items = <PopupMenuItem<Menu>>[];
-                final count = target['question']['answer_count'];
+                final count = target['question']?['answer_count'];
                 if (target['type'] == 'answer' && count != null) {
                   items.add(PopupMenuItem(
                       value: Menu.question, child: Text('查看问题 ($count)')));
@@ -126,6 +129,7 @@ class DetailPage extends StatelessWidget {
         launch('https://zhuanlan.zhihu.com/p/${target['id']}');
         break;
       case 'zvideo':
+        launch('https://zhihu.com/zvideo/${target['id']}');
         break;
     }
   }

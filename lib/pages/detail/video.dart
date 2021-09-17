@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
+bool isVideo(Map target) {
+  return target['content']?.isEmpty ??
+      true && target['thumbnail_extra_info']?['type'] == 'video';
+}
+
 class Video extends StatefulWidget {
   final Map target;
 
@@ -24,7 +29,6 @@ class _VideoState extends State<Video> {
     chewie = ChewieController(
       videoPlayerController: player,
       autoInitialize: true,
-      autoPlay: true,
       showControls: true,
       showControlsOnInitialize: false,
       aspectRatio: video['width'] / video['height'],
