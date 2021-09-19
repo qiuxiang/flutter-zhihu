@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,20 +26,10 @@ class DetailPage extends StatelessWidget {
     String? title;
     final children = <Widget>[];
 
-    if (isVideo(target)) {
-      children.addAll([Video(target)]);
-      title = target['title'] ?? target['question']['title'];
-    } else {
-      switch (target['type']) {
-        case 'answer':
-          title = target['question']['title'];
-          children.addAll([Content(target)]);
-          break;
-        case 'article':
-          title = target['title'];
-          children.addAll([Content(target)]);
-      }
-    }
+    title = target['title'] ?? target['question']['title'];
+    if (isVideo(target)) children.add(Video(target));
+    if (target['content']?.isNotEmpty ?? false) children.add(Content(target));
+
     int? updated = target['updated_time'] ?? target['updated'];
     return ScaffoldPage(
       backgroundColor: context.isDarkMode ? null : context.theme.cardColor,

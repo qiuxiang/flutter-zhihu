@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 bool isVideo(Map target) {
-  return target['content']?.isEmpty ??
-      true && target['thumbnail_extra_info']?['type'] == 'video';
+  return target['thumbnail_extra_info']?['type'] == 'video';
 }
 
 class Video extends StatefulWidget {
