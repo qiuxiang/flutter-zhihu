@@ -8,6 +8,7 @@ class ScaffoldPage extends StatelessWidget {
   final List<Widget> slivers;
   final ScrollController? controller;
   final PreferredSizeWidget? appBar;
+  final Widget? body;
   final Widget? bottom;
   final Color? backgroundColor;
 
@@ -16,6 +17,7 @@ class ScaffoldPage extends StatelessWidget {
     this.slivers = const [],
     this.controller,
     this.appBar,
+    this.body,
     this.bottom,
     this.backgroundColor,
   });
@@ -33,7 +35,8 @@ class ScaffoldPage extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: appBar,
-        body: CustomScrollView(controller: controller, slivers: slivers),
+        body:
+            body ?? CustomScrollView(controller: controller, slivers: slivers),
         bottomNavigationBar: bottom,
         backgroundColor: backgroundColor,
       ),

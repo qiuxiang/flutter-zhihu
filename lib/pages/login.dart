@@ -11,12 +11,11 @@ class LoginPage extends GetxWidget<AppState> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldPage(
       appBar: AppBar(
         toolbarHeight: 0,
         backgroundColor: const Color(0xff0066ff),
         shadowColor: Colors.transparent,
-        brightness: Brightness.dark,
       ),
       body: WebView(
         initialUrl: 'https://www.zhihu.com/signin',

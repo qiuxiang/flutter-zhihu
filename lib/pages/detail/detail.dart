@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,6 +30,7 @@ class DetailPage extends StatelessWidget {
 
     int? updated = target['updated_time'] ?? target['updated'];
     return ScaffoldPage(
+      appBar: AppBar(toolbarHeight: 0, shadowColor: Colors.transparent),
       backgroundColor: context.isDarkMode ? null : context.theme.cardColor,
       bottom: Material(
         color: context.theme.cardColor,
@@ -64,10 +63,7 @@ class DetailPage extends StatelessWidget {
       ),
       slivers: [
         SliverAppBar(
-          title: Text(title ?? ''),
           floating: true,
-          backwardsCompatibility: false,
-          elevation: 0.5,
           actions: [
             PopupMenuButton<Menu>(
               onSelected: (selected) {
@@ -94,6 +90,11 @@ class DetailPage extends StatelessWidget {
         ),
         SliverList(
           delegate: SliverChildListDelegate([
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(title ?? '', style: context.textTheme.headline6),
+            ),
+            const SizedBox(height: 16),
             ...children,
             if (updated != null)
               Padding(

@@ -12,8 +12,8 @@ class Html extends StatelessWidget {
   Widget build(BuildContext context) {
     return HtmlWidget(
       html.replaceAll(RegExp(r'</?noscript>'), ''),
-      hyperlinkColor: context.textTheme.bodyText2?.color,
       onTapUrl: launch,
+      buildAsync: true,
       customWidgetBuilder: (item) {
         switch (item.localName) {
           case 'hr':
@@ -30,8 +30,12 @@ class Html extends StatelessWidget {
             return {
               'font-family': 'DroidSansMono',
               'padding': '12px',
-              'background':
-                  context.theme.scaffoldBackgroundColor.toRgbaString(),
+              'margin': '16px 0',
+              'background': context.theme.scaffoldBackgroundColor.rgba,
+            };
+          case 'a':
+            return {
+              'color': context.theme.toggleableActiveColor.rgba,
             };
         }
         return null;
@@ -41,7 +45,7 @@ class Html extends StatelessWidget {
 }
 
 extension ToString on Color {
-  String toRgbaString() {
+  String get rgba {
     return 'rgba($red,$green,$blue,${alpha / 255})';
   }
 }

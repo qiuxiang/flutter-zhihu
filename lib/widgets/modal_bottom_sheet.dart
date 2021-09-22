@@ -26,7 +26,6 @@ class ModalBottomSheet extends StatelessWidget {
                 pinned: true,
                 title: Text(title),
                 backwardsCompatibility: false,
-                elevation: 0.5,
                 leading: IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: Get.back,

@@ -32,8 +32,7 @@ class App extends StatelessWidget {
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
-        titleSpacing: 0,
-        elevation: 0.5,
+        elevation: 0,
       ),
       textTheme: textTheme.copyWith(
         bodyText2: textTheme.bodyText2?.copyWith(
@@ -52,8 +51,7 @@ class App extends StatelessWidget {
       scaffoldBackgroundColor: const Color(0xff121212),
       appBarTheme: const AppBarTheme(backgroundColor: Color(0xff1d1d1d)),
       dividerColor: const Color(0xff212121),
-      accentColor: const Color(0xff009dff),
-      backgroundColor: const Color(0xff009dff),
+      toggleableActiveColor: const Color(0xff009dff),
     );
   }
 }

@@ -32,11 +32,7 @@ class _RecommendsPageState extends State<RecommendsPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldPage(
-      appBar: AppBar(
-        toolbarHeight: 0,
-        shadowColor: Colors.transparent,
-        backwardsCompatibility: false,
-      ),
+      appBar: AppBar(toolbarHeight: 0, shadowColor: Colors.transparent),
       slivers: [
         Obx(() {
           return SliverList(

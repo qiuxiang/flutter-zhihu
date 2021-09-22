@@ -26,8 +26,6 @@ class QuestionsPage extends StatelessWidget {
       SliverAppBar(
         title: Text(question['title']),
         pinned: true,
-        backwardsCompatibility: false,
-        elevation: 0.5,
         actions: [
           PopupMenuButton<Menu>(
             onSelected: (selected) {
