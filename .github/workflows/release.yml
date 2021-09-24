@@ -13,7 +13,11 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: stable
-      - run: flutter build apk --target-platform android-arm64
+      - name: build
+        run: |
+          export version=$(echo ${{ steps.release.outputs.tag_name }} | sed s/v//)
+          sed -i -r "s/version: .*/version: $version/" pubspec.yaml
+          flutter build apk --target-platform android-arm64
       - uses: bruceadams/get-release@v1.2.3
         id: release
         env:
