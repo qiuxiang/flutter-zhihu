@@ -30,7 +30,11 @@ class DetailPage extends StatelessWidget {
 
     int? updated = target['updated_time'] ?? target['updated'];
     return ScaffoldPage(
-      appBar: AppBar(toolbarHeight: 0, shadowColor: Colors.transparent),
+      appBar: AppBar(
+        toolbarHeight: 0,
+        shadowColor: Colors.transparent,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
+      ),
       backgroundColor: context.isDarkMode ? null : context.theme.cardColor,
       bottom: Material(
         color: context.theme.cardColor,
@@ -63,7 +67,7 @@ class DetailPage extends StatelessWidget {
       ),
       slivers: [
         SliverAppBar(
-          floating: true,
+          backgroundColor: context.theme.scaffoldBackgroundColor,
           actions: [
             PopupMenuButton<Menu>(
               onSelected: (selected) {
