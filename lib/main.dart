@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,16 @@ void main() {
   runApp(App());
 }
 
+class CustomScrollBehavior extends MaterialScrollBehavior {
+  const CustomScrollBehavior();
+
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
+}
+
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,6 +31,7 @@ class App extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       home: const MainPage(),
+      scrollBehavior: const CustomScrollBehavior(),
       initialBinding: AppBindings(),
     );
   }
@@ -49,7 +61,10 @@ class App extends StatelessWidget {
     return ThemeData.dark().copyWith(
       cardColor: const Color(0xff1d1d1d),
       scaffoldBackgroundColor: const Color(0xff121212),
-      appBarTheme: const AppBarTheme(backgroundColor: Color(0xff1d1d1d)),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xff1d1d1d),
+        elevation: 0,
+      ),
       dividerColor: const Color(0xff212121),
       toggleableActiveColor: const Color(0xff009dff),
     );

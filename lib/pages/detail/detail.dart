@@ -29,13 +29,16 @@ class DetailPage extends StatelessWidget {
     if (target['content']?.isNotEmpty ?? false) children.add(Content(target));
 
     int? updated = target['updated_time'] ?? target['updated'];
+    final backgroundColor = context.isDarkMode
+        ? context.theme.scaffoldBackgroundColor
+        : context.theme.cardColor;
     return ScaffoldPage(
       appBar: AppBar(
         toolbarHeight: 0,
         shadowColor: Colors.transparent,
-        backgroundColor: context.theme.scaffoldBackgroundColor,
+        backgroundColor: backgroundColor,
       ),
-      backgroundColor: context.isDarkMode ? null : context.theme.cardColor,
+      backgroundColor: backgroundColor,
       bottom: Material(
         color: context.theme.cardColor,
         elevation: 2,
@@ -66,32 +69,29 @@ class DetailPage extends StatelessWidget {
         ),
       ),
       slivers: [
-        SliverAppBar(
-          backgroundColor: context.theme.scaffoldBackgroundColor,
-          actions: [
-            PopupMenuButton<Menu>(
-              onSelected: (selected) {
-                switch (selected) {
-                  case Menu.browser:
-                    return openBrowser();
-                  case Menu.question:
-                    Get.to(() => QuestionsPage(target['question']));
-                }
-              },
-              itemBuilder: (_) {
-                final items = <PopupMenuItem<Menu>>[];
-                final count = target['question']?['answer_count'];
-                if (target['type'] == 'answer' && count != null) {
-                  items.add(PopupMenuItem(
-                      value: Menu.question, child: Text('查看问题 ($count)')));
-                }
-                items.add(const PopupMenuItem(
-                    value: Menu.browser, child: Text('在浏览器中打开')));
-                return items;
-              },
-            )
-          ],
-        ),
+        SliverAppBar(backgroundColor: backgroundColor, actions: [
+          PopupMenuButton<Menu>(
+            onSelected: (selected) {
+              switch (selected) {
+                case Menu.browser:
+                  return openBrowser();
+                case Menu.question:
+                  Get.to(() => QuestionsPage(target['question']));
+              }
+            },
+            itemBuilder: (_) {
+              final items = <PopupMenuItem<Menu>>[];
+              final count = target['question']?['answer_count'];
+              if (target['type'] == 'answer' && count != null) {
+                items.add(PopupMenuItem(
+                    value: Menu.question, child: Text('查看问题 ($count)')));
+              }
+              items.add(const PopupMenuItem(
+                  value: Menu.browser, child: Text('在浏览器中打开')));
+              return items;
+            },
+          )
+        ]),
         SliverList(
           delegate: SliverChildListDelegate([
             Padding(
