@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +24,6 @@ class ModalBottomSheet extends StatelessWidget {
               SliverAppBar(
                 pinned: true,
                 title: Text(title),
-                backwardsCompatibility: false,
                 leading: IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: Get.back,

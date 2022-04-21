@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/widgets.dart';
@@ -103,6 +100,7 @@ class Item extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(top: 8),
       shape: const RoundedRectangleBorder(),
+      elevation: 0,
       child: InkWell(
         onTap: () => Get.to(DetailPage(target)),
         child: Container(
