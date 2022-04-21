@@ -1,4 +1,4 @@
-package qiuxiang.zhihu
+package com.example.zhihu
 
 import io.flutter.embedding.android.FlutterActivity
 
