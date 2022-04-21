@@ -41,18 +41,14 @@ class App extends StatelessWidget {
     final textTheme = theme.textTheme;
     return theme.copyWith(
       primaryColor: const Color(0xff0066ff),
+      scaffoldBackgroundColor: const Color(0xfff6f6f7),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
         elevation: 0,
       ),
       textTheme: textTheme.copyWith(
-        bodyText2: textTheme.bodyText2?.copyWith(
-          color: Colors.black87.withOpacity(0.72),
-        ),
-        caption: textTheme.caption?.copyWith(
-          color: const Color(0xff8590a6),
-        ),
+        bodyText1: textTheme.bodyText1?.copyWith(color: Colors.black),
       ),
     );
   }

@@ -111,7 +111,8 @@ class Item extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: context.textTheme.bodyText1?.copyWith(fontSize: 16),
+                style: context.textTheme.bodyText1
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Row(children: [
@@ -120,7 +121,11 @@ class Item extends StatelessWidget {
                     Row(children: [
                       Avatar(target['author']['avatar_url'], 20),
                       const SizedBox(width: 4),
-                      Text(target['author']['name']),
+                      Text(
+                        target['author']['name'],
+                        style: context.textTheme.bodyText2
+                            ?.copyWith(fontWeight: FontWeight.w500),
+                      ),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
