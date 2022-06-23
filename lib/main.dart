@@ -37,30 +37,18 @@ class App extends StatelessWidget {
   }
 
   ThemeData get lightTheme {
-    final theme = ThemeData.light();
-    final textTheme = theme.textTheme;
-    return theme.copyWith(
+    return ThemeData(
+      useMaterial3: true,
       primaryColor: const Color(0xff0066ff),
-      scaffoldBackgroundColor: const Color(0xfff6f6f7),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black87,
-        elevation: 0,
-      ),
-      textTheme: textTheme.copyWith(
-        bodyText1: textTheme.bodyText1?.copyWith(color: Colors.black),
-      ),
     );
   }
 
   ThemeData get darkTheme {
-    return ThemeData.dark().copyWith(
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
       cardColor: const Color(0xff1d1d1d),
       scaffoldBackgroundColor: const Color(0xff121212),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xff1d1d1d),
-        elevation: 0,
-      ),
       dividerColor: const Color(0xff212121),
       toggleableActiveColor: const Color(0xff009dff),
     );
