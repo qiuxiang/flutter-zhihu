@@ -27,7 +27,6 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Zhihu',
       theme: lightTheme,
       darkTheme: darkTheme,
       home: const MainPage(),
@@ -39,18 +38,23 @@ class App extends StatelessWidget {
   ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
-      primaryColor: const Color(0xff0066ff),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xff0066ff),
+        primary: const Color(0xff0066ff),
+      ),
+      scaffoldBackgroundColor: const Color(0xfff6f6f6),
     );
   }
 
   ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
-      cardColor: const Color(0xff1d1d1d),
-      scaffoldBackgroundColor: const Color(0xff121212),
-      dividerColor: const Color(0xff212121),
-      toggleableActiveColor: const Color(0xff009dff),
+      colorScheme: ColorScheme.fromSeed(
+        brightness: Brightness.dark,
+        seedColor: const Color(0xff0066ff),
+        primary: const Color(0xff0066ff),
+      ),
+      bottomAppBarColor: const Color(0xff131313),
     );
   }
 }

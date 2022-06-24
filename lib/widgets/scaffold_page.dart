@@ -28,9 +28,7 @@ class ScaffoldPage extends StatelessWidget {
     }
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
-        systemNavigationBarIconBrightness:
-            context.isDarkMode ? Brightness.light : Brightness.dark,
-        systemNavigationBarColor: context.theme.appBarTheme.backgroundColor,
+        systemNavigationBarColor: context.theme.bottomAppBarColor,
       ),
       child: Scaffold(
         appBar: appBar,

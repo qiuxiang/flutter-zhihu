@@ -17,36 +17,27 @@ class RecommendsPage extends StatefulWidget {
 }
 
 class _RecommendsPageState extends State<RecommendsPage> {
-  final state = HomeState();
-
-  @override
-  void initState() {
-    super.initState();
-    Get.put(state);
-    state.fetch();
-  }
+  final state = GetInstance().putOrFind<HomeState>(() => HomeState());
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldPage(
-      appBar: AppBar(toolbarHeight: 0, shadowColor: Colors.transparent),
-      slivers: [
-        Obx(() {
-          return SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (_, i) {
-                if (i == state.items.length) {
-                  state.fetch();
-                  return const SizedBox(height: 64, child: Loading());
-                }
-                return Item(state.items[i]);
-              },
-              childCount: state.items.length + 1,
-            ),
-          );
-        }),
-      ],
-    );
+    return CustomScrollView(slivers: [
+      const SliverAppBar(toolbarHeight: 0, pinned: true),
+      Obx(() {
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (_, i) {
+              if (i == state.items.length) {
+                state.fetch();
+                return const SizedBox(height: 64, child: Loading());
+              }
+              return Item(state.items[i]);
+            },
+            childCount: state.items.length + 1,
+          ),
+        );
+      }),
+    ]);
   }
 }
 
@@ -98,7 +89,7 @@ class Item extends StatelessWidget {
     }
 
     return Card(
-      margin: const EdgeInsets.only(top: 8),
+      margin: const EdgeInsets.only(top: 10),
       shape: const RoundedRectangleBorder(),
       elevation: 0,
       child: InkWell(

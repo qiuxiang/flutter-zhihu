@@ -7,6 +7,18 @@ class HomeState extends GetxController {
   final items = <Map>[].obs;
   bool loading = false;
 
+  @override
+  void onInit() {
+    super.onInit();
+    print('init');
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    print('close');
+  }
+
   Future fetch({bool refresh = false}) async {
     if (loading) return;
 

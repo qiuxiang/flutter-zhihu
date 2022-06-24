@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import '../state.dart';
 import '../widgets/widgets.dart';
+import 'home.dart';
 import 'login.dart';
-import 'recommends/recommends.dart';
 
 class MainPage extends GetxWidget<AppState> {
   const MainPage();
@@ -15,7 +15,7 @@ class MainPage extends GetxWidget<AppState> {
       if (state.cookie.value == null) return const LoginPage();
       if (state.cookie.value?.isEmpty ?? true) return const Loading();
 
-      return const RecommendsPage();
+      return const HomePage();
     });
   }
 }
