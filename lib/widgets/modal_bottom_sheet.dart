@@ -28,6 +28,7 @@ class ModalBottomSheet extends StatelessWidget {
                   icon: const Icon(Icons.close),
                   onPressed: Get.back,
                 ),
+                scrolledUnderElevation: 0,
               ),
               ...slivers,
             ]),

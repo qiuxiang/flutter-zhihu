@@ -17,10 +17,12 @@ class LoginPage extends GetxWidget<AppState> {
         backgroundColor: const Color(0xff0066ff),
         shadowColor: Colors.transparent,
       ),
-      body: WebView(
-        initialUrl: 'https://www.zhihu.com/signin',
-        javascriptMode: JavascriptMode.unrestricted,
-        onPageStarted: onPageStarted,
+      body: WebViewWidget(
+        controller: WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setNavigationDelegate(
+              NavigationDelegate(onPageStarted: onPageStarted))
+          ..loadRequest(Uri.parse('https://www.zhihu.com/signin')),
       ),
     );
   }
