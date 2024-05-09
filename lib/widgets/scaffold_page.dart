@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 class ScaffoldPage extends StatelessWidget {
   final List<Widget> children;
@@ -26,17 +24,11 @@ class ScaffoldPage extends StatelessWidget {
     if (children.isNotEmpty) {
       slivers.add(SliverList(delegate: SliverChildListDelegate(children)));
     }
-    return AnnotatedRegion(
-      value: SystemUiOverlayStyle(
-        systemNavigationBarColor: context.theme.bottomAppBarColor,
-      ),
-      child: Scaffold(
-        appBar: appBar,
-        body:
-            body ?? CustomScrollView(controller: controller, slivers: slivers),
-        bottomNavigationBar: bottom,
-        backgroundColor: backgroundColor,
-      ),
+    return Scaffold(
+      appBar: appBar,
+      body: body ?? CustomScrollView(controller: controller, slivers: slivers),
+      bottomNavigationBar: bottom,
+      backgroundColor: backgroundColor,
     );
   }
 }

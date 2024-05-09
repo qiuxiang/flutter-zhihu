@@ -10,10 +10,10 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.5
-  intl: ^0.18.0
+  intl: ^0.19.0
   dio: ^5.0.0
   dio_http2_adapter: ^2.1.0
-  flutter_widget_from_html_core: ^0.10.0
+  flutter_widget_from_html_core: ^0.14.12
   cached_network_image: ^3.2.3
   chewie: ^1.4.0
   url_launcher: ^6.1.9

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class Html extends StatelessWidget {
   final String html;
@@ -12,7 +12,7 @@ class Html extends StatelessWidget {
   Widget build(BuildContext context) {
     return HtmlWidget(
       html.replaceAll(RegExp(r'</?noscript>'), ''),
-      onTapUrl: launch,
+      onTapUrl: launchUrlString,
       buildAsync: true,
       customWidgetBuilder: (item) {
         switch (item.localName) {
@@ -35,7 +35,7 @@ class Html extends StatelessWidget {
             };
           case 'a':
             return {
-              'color': context.theme.toggleableActiveColor.rgba,
+              'color': context.theme.primaryColor.rgba,
             };
         }
         return null;

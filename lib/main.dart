@@ -37,7 +37,6 @@ class App extends StatelessWidget {
 
   ThemeData get lightTheme {
     return ThemeData(
-      useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color(0xff0066ff),
         primary: const Color(0xff0066ff),
@@ -48,13 +47,11 @@ class App extends StatelessWidget {
 
   ThemeData get darkTheme {
     return ThemeData(
-      useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
         brightness: Brightness.dark,
         seedColor: const Color(0xff0066ff),
         primary: const Color(0xff0066ff),
       ),
-      bottomAppBarColor: const Color(0xff131313),
     );
   }
 }

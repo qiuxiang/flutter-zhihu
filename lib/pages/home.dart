@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../utils.dart';
 import '../widgets/scaffold_page.dart';
@@ -43,17 +44,24 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget map(Item item) {
-      return NavItem(item, item == active, onChanged);
+    BottomNavigationBarItem map(Item item) {
+      return BottomNavigationBarItem(
+        icon: Icon(item == active ? item.activeIcon : item.icon),
+        label: item.label,
+      );
     }
 
     final children = items.map(map).toList();
-    children.insert(2, const CentralNavItem());
     return ScaffoldPage(
       body: active.widget,
-      bottom: BottomAppBar(
-        shape: CustomNotchedShape(context),
-        child: SizedBox(height: 54, child: Row(children: children)),
+      bottom: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: items.indexOf(active),
+        unselectedItemColor: context.theme.colorScheme.secondary,
+        selectedItemColor: context.theme.colorScheme.primary,
+        selectedFontSize: 12,
+        items: children,
+        onTap: (i) => onChanged(items[i]),
       ),
     );
   }
@@ -96,53 +104,5 @@ class NavItem extends StatelessWidget {
         ]),
       ),
     );
-  }
-}
-
-class CentralNavItem extends StatelessWidget {
-  const CentralNavItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      width: 52,
-      height: 52,
-      child: Transform.translate(
-        offset: const Offset(0, -6),
-        child: FloatingActionButton(
-          backgroundColor: context.colorScheme.primary,
-          elevation: 0,
-          onPressed: () {},
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add_rounded, color: Colors.white, size: 32),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomNotchedShape extends NotchedShape {
-  final BuildContext context;
-  const CustomNotchedShape(this.context);
-
-  @override
-  Path getOuterPath(Rect host, Rect? guest) {
-    const radius = 40.0;
-    const lx = 20.0;
-    const ly = 4;
-    const bx = 12.0;
-    const by = 16.0;
-    var x = (MediaQuery.of(context).size.width - radius) / 2 - lx;
-    return Path()
-      ..moveTo(host.left, host.top)
-      ..lineTo(x, host.top)
-      ..quadraticBezierTo(x + bx, host.top, x += lx, host.top - ly)
-      ..quadraticBezierTo(
-          x + radius / 2, host.top - by, x += radius, host.top - ly)
-      ..quadraticBezierTo((x += lx) - bx, host.top, x, host.top)
-      ..lineTo(host.right, host.top)
-      ..lineTo(host.right, host.bottom)
-      ..lineTo(host.left, host.bottom);
   }
 }
